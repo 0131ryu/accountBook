@@ -1,0 +1,26 @@
+.jumbotron-item-main {
+    height: 20rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.jumbotron-item-main-message {
+    width: 50%;
+    text-align: center;
+}
+.jumbotron-item-main-message  p {
+    font-size: 2rem;
+}
+.jumbotron-item-main-messag h1 {
+    font-size: 3.4rem;
+}
+.jumbotron-item-main-image {
+    width: 50%;
+    height: 100%;
+    background: url('../img/study.png') no-repeat center / contain; 
+}
+.jumbotron-item-sub {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 1.6rem;
+}
