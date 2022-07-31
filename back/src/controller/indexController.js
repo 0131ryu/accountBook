@@ -11,16 +11,17 @@ exports.createdWords = async function (req, res) {
     });
   }
   //english는 영어로만 korean은 한글로만 입력하기
-  //   const validEnglish = /[^a-zA-Z]/;
-  //   const validKorean = /[^가-힣]/;
+  const validEnglish = /^[a-zA-Z\s]+$/;
+  const validKorean = /^[가-힣\s]+$/;
 
-  //   if (english !== validEnglish && korean !== validKorean) {
-  //     return res.send({
-  //       isSuccess: false,
-  //       code: 400,
-  //       message: "english는 영어로만, korean은 한글로만 입력하세요",
-  //     });
-  //   }
+  console.log(validKorean.test(korean));
+  if (!validEnglish.test(english) || !validKorean.test(korean)) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: "english는 영어로만, korean은 한글로만 입력하세요",
+    });
+  }
 
   const validTypes = ["easy", "middle", "advance"];
   if (!validTypes.includes(type)) {
@@ -53,4 +54,29 @@ exports.createdWords = async function (req, res) {
   });
 
   console.log(insertWordsRow);
+};
+
+exports.readWords = async function (req, res) {
+  const { userIdx } = req.body;
+  const words = {};
+  const types = ["easy", "middle", "advance"];
+
+  for (let type of types) {
+    let selectWordsByTypeRows = await indexDao.selectWordByType(userIdx, type);
+
+    if (!selectWordsByTypeRows) {
+      return res.send({
+        isSuccess: true,
+        code: 400,
+        message: "단어 조회 실패, 확인 부탁드립니다.",
+      });
+    }
+    words[type] = selectWordsByTypeRows;
+  }
+  return res.send({
+    result: words,
+    isSuccess: true,
+    code: 200,
+    message: "단어 조회 성공",
+  });
 };
