@@ -48,3 +48,84 @@ exports.selectWordByType = async function (userIdx, type) {
     return false;
   }
 };
+
+exports.selectValidWord = async function (userIdx, wordIdx) {
+  try {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    try {
+      const selectValidWordQuery =
+        "select * from words where userIdx = ? and wordIdx = ? and not(status = 'D');";
+      const selectValidWordParams = [userIdx, wordIdx];
+
+      const [row] = await connection.query(
+        selectValidWordQuery,
+        selectValidWordParams
+      );
+      connection.release();
+      return row; //추가해야 함
+    } catch (err) {
+      console.error(`#### selectValidWord Query error ###### \n ${err}`);
+      return false;
+    } finally {
+      connection.release();
+    }
+  } catch (err) {
+    console.error(`#### selectValidWord DB error ###### ${err}`);
+    return false;
+  }
+};
+
+exports.updateWord = async function (
+  userIdx,
+  wordIdx,
+  english,
+  korean,
+  status
+) {
+  try {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    try {
+      const updateWordQuery =
+        "update words set english = ifnull(?, english), korean = ifnull(?, korean), status = ifnull(?, status) where userIdx = ? and wordIdx = ?";
+      const updateWordParams = [english, korean, status, userIdx, wordIdx];
+
+      const [row] = await connection.query(updateWordQuery, updateWordParams);
+      connection.release();
+      return row; //추가해야 함
+    } catch (err) {
+      console.error(`#### updateWord Query error ###### \n ${err}`);
+      return false;
+    } finally {
+      connection.release();
+    }
+  } catch (err) {
+    console.error(`#### updateWord DB error ###### ${err}`);
+    return false;
+  }
+};
+
+exports.deleteWord = async function (userIdx, wordIdx) {
+  try {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    try {
+      const deleteWordQuery =
+        "update words set status = 'D' where userIdx = ? and wordIdx = ?";
+      const deleteWordParams = [userIdx, wordIdx];
+
+      const [row] = await connection.query(deleteWordQuery, deleteWordParams);
+      connection.release();
+      return row; //추가해야 함
+    } catch (err) {
+      console.error(`#### deleteWord Query error ###### \n ${err}`);
+      return false;
+    } finally {
+      connection.release();
+    }
+  } catch (err) {
+    console.error(`#### deleteWord DB error ###### ${err}`);
+    return false;
+  }
+};

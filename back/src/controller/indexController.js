@@ -80,3 +80,85 @@ exports.readWords = async function (req, res) {
     message: "단어 조회 성공",
   });
 };
+
+exports.updateWords = async function (req, res) {
+  let { userIdx, wordIdx, english, korean, status } = req.body;
+
+  if (!userIdx || !wordIdx) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: "userIdx, wordIdx를 보내주세요",
+    });
+  }
+
+  if (!english) {
+    english = null;
+  }
+
+  if (!korean) {
+    korean = null;
+  }
+
+  const isValidWordRow = await indexDao.selectValidWord(userIdx, wordIdx);
+
+  if (isValidWordRow.length < 1) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: `유효한 요청이 아닙니다. userIdx, wordIdx를 확인하세요`,
+    });
+  }
+  const updateWordRow = await indexDao.updateWord(
+    userIdx,
+    wordIdx,
+    english,
+    korean,
+    status
+  );
+  if (!updateWordRow) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: `수정 실패, 확인 부탁드립니다.`,
+    });
+  }
+  // console.log(updateWordRow);
+};
+
+exports.deleteWords = async function (req, res) {
+  const { userIdx, wordIdx } = req.params;
+
+  if (!userIdx || !wordIdx) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: "userIdx, wordIdx를 입력해주세요",
+    });
+  }
+
+  const isValidWordRow = await indexDao.selectValidWord(userIdx, wordIdx);
+
+  if (isValidWordRow.length < 1) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: `(delete)유효한 요청이 아닙니다. userIdx, wordIdx를 확인하세요`,
+    });
+  }
+
+  const deleteWordRow = await indexDao.deleteWord(userIdx, wordIdx);
+
+  if (!deleteWordRow) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: "삭제 실패, 관리자에게 문의하세요",
+    });
+  }
+  return res.send({
+    isSuccess: true,
+    code: 200,
+    message: "삭제 성공",
+  });
+};
