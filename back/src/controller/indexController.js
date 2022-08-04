@@ -1,7 +1,8 @@
 const indexDao = require("../dao/indexDao");
 
 exports.createdWords = async function (req, res) {
-  const { userIdx, english, korean, type } = req.body;
+  const { userIdx } = req.verifiedToken;
+  const { english, korean, type } = req.body;
 
   if (!userIdx || !english || !korean || !type) {
     return res.send({
@@ -57,7 +58,7 @@ exports.createdWords = async function (req, res) {
 };
 
 exports.readWords = async function (req, res) {
-  const { userIdx } = req.body;
+  const { userIdx } = req.verifiedToken;
   const words = {};
   const types = ["easy", "middle", "advance"];
 
@@ -82,7 +83,8 @@ exports.readWords = async function (req, res) {
 };
 
 exports.updateWords = async function (req, res) {
-  let { userIdx, wordIdx, english, korean, status } = req.body;
+  const { userIdx } = req.verifiedToken;
+  let { wordIdx, english, korean, status } = req.body;
 
   if (!userIdx || !wordIdx) {
     return res.send({
@@ -127,7 +129,8 @@ exports.updateWords = async function (req, res) {
 };
 
 exports.deleteWords = async function (req, res) {
-  const { userIdx, wordIdx } = req.params;
+  const { userIdx } = req.verifiedToken;
+  const { wordIdx } = req.params;
 
   if (!userIdx || !wordIdx) {
     return res.send({
