@@ -165,3 +165,64 @@ exports.deleteWords = async function (req, res) {
     message: "삭제 성공",
   });
 };
+
+// exports.listWords = async function (req, res) {
+//   const { userIdx } = req.verifiedToken;
+//   const words = {};
+//   const types = ["easy", "middle", "advance"];
+
+//   for (let type of types) {
+//     let selectWordsByTypeRows = await indexDao.selectWordByType(userIdx, type);
+
+//     if (!selectWordsByTypeRows) {
+//       return res.send({
+//         isSuccess: true,
+//         code: 400,
+//         message: "단어 조회 실패, 확인 부탁드립니다.",
+//       });
+//     }
+//     words[type] = selectWordsByTypeRows;
+//   }
+//   return res.send({
+//     result: words,
+//     isSuccess: true,
+//     code: 200,
+//     message: "단어 조회 성공",
+//   });
+// };
+
+exports.matchWords = async function (req, res) {
+  const { userIdx } = req.verifiedToken;
+  // const { english, korean } = req.params;
+
+  if (!userIdx) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: "userIdx를 입력해주세요",
+    });
+  }
+
+  const matchSelectWords = await indexDao.selectWordByEngKor(userIdx);
+
+  console.log("matchSelectWords", matchSelectWords);
+
+  let findEnglish = matchSelectWords[1].english;
+  let findKorean = matchSelectWords[1].korean;
+
+  console.log(findEnglish, findKorean);
+
+  if (!matchSelectWords) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: "단어를 찾지 못했습니다.",
+    });
+  }
+  return res.send({
+    result: { english: findEnglish, korean: findKorean },
+    isSuccess: true,
+    code: 200,
+    message: "단어 찾기 성공",
+  });
+};

@@ -129,3 +129,56 @@ exports.deleteWord = async function (userIdx, wordIdx) {
     return false;
   }
 };
+
+// exports.selectValidWordEngKor = async function (userIdx, english, korean) {
+//   try {
+//     const connection = await pool.getConnection(async (conn) => conn);
+
+//     try {
+//       const selectValidWordEngKorQuery =
+//         "select wordIdx, english, korean from words where userIdx = ? and english = ? and korean = ? and not(status = 'D');";
+//       const selectValidWordEngKorParams = [userIdx, english, korean];
+
+//       const [row] = await connection.query(
+//         selectValidWordEngKorQuery,
+//         selectValidWordEngKorParams
+//       );
+//       connection.release();
+//       return row; //추가해야 함
+//     } catch (err) {
+//       console.error(`#### selectValidWordEngKor Query error ###### \n ${err}`);
+//       return false;
+//     } finally {
+//       connection.release();
+//     }
+//   } catch (err) {
+//     console.error(`#### selectValidWordEngKor DB error ###### ${err}`);
+//     return false;
+//   }
+// };
+
+exports.selectWordByEngKor = async function (userIdx) {
+  //(userIdx, english, korean)
+  try {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    try {
+      const selectWordQuery =
+        // "select * from words where userIdx = ? and english = ? and korean = ? and not(status = 'D');";
+        "select * from words where userIdx = ? and not(status = 'D');";
+      const selectWordParams = [userIdx]; //[userIdx, english, korean];
+
+      const [row] = await connection.query(selectWordQuery, selectWordParams);
+      connection.release();
+      return row; //추가해야 함
+    } catch (err) {
+      console.error(`#### selectWord Query error ###### \n ${err}`);
+      return false;
+    } finally {
+      connection.release();
+    }
+  } catch (err) {
+    console.error(`#### selectWord DB error ###### ${err}`);
+    return false;
+  }
+};
