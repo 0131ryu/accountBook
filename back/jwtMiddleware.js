@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { jwtSecret } = require("../front/js/secret");
+const { jwtSecret } = require("./front/js/secret");
 
 exports.jwtMiddleware = async function (req, res, next) {
   const token = req.headers["w-access-token"];

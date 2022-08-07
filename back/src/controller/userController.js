@@ -1,6 +1,6 @@
 const userDao = require("../dao/userDao");
 const jwt = require("jsonwebtoken");
-const { jwtSecret } = require("../../../front/js/secret");
+const { jwtSecret } = require("../../front/js/secret");
 
 exports.signUp = async function (req, res) {
   const { email, password, nickname } = req.body;
@@ -50,6 +50,8 @@ exports.signUp = async function (req, res) {
   //중복 이메일 검사
   const isDuplicatedEmail = await userDao.selectUserbyEmail(email);
 
+  console.log(isDuplicatedEmail.length > 0);
+  console.log(email);
   if (isDuplicatedEmail.length > 0) {
     return res.send({
       isSuccess: false,
