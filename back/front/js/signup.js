@@ -20,6 +20,9 @@ const $inputPasswordConfirm = document.querySelector("#password-confirm");
 const $passwordConfirmMessage = document.querySelector(
   "div.password-confirm-message"
 );
+const $passwordConfirmRightMessage = document.querySelector(
+  "div.password-confirmRight-message"
+);
 $inputPasswordConfirm.addEventListener("input", isValidPasswordConfirm);
 
 //닉네임
@@ -52,6 +55,7 @@ function isValidPassword(event) {
 
   if (!passwordReg.test(currentPassword)) {
     $passwordMessage.style.visibility = "visible";
+
     return false;
   }
   $passwordMessage.style.visibility = "hidden";
@@ -65,9 +69,11 @@ function isValidPasswordConfirm(event) {
 
   if (currentPassword !== currentPasswordConfirm) {
     $passwordConfirmMessage.style.visibility = "visible";
+    // $passwordConfirmRightMessage.style.visibility = "hidden";
     return false;
   }
   $passwordConfirmMessage.style.visibility = "hidden";
+  $passwordConfirmRightMessage.style.visibility = "visible";
   return true;
 }
 

@@ -36,7 +36,7 @@ exports.signUp = async function (req, res) {
     });
   }
 
-  if (nickname.length < 2 || nickname > 10) {
+  if ([2, 10].includes(nickname)) {
     return res.send({
       isSuccess: false,
       code: 400,
@@ -50,8 +50,10 @@ exports.signUp = async function (req, res) {
   //중복 이메일 검사
   const isDuplicatedEmail = await userDao.selectUserbyEmail(email);
 
-  console.log(isDuplicatedEmail.length > 0);
-  console.log(email);
+  console.log("이메일 길이", isDuplicatedEmail.length);
+  console.log("email", email);
+  console.log(isDuplicatedEmail.email); //undefined
+
   if (isDuplicatedEmail.length > 0) {
     return res.send({
       isSuccess: false,
