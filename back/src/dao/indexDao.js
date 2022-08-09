@@ -130,55 +130,27 @@ exports.deleteWord = async function (userIdx, wordIdx) {
   }
 };
 
-// exports.selectValidWordEngKor = async function (userIdx, english, korean) {
-//   try {
-//     const connection = await pool.getConnection(async (conn) => conn);
-
-//     try {
-//       const selectValidWordEngKorQuery =
-//         "select wordIdx, english, korean from words where userIdx = ? and english = ? and korean = ? and not(status = 'D');";
-//       const selectValidWordEngKorParams = [userIdx, english, korean];
-
-//       const [row] = await connection.query(
-//         selectValidWordEngKorQuery,
-//         selectValidWordEngKorParams
-//       );
-//       connection.release();
-//       return row; //추가해야 함
-//     } catch (err) {
-//       console.error(`#### selectValidWordEngKor Query error ###### \n ${err}`);
-//       return false;
-//     } finally {
-//       connection.release();
-//     }
-//   } catch (err) {
-//     console.error(`#### selectValidWordEngKor DB error ###### ${err}`);
-//     return false;
-//   }
-// };
-
-exports.selectWordByEngKor = async function (userIdx) {
+exports.FindWordByEng = async function (userIdx, english) {
   //(userIdx, english, korean)
   try {
     const connection = await pool.getConnection(async (conn) => conn);
 
     try {
-      const selectWordQuery =
-        // "select * from words where userIdx = ? and english = ? and korean = ? and not(status = 'D');";
-        "select * from words where userIdx = ? and not(status = 'D');";
-      const selectWordParams = [userIdx]; //[userIdx, english, korean];
+      const findWordQuery =
+        "select english from words where userIdx = ? and english = ? and not(status = 'D'); ";
+      const findWordParams = [userIdx, english];
 
-      const [row] = await connection.query(selectWordQuery, selectWordParams);
+      const [row] = await connection.query(findWordQuery, findWordParams);
       connection.release();
       return row; //추가해야 함
     } catch (err) {
-      console.error(`#### selectWord Query error ###### \n ${err}`);
+      console.error(`#### findWord Query error ###### \n ${err}`);
       return false;
     } finally {
       connection.release();
     }
   } catch (err) {
-    console.error(`#### selectWord DB error ###### ${err}`);
+    console.error(`#### findWord DB error ###### ${err}`);
     return false;
   }
 };

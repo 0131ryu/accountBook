@@ -58,6 +58,8 @@ span {
     background-color: var(--main-blue);
     color: var(--light-gray);
     font-weight: 900;
+    border-style: none;
+    cursor: pointer;
 }
 /* 아이템 리스트 */
 .matrix-item-list {
@@ -92,6 +94,12 @@ span {
 }
 .word-done:checked + .word-text-eng  {
     text-decoration: line-through;
+}
+.word-finding {
+    display: block;
+    position: relative;
+    left: 25rem;
+    border-style: hidden;
 }
 .word-counting {
     display: block;

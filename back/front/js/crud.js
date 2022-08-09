@@ -98,7 +98,33 @@ async function readWords() {
   }
 }
 
-//create
+//word-finding
+const $wordFinding = document.querySelector(".word-finding");
+$wordFinding.addEventListener("keypress", findController);
+$wordFinding.addEventListener("click", findController);
+
+function findController(event) {
+  const token = localStorage.getItem("w-access-token");
+  if (!token) {
+    return;
+  }
+  const target = event.target;
+  const className = target.className;
+  const eventType = event.type;
+  const key = event.key;
+
+  console.log(target);
+  console.log("className", className);
+  console.log("eventType", eventType);
+  console.log(key);
+
+  if (className === "word-find-eng-btn" && eventType === "click") {
+    findWordEng(event, token);
+    return;
+  }
+}
+
+//cud
 const $matrixContainer = document.querySelector(".matrix-container");
 $matrixContainer.addEventListener("keypress", cudController);
 $matrixContainer.addEventListener("click", cudController);
@@ -147,6 +173,42 @@ function cudController(event) {
   if (firstClassName === "word-delete" && eventType === "click") {
     deleteWord(event, token);
     return;
+  }
+}
+
+async function findWordEng(event, token) {
+  const $findEnglish = document.querySelector(".word-find-eng");
+
+  const findEnglish = $findEnglish.value;
+  // console.log(findEnglish);
+
+  if (!findEnglish) {
+    alert("찾으려는 영어 단어를 입력하세요.");
+    return false;
+  }
+
+  const config = {
+    method: "post",
+    url: url + "/words",
+    headers: { "w-access-token": token },
+    data: {
+      english: english,
+      korean: korean,
+      type: type,
+    },
+  };
+  try {
+    const res = await axios(config);
+    if (res.data.code !== 200) {
+      alert(res.data.message);
+      return false;
+    }
+    readWords();
+    $english.value = "";
+    $korean.value = "";
+    return true;
+  } catch (err) {
+    console.error(err);
   }
 }
 

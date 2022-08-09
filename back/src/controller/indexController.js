@@ -191,9 +191,10 @@ exports.deleteWords = async function (req, res) {
 //   });
 // };
 
-exports.matchWords = async function (req, res) {
+exports.findWords = async function (req, res) {
   const { userIdx } = req.verifiedToken;
-  // const { english, korean } = req.params;
+  const { english } = req.params;
+  const words = {};
 
   if (!userIdx) {
     return res.send({
@@ -203,16 +204,10 @@ exports.matchWords = async function (req, res) {
     });
   }
 
-  const matchSelectWords = await indexDao.selectWordByEngKor(userIdx);
+  const findWordResult = await indexDao.FindWordByEng(userIdx, english);
 
-  console.log("matchSelectWords", matchSelectWords);
-
-  let findEnglish = matchSelectWords[1].english;
-  let findKorean = matchSelectWords[1].korean;
-
-  console.log(findEnglish, findKorean);
-
-  if (!matchSelectWords) {
+  console.log(findWordResult);
+  if (!findWordResult) {
     return res.send({
       isSuccess: false,
       code: 400,
@@ -220,7 +215,7 @@ exports.matchWords = async function (req, res) {
     });
   }
   return res.send({
-    result: { english: findEnglish, korean: findKorean },
+    result: words,
     isSuccess: true,
     code: 200,
     message: "단어 찾기 성공",

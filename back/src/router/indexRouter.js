@@ -6,5 +6,5 @@ exports.indexRouter = function (app) {
   app.get("/words", jwtMiddleware, indexController.readWords);
   app.patch("/word", jwtMiddleware, indexController.updateWords);
   app.delete("/word/:wordIdx", jwtMiddleware, indexController.deleteWords);
-  app.get("/studyWord", jwtMiddleware, indexController.matchWords);
+  app.get("/findWords", jwtMiddleware, indexController.findWords);
 };
