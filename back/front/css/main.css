@@ -31,13 +31,26 @@ ul, ol {
     font-size: 2rem;
     font-weight: 700;
 }
-.matrix-input {
-    width: 90%;
+.matrix-input-eng {
+    width: 35%;
     font-size: 1.6rem;
     margin-top: 1rem;
     padding-left: 0.5rem;
     line-height: 1.8;
     /* input이 있으면 line-height 항상 존재 */
+}
+.matrix-input-kor {
+    width: 35%;
+    font-size: 1.6rem;
+    margin-top: 1rem;
+    padding-left: 0.5rem;
+    line-height: 1.8;
+    /* input이 있으면 line-height 항상 존재 */
+}
+.matrix-input-btn {
+    width: 20%;
+    font-size: 1rem;
+    height: 2.5rem;
 }
 /* 아이템 리스트 */
 .matrix-item-list {
@@ -91,17 +104,22 @@ ul, ol {
     cursor: pointer;
 }
 /* 순서 변경 */
-#decide {
+#easy {
     order: 1
 }
-#do {
+#middle {
     order: 2
 }
-#delete {
+#advance {
     order: 3
 }
-#delegate {
-    order: 4
+.word-text-eng {
+    position: relative;
+    left: 10%;
+}
+.word-text-kor{
+    position: relative;
+    left: 50%;
 }
 
 /* 중요도, 긴급성 포지션 */
