@@ -77,16 +77,23 @@ ul, ol {
     display: flex;
     align-items: center;
 }
-.todo-done {
+.word-done {
     margin-right: 1rem;
     cursor: pointer;
 }
-.todo-done:checked + .todo-text {
+.word-done:checked + .word-text-eng  {
     text-decoration: line-through;
 }
-.todo-text {
+.word-counting {
+    display: block;
+    float: right;
+    margin-right: 20px;
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+.word-text {
     flex: 1;
-    /* .todo를 제외한 모든 너비 차지 */
+    /* .word를 제외한 모든 너비 차지 */
     width: 0;
     overflow: hidden;
     white-space: nowrap;
@@ -96,11 +103,11 @@ ul, ol {
 .update-delete-container {
     font-size: 1.6rem;
 }
-.todo-update {
+.word-update {
     margin-right: 0.5rem;
     cursor: pointer;
 }
-.todo-delete {
+.word-delete {
     cursor: pointer;
 }
 /* 순서 변경 */
