@@ -1,9 +1,13 @@
 ul, ol {
     list-style: none;
 }
+span {
+    font-weight: 900;
+}
 /* 컨테이너 */
 .matrix-container {
     width: 1200px;
+    height: 800px;
     display: inline-block;
     /* 줄바꿈하기 */
     /* flex-wrap: wrap;
@@ -16,7 +20,7 @@ ul, ol {
     height: 50rem;
     border: 0.5px solid var(--dark-gray);
     border-radius: 5px 5px 0 0;
-    margin: 2.5rem 0.5rem;
+    margin: 4.5rem 0.5rem;
 
     display: inline-table;
     flex-direction: column;
@@ -51,6 +55,9 @@ ul, ol {
     width: 20%;
     font-size: 1rem;
     height: 2.5rem;
+    background-color: var(--main-blue);
+    color: var(--light-gray);
+    font-weight: 900;
 }
 /* 아이템 리스트 */
 .matrix-item-list {
@@ -58,6 +65,8 @@ ul, ol {
     /* 헤더를 제외한 모든 높이 차지 */
     overflow-y: auto;
     /* 스크롤 기능 */
+    height: 500px;
+    overflow: scroll;
 }
 
 .list-item {
@@ -129,34 +138,24 @@ ul, ol {
     left: 50%;
 }
 
-/* 중요도, 긴급성 포지션 */
-.importance {
-    position: absolute;
-    font-size: 1.5rem;
-    top: 50%;
-    left: -3%;
-    writing-mode: vertical-rl;
-}
-.urgency {
-    position: absolute;
-    font-size: 1.5rem;
-    bottom: -4%;
-}
-
 /* 모바일 레이아웃 설정 */
 @media only all and (max-width: 768px) {
     .matrix-container {
+        width: 750px;
+        height: 1650px;
         display: block;
+        /* position: absolute; */
     }
     .matrix-item{
-        width: 90%;
-        margin: 0 auto 1rem;
+        width: 65%;
+        margin: 0 auto 2rem;
+        position: relative;
+        left: 15rem;
+        top: 10rem;
     }
-    .importance {
-        left: -5%;
-    }
-    .urgency {
-        bottom: -2%;
-        left: 45%;
+    .word-counting {
+        position: relative;
+        top: 3rem;
+        right: 8rem;
     }
 }

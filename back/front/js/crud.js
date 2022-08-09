@@ -292,8 +292,10 @@ async function updateWordDone(event, token) {
       return false;
     }
     readWords();
+    return true;
   } catch (err) {
     console.error(err);
+    return false;
   }
 }
 

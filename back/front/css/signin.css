@@ -1,16 +1,6 @@
 .blue {
     color: var(--main-blue)
 }
-/* main .inner {
-    height: 100%;
-}
-.signin-container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-} */
 main {
     position: relative;
 }
@@ -40,14 +30,14 @@ main {
     padding-left: 1rem;
     border: 2px solid var(--dark-gray);
 }
-#signin {
+#signIn {
     padding-left: 0;
     background-color: var(--main-blue);
     border: none;
     color: white;
     cursor: pointer;
 }
-#signin:hover {
+#signIn:hover {
     color: black;
 }
 .signin-container {
@@ -57,15 +47,10 @@ main {
 #signup {
    color: black;
    font-size: 1.4rem;
+   cursor: pointer;
 }
-
-
-/* @media only all and(max-width: 400px) {
-    .signin-form {
-        width: 50%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 2rem auto 0;
-    }
-} */
+#signup:hover {
+    color:  var(--main-blue);
+    font-weight: 900;
+    cursor: pointer;
+}

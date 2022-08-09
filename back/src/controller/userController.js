@@ -43,16 +43,11 @@ exports.signUp = async function (req, res) {
       message: "닉네임 형식(2글자 이상 10글자 미만)을 확인하세요.",
     });
   }
-
-  //DB입력
-  const insertUserRow = await userDao.insertUser(email, password, nickname);
-
   //중복 이메일 검사
   const isDuplicatedEmail = await userDao.selectUserbyEmail(email);
 
   console.log("이메일 길이", isDuplicatedEmail.length);
   console.log("email", email);
-  console.log(isDuplicatedEmail.email); //undefined
 
   if (isDuplicatedEmail.length > 0) {
     return res.send({
@@ -61,6 +56,9 @@ exports.signUp = async function (req, res) {
       message: "이미 가입된 회원입니다.",
     });
   }
+
+  //DB입력
+  const insertUserRow = await userDao.insertUser(email, password, nickname);
 
   if (!insertUserRow) {
     return res.send({

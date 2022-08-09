@@ -1,11 +1,11 @@
 .jumbotron-item-main {
-    height: 20rem;
+    height: 18rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 .jumbotron-item-main-message {
-    width: 50%;
+    width: 70%;
     text-align: center;
 }
 .jumbotron-item-main-message  p {
@@ -23,4 +23,13 @@
     margin-top: 2rem;
     text-align: center;
     font-size: 1.6rem;
+}
+
+@media only all and (max-width: 768px) {
+    .jumbotron-item-main {
+        height: 20rem;
+        display: flex;
+        justify-content: center;
+    }
+
 }
