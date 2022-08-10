@@ -130,14 +130,14 @@ exports.deleteWord = async function (userIdx, wordIdx) {
   }
 };
 
-exports.FindWordByEng = async function (userIdx, english) {
+exports.findWordByEng = async function (userIdx, english) {
   //(userIdx, english, korean)
   try {
     const connection = await pool.getConnection(async (conn) => conn);
 
     try {
       const findWordQuery =
-        "select english from words where userIdx = ? and english = ? and not(status = 'D'); ";
+        "select english, korean, type from words where userIdx = ? and english = ? and not(status = 'D'); ";
       const findWordParams = [userIdx, english];
 
       const [row] = await connection.query(findWordQuery, findWordParams);

@@ -166,31 +166,6 @@ exports.deleteWords = async function (req, res) {
   });
 };
 
-// exports.listWords = async function (req, res) {
-//   const { userIdx } = req.verifiedToken;
-//   const words = {};
-//   const types = ["easy", "middle", "advance"];
-
-//   for (let type of types) {
-//     let selectWordsByTypeRows = await indexDao.selectWordByType(userIdx, type);
-
-//     if (!selectWordsByTypeRows) {
-//       return res.send({
-//         isSuccess: true,
-//         code: 400,
-//         message: "단어 조회 실패, 확인 부탁드립니다.",
-//       });
-//     }
-//     words[type] = selectWordsByTypeRows;
-//   }
-//   return res.send({
-//     result: words,
-//     isSuccess: true,
-//     code: 200,
-//     message: "단어 조회 성공",
-//   });
-// };
-
 exports.findWords = async function (req, res) {
   const { userIdx } = req.verifiedToken;
   const { english } = req.params;
@@ -204,18 +179,27 @@ exports.findWords = async function (req, res) {
     });
   }
 
-  const findWordResult = await indexDao.FindWordByEng(userIdx, english);
+  const findWordResult = await indexDao.findWordByEng(userIdx, english);
 
-  console.log(findWordResult);
-  if (!findWordResult) {
+  const [wordInfo] = findWordResult;
+  // console.log("wordInfo", wordInfo);
+
+  if (wordInfo === undefined) {
     return res.send({
       isSuccess: false,
       code: 400,
       message: "단어를 찾지 못했습니다.",
     });
   }
+
+  // const findEnglish = wordInfo.english;
+  // const findKorean = wordInfo.korean;
+  // const findType = wordInfo.type;
+
+  // console.log(findEnglish, findKorean, findType);
+
   return res.send({
-    result: words,
+    result: { wordInfo },
     isSuccess: true,
     code: 200,
     message: "단어 찾기 성공",

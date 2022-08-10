@@ -20,9 +20,9 @@
     background: url('../img/study.png') no-repeat center / contain; 
 }
 .jumbotron-item-sub {
-    margin-top: 2rem;
     text-align: center;
     font-size: 1.6rem;
+    margin-bottom: 1rem;
 }
 
 @media only all and (max-width: 768px) {

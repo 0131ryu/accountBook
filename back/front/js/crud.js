@@ -14,7 +14,7 @@ async function readWords() {
   try {
     const res = await axios(config);
     const wordDataSet = res.data.result;
-    console.log(wordDataSet);
+    // console.log(wordDataSet);
 
     //단어 개수
     const easyCount = Object.keys(wordDataSet.easy).length;
@@ -25,7 +25,7 @@ async function readWords() {
 
     for (let i = 0; i < easyCount; i++) {
       const easyCheckedCount = wordDataSet.easy[i].status;
-      console.log(easyCheckedCount);
+      // console.log(easyCheckedCount);
       if (easyCheckedCount === "C") {
         checkedCount += 1;
       }
@@ -33,7 +33,7 @@ async function readWords() {
 
     for (let i = 0; i < middleCount; i++) {
       const middleCheckedCount = wordDataSet.middle[i].status;
-      console.log(middleCheckedCount);
+      // console.log(middleCheckedCount);
       if (middleCheckedCount === "C") {
         checkedCount += 1;
       }
@@ -41,16 +41,16 @@ async function readWords() {
 
     for (let i = 0; i < advanceCount; i++) {
       const advanceCheckedCount = wordDataSet.advance[i].status;
-      console.log(advanceCheckedCount);
+      // console.log(advanceCheckedCount);
       if (advanceCheckedCount === "C") {
         checkedCount += 1;
       }
     }
-    console.log(checkedCount);
+    // console.log(checkedCount);
 
     //총 단어 개수
     const allCount = easyCount + middleCount + advanceCount;
-    console.log(allCount);
+    // console.log(allCount);
 
     const $checkedCountingAll = document.querySelector(
       `#word-counting-checked`
@@ -65,7 +65,7 @@ async function readWords() {
 
       const $sectionUl = document.querySelector(`#${section} ul`);
       const arrayForEachSection = wordDataSet[section];
-      console.log(arrayForEachSection);
+      // console.log(arrayForEachSection);
 
       let result = "";
       for (let word of arrayForEachSection) {
@@ -113,10 +113,10 @@ function findController(event) {
   const eventType = event.type;
   const key = event.key;
 
-  console.log(target);
-  console.log("className", className);
-  console.log("eventType", eventType);
-  console.log(key);
+  // console.log("target", target);
+  // console.log("className", className);
+  // console.log("eventType", eventType);
+  // console.log("key", key);
 
   if (className === "word-find-eng-btn" && eventType === "click") {
     findWordEng(event, token);
@@ -177,35 +177,52 @@ function cudController(event) {
 }
 
 async function findWordEng(event, token) {
-  const $findEnglish = document.querySelector(".word-find-eng");
+  const $english = document.querySelector(".word-find-eng");
+  const $resultInfo = document.querySelector(".word-find-result");
+  const english = $english.value;
 
-  const findEnglish = $findEnglish.value;
-  // console.log(findEnglish);
+  console.log(english);
 
-  if (!findEnglish) {
-    alert("찾으려는 영어 단어를 입력하세요.");
-    return false;
+  if (!english) {
+    alert("찾고자 하는 영어 단어를 정확히 입력하세요");
+    $resultInfo.style.visibility = "hidden";
+    return;
   }
 
   const config = {
-    method: "post",
-    url: url + "/words",
+    method: "get",
+    url: url + `/findWords/${english}`,
     headers: { "w-access-token": token },
-    data: {
-      english: english,
-      korean: korean,
-      type: type,
-    },
   };
+
   try {
     const res = await axios(config);
+    const wordInfo = res.data.result.wordInfo;
+
+    const findEnglish = wordInfo.english;
+    const findKorean = wordInfo.korean;
+    const findType = wordInfo.type;
+
+    console.log(findEnglish, findKorean, findType);
+
+    $resultInfo.style.visibility = "visible";
+
+    //status가 "D"인 경우 검색되지 않아야 함
+
+    const resultEngInfo = document.querySelector(`.word-find-result-eng`);
+    const resultKorInfo = document.querySelector(`.word-find-result-kor`);
+    const resultTypeInfo = document.querySelector(`.word-find-result-type`);
+
+    resultEngInfo.innerHTML = `${findEnglish}`;
+    resultKorInfo.innerHTML = `${findKorean}`;
+    resultTypeInfo.innerHTML = `${findType}`;
+
     if (res.data.code !== 200) {
       alert(res.data.message);
       return false;
     }
     readWords();
     $english.value = "";
-    $korean.value = "";
     return true;
   } catch (err) {
     console.error(err);
