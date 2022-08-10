@@ -14,44 +14,43 @@ async function readWords() {
   try {
     const res = await axios(config);
     const wordDataSet = res.data.result;
-    // console.log(wordDataSet);
 
-    //단어 개수
-    const easyCount = Object.keys(wordDataSet.easy).length;
-    const middleCount = Object.keys(wordDataSet.middle).length;
-    const advanceCount = Object.keys(wordDataSet.advance).length;
+    const easyArray = wordDataSet.easy;
+    const middleArray = wordDataSet.middle;
+    const advanceArray = wordDataSet.advance;
+
+    const easyCount = easyArray.length;
+    const middleCount = middleArray.length;
+    const advanceCount = advanceArray.length;
 
     let checkedCount = 0;
 
-    for (let i = 0; i < easyCount; i++) {
-      const easyCheckedCount = wordDataSet.easy[i].status;
-      // console.log(easyCheckedCount);
-      if (easyCheckedCount === "C") {
+    function plusCount($typeCheckedStatus) {
+      if ($typeCheckedStatus === "C") {
         checkedCount += 1;
+      } else if ($typeCheckedStatus === "A") {
+        checkedCount = checkedCount;
       }
     }
 
-    for (let i = 0; i < middleCount; i++) {
-      const middleCheckedCount = wordDataSet.middle[i].status;
-      // console.log(middleCheckedCount);
-      if (middleCheckedCount === "C") {
-        checkedCount += 1;
-      }
+    for (const index in easyArray) {
+      console.log(index);
+      const easyCheckedStatus = easyArray[index].status;
+      plusCount(easyCheckedStatus);
     }
 
-    for (let i = 0; i < advanceCount; i++) {
-      const advanceCheckedCount = wordDataSet.advance[i].status;
-      // console.log(advanceCheckedCount);
-      if (advanceCheckedCount === "C") {
-        checkedCount += 1;
-      }
+    for (const index in middleArray) {
+      const middleCheckedStatus = middleArray[index].status;
+      plusCount(middleCheckedStatus);
     }
-    // console.log(checkedCount);
+
+    for (const index in advanceArray) {
+      const advanceCheckedStatus = advanceArray[index].status;
+      plusCount(advanceCheckedStatus);
+    }
 
     //총 단어 개수
     const allCount = easyCount + middleCount + advanceCount;
-    // console.log(allCount);
-
     const $checkedCountingAll = document.querySelector(
       `#word-counting-checked`
     );
@@ -113,11 +112,6 @@ function findController(event) {
   const eventType = event.type;
   const key = event.key;
 
-  // console.log("target", target);
-  // console.log("className", className);
-  // console.log("eventType", eventType);
-  // console.log("key", key);
-
   if (className === "word-find-eng-btn" && eventType === "click") {
     findWordEng(event, token);
     return;
@@ -137,10 +131,7 @@ function cudController(event) {
   const target = event.target;
   const className = target.className;
   const eventType = event.type;
-  const key = event.key;
-  // console.log(target.className);
-  // console.log(eventType);
-  // console.log(key);
+
   //create
   if (className === "matrix-input-btn-easy" && eventType === "click") {
     createWordsEasy(event, token);
@@ -197,17 +188,20 @@ async function findWordEng(event, token) {
 
   try {
     const res = await axios(config);
+
+    //영단어를 찾지 못한 경우 -> status가 "D"인 경우 검색되지 않아야 함
+    if (res.data.code === 400) {
+      alert(res.data.message);
+      $english.value = "";
+      return false;
+    }
     const wordInfo = res.data.result.wordInfo;
 
     const findEnglish = wordInfo.english;
     const findKorean = wordInfo.korean;
     const findType = wordInfo.type;
 
-    console.log(findEnglish, findKorean, findType);
-
     $resultInfo.style.visibility = "visible";
-
-    //status가 "D"인 경우 검색되지 않아야 함
 
     const resultEngInfo = document.querySelector(`.word-find-result-eng`);
     const resultKorInfo = document.querySelector(`.word-find-result-kor`);

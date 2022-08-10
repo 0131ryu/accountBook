@@ -11,6 +11,24 @@ exports.createdWords = async function (req, res) {
       message: "입력 값이 누락됬습니다.",
     });
   }
+
+  //중복된 단어 검사
+  const isDuplicatedEngWord = await indexDao.selectDuplicatedWord(
+    userIdx,
+    english
+  );
+
+  // console.log("단어 길이 검사", isDuplicatedEngWord.length);
+  // console.log("userIdx", userIdx, "english", english);
+
+  if (isDuplicatedEngWord.length > 0) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: "이미 입력된 단어입니다.",
+    });
+  }
+
   //english는 영어로만 korean은 한글로만 입력하기
   const validEnglish = /^[a-zA-Z\s]+$/;
   const validKorean = /^[가-힣\s]+$/;
@@ -188,15 +206,9 @@ exports.findWords = async function (req, res) {
     return res.send({
       isSuccess: false,
       code: 400,
-      message: "단어를 찾지 못했습니다.",
+      message: "단어를 찾지 못했습니다. 다시 입력해주세요",
     });
   }
-
-  // const findEnglish = wordInfo.english;
-  // const findKorean = wordInfo.korean;
-  // const findType = wordInfo.type;
-
-  // console.log(findEnglish, findKorean, findType);
 
   return res.send({
     result: { wordInfo },

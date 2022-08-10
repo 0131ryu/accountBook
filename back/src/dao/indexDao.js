@@ -1,5 +1,33 @@
 const { pool } = require("../../database");
 
+exports.selectDuplicatedWord = async function (userIdx, english) {
+  //DB연결
+  try {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    try {
+      const selectDuplicatedWordQuery =
+        "select * from words where userIdx =? and english = ?";
+      const selectDuplicatedParams = [userIdx, english];
+
+      const [row] = await connection.query(
+        selectDuplicatedWordQuery,
+        selectDuplicatedParams
+      );
+      connection.release();
+      return row; //추가해야 함
+    } catch (err) {
+      console.error(`#### selectDuplicatedWord Query error ###### \n ${err}`);
+      return false;
+    } finally {
+      connection.release();
+    }
+  } catch (err) {
+    console.error(`#### selectDuplicatedWord DB error ###### ${err}`);
+    return false;
+  }
+};
+
 exports.insertWords = async function (userIdx, english, korean, type) {
   //DB연결
   try {
