@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .darkmode {
+        background: black;
+    }
+</style>
+
+<body>
+    <input type="checkbox" />
+    <script>
+        let checkbox = document.querySelector('input[type=checkbox]');
+        checkbox.addEventListener('change', function () {
+            if (checkbox.checked) {
+                document.body.classList.add('darkmode');
+            } else {
+                document.body.classList.remove('darkmode');
+            }
+        });
+    </script>
+</body>
+
+</html>

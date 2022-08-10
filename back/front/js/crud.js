@@ -1,5 +1,14 @@
 readWords();
 
+function getCountCheckbox() {
+  const checkedQuery = 'input[name="countCheckbox"]:checked';
+  const selectedElements = document.querySelectorAll(checkedQuery);
+
+  const selectedElementsCount = selectedElements.length;
+  const $checkedCountingAll = document.querySelector(`#word-counting-checked`);
+  $checkedCountingAll.innerHTML = selectedElementsCount;
+}
+
 async function readWords() {
   const token = localStorage.getItem("w-access-token");
   if (!token) {
@@ -25,39 +34,12 @@ async function readWords() {
 
     let checkedCount = 0;
 
-    function plusCount($typeCheckedStatus) {
-      if ($typeCheckedStatus === "C") {
-        checkedCount += 1;
-      } else if ($typeCheckedStatus === "A") {
-        checkedCount = checkedCount;
-      }
-    }
-
-    for (const index in easyArray) {
-      console.log(index);
-      const easyCheckedStatus = easyArray[index].status;
-      plusCount(easyCheckedStatus);
-    }
-
-    for (const index in middleArray) {
-      const middleCheckedStatus = middleArray[index].status;
-      plusCount(middleCheckedStatus);
-    }
-
-    for (const index in advanceArray) {
-      const advanceCheckedStatus = advanceArray[index].status;
-      plusCount(advanceCheckedStatus);
-    }
-
     //총 단어 개수
     const allCount = easyCount + middleCount + advanceCount;
-    const $checkedCountingAll = document.querySelector(
-      `#word-counting-checked`
-    );
+
     const $wordCountingAll = document.querySelector(`#word-counting-all`);
 
     $wordCountingAll.innerHTML = allCount;
-    $checkedCountingAll.innerHTML = checkedCount;
 
     for (let section in wordDataSet) {
       // console.log(section);
@@ -72,7 +54,7 @@ async function readWords() {
       <div class="done-text-container">
           <input type="checkbox" class="word-done" ${
             word.status === "C" ? "checked" : ""
-          }/>
+          } name="countCheckbox" onClick="getCountCheckbox()"/>
          <p class="word-text-eng">${word.english}</p>
           </div>
       <div class="done-text-container">
@@ -84,9 +66,9 @@ async function readWords() {
   </div>
   </li>`;
         result += element;
-        // console.log(result);
       }
       $sectionUl.innerHTML = result;
+      // console.log(result);
     }
     if (res.data.code !== 200) {
       alert(res.data.message);
