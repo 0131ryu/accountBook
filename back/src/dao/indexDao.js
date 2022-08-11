@@ -182,3 +182,30 @@ exports.findWordByEng = async function (userIdx, english) {
     return false;
   }
 };
+
+exports.deletedWordsList = async function (userIdx, type) {
+  try {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    try {
+      const deletedWordsQuery =
+        "select english, korean, type, status from words where userIdx = ? and status = ?;";
+      const deletedWordsParams = [userIdx, type];
+
+      const [row] = await connection.query(
+        deletedWordsQuery,
+        deletedWordsParams
+      );
+      connection.release();
+      return row; //추가해야 함
+    } catch (err) {
+      console.error(`#### deletedWords Query error ###### \n ${err}`);
+      return false;
+    } finally {
+      connection.release();
+    }
+  } catch (err) {
+    console.error(`#### deletedWords DB error ###### ${err}`);
+    return false;
+  }
+};

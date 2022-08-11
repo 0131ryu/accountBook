@@ -217,3 +217,32 @@ exports.findWords = async function (req, res) {
     message: "단어 찾기 성공",
   });
 };
+
+exports.deletedWords = async function (req, res) {
+  const { userIdx } = req.verifiedToken;
+  const { status } = req.params;
+  const words = {};
+  const types = ["easy", "middle", "advance"];
+
+  for (let type of types) {
+    let deletedWordsByTypeRows = await indexDao.deletedWordsList(
+      userIdx,
+      status
+    );
+
+    if (!deletedWordsByTypeRows) {
+      return res.send({
+        isSuccess: true,
+        code: 400,
+        message: "단어 조회 실패, 확인 부탁드립니다.",
+      });
+    }
+    words[type] = deletedWordsByTypeRows;
+  }
+  return res.send({
+    result: words,
+    isSuccess: true,
+    code: 200,
+    message: "단어 조회 성공",
+  });
+};
