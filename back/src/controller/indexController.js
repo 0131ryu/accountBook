@@ -85,7 +85,7 @@ exports.readWords = async function (req, res) {
 
     if (!selectWordsByTypeRows) {
       return res.send({
-        isSuccess: true,
+        isSuccess: false,
         code: 400,
         message: "단어 조회 실패, 확인 부탁드립니다.",
       });
@@ -232,7 +232,7 @@ exports.deletedWords = async function (req, res) {
 
     if (!deletedWordsByTypeRows) {
       return res.send({
-        isSuccess: true,
+        isSuccess: false,
         code: 400,
         message: "단어 조회 실패, 확인 부탁드립니다.",
       });
@@ -244,5 +244,26 @@ exports.deletedWords = async function (req, res) {
     isSuccess: true,
     code: 200,
     message: "단어 조회 성공",
+  });
+};
+
+exports.changeStatus = async function (req, res) {
+  const { userIdx } = req.verifiedToken;
+  const { wordIdx } = req.params;
+
+  let changeStatussRows = await indexDao.changeStatus(userIdx, wordIdx);
+
+  if (!changeStatussRows) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: "단어 복구 실패",
+    });
+  }
+
+  return res.send({
+    isSuccess: true,
+    code: 200,
+    message: "단어 복구 성공",
   });
 };

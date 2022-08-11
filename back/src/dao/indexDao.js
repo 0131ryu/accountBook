@@ -116,7 +116,7 @@ exports.updateWord = async function (
 
     try {
       const updateWordQuery =
-        "update words set english = ifnull(?, english), korean = ifnull(?, korean), status = ifnull(?, status) where userIdx = ? and wordIdx = ?";
+        "update words set status = 'A' where userIdx = ? and wordIdx =? ";
       const updateWordParams = [english, korean, status, userIdx, wordIdx];
 
       const [row] = await connection.query(updateWordQuery, updateWordParams);
@@ -189,7 +189,7 @@ exports.deletedWordsList = async function (userIdx, type) {
 
     try {
       const deletedWordsQuery =
-        "select english, korean, type, status from words where userIdx = ? and status = ?;";
+        "select wordIdx, english, korean, type, status from words where userIdx = ? and status = ?;";
       const deletedWordsParams = [userIdx, type];
 
       const [row] = await connection.query(
@@ -206,6 +206,33 @@ exports.deletedWordsList = async function (userIdx, type) {
     }
   } catch (err) {
     console.error(`#### deletedWords DB error ###### ${err}`);
+    return false;
+  }
+};
+
+exports.changeStatus = async function (userIdx, wordIdx) {
+  try {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    try {
+      const changeStatusQuery =
+        "update words set status = 'A' where userIdx = ? and wordIdx = ?;";
+      const changeStatusParams = [userIdx, wordIdx];
+
+      const [row] = await connection.query(
+        changeStatusQuery,
+        changeStatusParams
+      );
+      connection.release();
+      return row; //추가해야 함
+    } catch (err) {
+      console.error(`#### changeStatus Query error ###### \n ${err}`);
+      return false;
+    } finally {
+      connection.release();
+    }
+  } catch (err) {
+    console.error(`#### changeStatus DB error ###### ${err}`);
     return false;
   }
 };

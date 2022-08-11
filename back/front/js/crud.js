@@ -9,6 +9,17 @@ function getCountCheckbox() {
   $checkedCountingAll.innerHTML = selectedElementsCount;
 }
 
+function changeStatusWord(event, token) {
+  if (confirm("삭제한 단어를 복구 시키겠습니까? 아니라면 아니오 누르기")) {
+    alert("예를 눌렀습니다.");
+    changeStatus(event, token);
+    return;
+  } else {
+    alert("아니오를 눌렀습니다.");
+    return false;
+  }
+}
+
 async function readWords() {
   const token = localStorage.getItem("w-access-token");
   if (!token) {
@@ -102,7 +113,6 @@ function findController(event) {
 
 //deletedWord 보기
 const $deletedWord = document.querySelector(".deleted-item-list");
-$deletedWord.addEventListener("keypress", deleteWordController);
 $deletedWord.addEventListener("click", deleteWordController);
 
 function deleteWordController(event) {
@@ -255,6 +265,8 @@ async function deletedWordShow(event, token) {
     const wordDataSet = res.data.result;
 
     for (let deletedSection in wordDataSet) {
+      console.log("wordDataSet", wordDataSet);
+      console.log(typeof deletedSection);
       const $deletedSectionUl = document.querySelector(
         `div[name="deletedItems"]`
       );
@@ -263,33 +275,15 @@ async function deletedWordShow(event, token) {
       let deletedResult = "";
       for (let deletedWords of arrayForEachSection) {
         //작성할 단어들
-        let element = `<p class="deletedWords-result">[결과값]
+        let element = `<p class="deletedWords-result" id="A">[결과값]
         영단어 : <span class="deletedWords-result-eng">${deletedWords.english}</span>
         한글 : <span class="deletedWords-result-kor">${deletedWords.korean}</span> 종류 : <span
             class="deletedWords-result-type">${deletedWords.type}</span>
-        <button class="changeStatusdWord-btn" id="A" name="A">단어 복구하기</button>
+        <button class="changeStatusdWord-btn" id=${deletedWords.wordIdx} name="A" onClick="changeStatusWord(event)">단어 복구하기</button>
     </p>`;
         deletedResult += element;
       }
       $deletedSectionUl.innerHTML = deletedResult;
-      //단어 복구 시키기
-      // const $changeStatusdWord = document.querySelector(`button[name="A"]`);
-      // console.log($changeStatusdWord);
-
-      // const target = event.target;
-      // const className = target.className;
-      // const eventType = event.type;
-      // const key = event.key;
-
-      // console.log("target", target);
-      // console.log("className", className);
-      // console.log("eventType", eventType);
-      // console.log("key", key);
-
-      // // if (className === "changeStatusdWord-btn" && eventType === "click") {
-      // //   alert("삭제한 단어를 다시 복구 시키겠습니까?");
-      // //   return;
-      // // }
     }
 
     if (res.data.code !== 200) {
@@ -297,6 +291,35 @@ async function deletedWordShow(event, token) {
       return false;
     }
     readWords();
+    return true;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function changeStatus(event) {
+  const token = localStorage.getItem("w-access-token");
+  if (!token) {
+    return;
+  }
+  const wordIdx = event.target.closest(".changeStatusdWord-btn").id;
+  // console.log(wordIdx);
+  const config = {
+    method: "patch",
+    url: url + `/changeStatus/${wordIdx}`,
+    headers: { "w-access-token": token },
+    data: {
+      wordIdx: wordIdx,
+    },
+  };
+  try {
+    const res = await axios(config);
+    if (res.data.code !== 200) {
+      alert(res.data.message);
+      return false;
+    }
+    readWords();
+    window.location.reload();
     return true;
   } catch (err) {
     console.error(err);
@@ -338,6 +361,7 @@ async function createWordsEasy(event, token) {
     $english.value = "";
     $korean.value = "";
     return true;
+    ``;
   } catch (err) {
     console.error(err);
   }

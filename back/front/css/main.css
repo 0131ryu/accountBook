@@ -158,16 +158,17 @@ span {
     position: relative;
     left: 50%;
 }
-/* .deleted-item-list {
+.deleted-items {
+    width: 80%;
+    position: relative;
+    left: 10%;
+}
+.deleted-item-list {
     width: 50%;
-    margin: 1rem 3rem;
-    border: 3px solid var(--light-gray);
-    border-radius: 5px;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-} */
+    position: relative;
+    left: 40%;
+    font-weight: 900;
+}
 .deletedWord-btn {
     width: 20%;
     font-size: 1rem;
@@ -189,9 +190,10 @@ span {
     cursor: pointer;
 }
 .deletedWords-result {
-    /* visibility: hidden; */
-    width: 50%;
-    margin: 1rem 3rem;
+    width: 100%;
+    position: relative;
+    right: 30%;
+    margin: 1rem auto;
     border: 3px solid var(--light-gray);
     border-radius: 5px;
     padding: 1rem;
@@ -209,7 +211,7 @@ span {
     border-style: none;
     cursor: pointer;
 }
-.ChangeStatusdWord-btn:hover {
+.changeStatusdWord-btn:hover {
     background-color: var(--main-blue);
     color: var(--light-gray);
 }

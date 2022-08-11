@@ -8,4 +8,9 @@ exports.indexRouter = function (app) {
   app.delete("/word/:wordIdx", jwtMiddleware, indexController.deleteWords);
   app.get("/findWords/:english", jwtMiddleware, indexController.findWords);
   app.get("/deletedWords/:status", jwtMiddleware, indexController.deletedWords);
+  app.patch(
+    "/changeStatus/:wordIdx",
+    jwtMiddleware,
+    indexController.changeStatus
+  );
 };

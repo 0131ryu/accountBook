@@ -15,6 +15,7 @@
 
 <body>
     <input type="checkbox" />
+    <a onclick="next()">클릭을 하여주세요 next function 을 실행시킵니다</a>
     <script>
         let checkbox = document.querySelector('input[type=checkbox]');
         checkbox.addEventListener('change', function () {
@@ -24,6 +25,18 @@
                 document.body.classList.remove('darkmode');
             }
         });
+
+        function next() {
+            if (confirm("이동하시려면 예를 누르시고 이동을 하지 않으시려면 아니오를 눌러주세요")) {
+                location.href = "http://www.naver.com";
+            }
+            else {
+                alert('아니오를 누르셨습니다');
+            }
+        }
+    </script>
+
+
     </script>
 </body>
 
