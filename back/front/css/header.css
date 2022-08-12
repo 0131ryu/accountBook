@@ -42,16 +42,6 @@ header {
 .inner {
     margin: 0 auto;
 }
-
-@media only all and (min-width: 1200px) {
-    .inner {
-        max-width: 1200px;
-    }
-    html {
-        font-size: 12px;
-    }
-}
-
 /* 회원용 헤더 */
 .unsigned  {
     display: flex;
@@ -86,8 +76,16 @@ header {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+@media only all and (min-width: 1200px) {
+    .inner {
+        max-width: 1200px;
+    }
+    html {
+        font-size: 12px;
+    }
+}
 
-@media only all and(max-width: 400px) {
+@media only all and(min-width: 768px) {
     html {
         font-size: 9px;
     }
