@@ -36,7 +36,7 @@ async function signIn(event) {
     }
     localStorage.setItem("w-access-token", res.data.result.token);
     alert(res.data.message);
-    location.href = "main.html";
+    location.href = "index.html";
   } catch (error) {
     console.log(error);
   }

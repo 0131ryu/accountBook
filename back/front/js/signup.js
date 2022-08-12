@@ -2,7 +2,7 @@
 const token = localStorage.getItem("w-access-token");
 if (token) {
   alert("로그아웃 후 이용해주세요");
-  location.href = "main.html";
+  location.href = "index.html";
 }
 
 //이메일
