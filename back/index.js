@@ -11,6 +11,9 @@ const port = 3000;
 //cors 설정
 app.use(cors());
 
+//정적 파일 제공
+app.use(express.static("front"));
+
 app.use(express.json());
 app.use(compression());
 
