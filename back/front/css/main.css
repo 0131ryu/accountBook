@@ -189,9 +189,9 @@ span {
     cursor: pointer;
 }
 .deletedWords-result {
-    width: 100%;
+    width: 60%;
     position: relative;
-    right: 30%;
+    right: 0%;
     margin: 1rem auto;
     border: 3px solid var(--light-gray);
     border-radius: 5px;

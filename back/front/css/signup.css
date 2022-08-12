@@ -1,7 +1,9 @@
+.blue {
+    color: var(--main-blue)
+}
 main {
     position: relative;
 }
-
 .signup-container {
     width: 100%;
     position: absolute;
