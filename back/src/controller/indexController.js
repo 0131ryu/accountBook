@@ -31,7 +31,7 @@ exports.createdWords = async function (req, res) {
 
   //english는 영어로만 korean은 한글로만 입력하기
   const validEnglish = /^[a-zA-Z\s]+$/;
-  const validKorean = /^[가-힣\s]+$/;
+  const validKorean = /^[가-힣\s]+$/; //띄어쓰기 포함
 
   console.log(validKorean.test(korean));
   if (!validEnglish.test(english) || !validKorean.test(korean)) {
@@ -100,9 +100,38 @@ exports.readWords = async function (req, res) {
   });
 };
 
+exports.updateCheckedWords = async function (req, res) {
+  const { userIdx } = req.verifiedToken;
+  let { wordIdx, status } = req.body;
+
+  console.log("wordIdx", wordIdx);
+  console.log("status", status);
+
+  if (!userIdx || !wordIdx) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: "userIdx, wordIdx를 보내주세요",
+    });
+  }
+  const updateCheckedWordStatusRow = await indexDao.updateCheckedWordStatus(
+    userIdx,
+    wordIdx,
+    status
+  );
+  if (!updateCheckedWordStatusRow) {
+    return res.send({
+      isSuccess: false,
+      code: 400,
+      message: `체크박스 수정 오류, 확인 부탁드립니다.`,
+    });
+  }
+  // console.log(updateCheckedWordStatusRow);
+};
+
 exports.updateWords = async function (req, res) {
   const { userIdx } = req.verifiedToken;
-  let { wordIdx, english, korean, status } = req.body;
+  let { wordIdx, english, korean } = req.body;
 
   if (!userIdx || !wordIdx) {
     return res.send({
@@ -133,8 +162,7 @@ exports.updateWords = async function (req, res) {
     userIdx,
     wordIdx,
     english,
-    korean,
-    status
+    korean
   );
   if (!updateWordRow) {
     return res.send({

@@ -104,20 +104,43 @@ exports.selectValidWord = async function (userIdx, wordIdx) {
   }
 };
 
-exports.updateWord = async function (
-  userIdx,
-  wordIdx,
-  english,
-  korean,
-  status
-) {
+//체크 박스 수정
+exports.updateCheckedWordStatus = async function (userIdx, wordIdx, status) {
+  try {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    try {
+      const updateCheckedWordQuery =
+        "update words set status = ifnull(?, status) where userIdx = ? and wordIdx = ?;";
+      const updateCheckedWordParams = [status, userIdx, wordIdx];
+
+      const [row] = await connection.query(
+        updateCheckedWordQuery,
+        updateCheckedWordParams
+      );
+      connection.release();
+      return row; //추가해야 함
+    } catch (err) {
+      console.error(`#### updateCheckedWord Query error ###### \n ${err}`);
+      return false;
+    } finally {
+      connection.release();
+    }
+  } catch (err) {
+    console.error(`#### updateCheckedWord DB error ###### ${err}`);
+    return false;
+  }
+};
+
+//내용 수정
+exports.updateWord = async function (userIdx, wordIdx, english, korean) {
   try {
     const connection = await pool.getConnection(async (conn) => conn);
 
     try {
       const updateWordQuery =
-        "update words set status = 'A' where userIdx = ? and wordIdx =? ";
-      const updateWordParams = [english, korean, status, userIdx, wordIdx];
+        "update words set english = ifnull(?, english), korean = ifnull(?, korean) where userIdx = ? and wordIdx = ?;";
+      const updateWordParams = [english, korean, userIdx, wordIdx];
 
       const [row] = await connection.query(updateWordQuery, updateWordParams);
       connection.release();

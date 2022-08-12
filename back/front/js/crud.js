@@ -265,8 +265,18 @@ async function deletedWordShow(event, token) {
     const wordDataSet = res.data.result;
 
     for (let deletedSection in wordDataSet) {
-      console.log("wordDataSet", wordDataSet);
-      console.log(typeof deletedSection);
+      console.log(
+        "wordDataSet middle 길이",
+        Object.keys(wordDataSet.middle).length
+      );
+      if (
+        Object.keys(wordDataSet.easy).length === 0 &&
+        Object.keys(wordDataSet.middle).length === 0 &&
+        Object.keys(wordDataSet.advance).length === 0
+      ) {
+        alert("삭제한 단어가 없습니다.");
+        return false;
+      }
       const $deletedSectionUl = document.querySelector(
         `div[name="deletedItems"]`
       );
@@ -452,10 +462,11 @@ async function updateWordDone(event, token) {
   const status = event.target.checked ? "C" : "A";
   const wordIdx = event.target.closest(".list-item").id;
 
-  //console.log(wordIdx);
+  // console.log(status);
+  // console.log(wordIdx);
   const config = {
     method: "patch",
-    url: url + "/word",
+    url: url + "/checkedWord",
     headers: { "w-access-token": token },
     data: {
       wordIdx: wordIdx,
@@ -469,6 +480,7 @@ async function updateWordDone(event, token) {
       return false;
     }
     readWords();
+    window.location.reload();
     return true;
   } catch (err) {
     console.error(err);
@@ -482,10 +494,10 @@ async function updateWordList(event, token) {
 
   const wordIdx = event.target.closest(".list-item").id;
 
-  //console.log(wordIdx);
+  console.log(wordIdx, english, korean);
   const config = {
     method: "patch",
-    url: url + "/word",
+    url: url + `/word/${wordIdx}/${english}/${korean}`,
     headers: { "w-access-token": token },
     data: {
       wordIdx: wordIdx,
@@ -501,6 +513,7 @@ async function updateWordList(event, token) {
     }
     //DOM 업데이트
     readWords();
+    window.location.reload();
   } catch (err) {
     console.error(err);
     return false;
