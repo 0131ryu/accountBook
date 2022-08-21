@@ -4,6 +4,9 @@ ul, ol {
 span {
     font-weight: 900;
 }
+::-webkit-scrollbar {
+    display: none;
+    }
 /* 컨테이너 */
 .matrix-container {
     width: 1200px;
@@ -167,6 +170,8 @@ span {
     padding: 0;
     border-style: hidden;
     font-weight: 900;
+    height: 20em;
+    overflow: scroll;
 }
 .deletedWord-btn {
     width: 20%;
@@ -197,7 +202,7 @@ span {
     border-radius: 5px;
     padding: 1rem;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 .changeStatusdWord-btn {
