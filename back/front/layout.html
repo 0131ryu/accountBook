@@ -6,7 +6,7 @@
     <title>{{title}}</title>
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="./css/mainStyle.css">
 </head>
 
 <body>
@@ -14,7 +14,7 @@
         <div class="profile-wrap">
             <div class="profile">
                 {% if user and user.id %}
-                <div class="user-name">{{'안녕하세요! ' + user.nick + '님'}}</div>
+                <div class="user-name">{{'안녕하세요! ' + user.nickname + '님'}}</div>
                 <div class="half">
                     <div>팔로잉</div>
                     <div class="count following-count">{{followingCount}}</div>

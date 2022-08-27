@@ -5,7 +5,7 @@ const path = require("path");
 const session = require("express-session");
 const nunjucks = require("nunjucks");
 const dotenv = require("dotenv");
-// const passport = require("passport");
+const passport = require("passport");
 
 //기존코드
 const compression = require("compression");
@@ -13,17 +13,17 @@ const cors = require("cors");
 
 dotenv.config();
 //기존
-const { indexRouter } = require("./src/router/indexRouter");
-const { userRouter } = require("./src/router/userRouter");
+// const { indexRouter } = require("./src/router/indexRouter");
+// const { userRouter } = require("./src/router/userRouter");
 //변경
 const user = require("./src/router/user");
 const auth = require("./src/router/auth");
 const pageRouter = require("./src/router/pageRouter");
 const postRouter = require("./src/router/postRouter");
 const { sequelize } = require("./models");
-// const passportConfig = require("./src/passport");
+const passportConfig = require("./passport");
 
-// passportConfig();
+passportConfig();
 const app = express();
 app.set("port", process.env.PORT || 4000);
 app.set("view engine", "html");
@@ -47,7 +47,7 @@ app.use(morgan("dev"));
 app.use(cors());
 
 //정적 파일 제공
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "front")));
 
 app.use(express.json());
 app.use(compression());
@@ -66,16 +66,16 @@ app.use(
   })
 );
 //session보다 아래에 위치
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 //기존
-indexRouter(app);
-userRouter(app);
+// indexRouter(app);
+// userRouter(app);
 
 //변경
-// app.use("/", pageRouter);
-// app.use("/auth", auth);
+app.use("/", pageRouter);
+app.use("/auth", auth);
 // app.use("/post", postRouter);
 // app.use("/snsUser", user);
 
