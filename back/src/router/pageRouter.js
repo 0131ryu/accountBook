@@ -1,12 +1,16 @@
 const express = require("express");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
+const { Post, User } = require("../../models");
 
 const router = express.Router();
 router.use((req, res, next) => {
+  //공통으로 쓰임
   res.locals.user = req.user;
-  res.locals.followerCount = 0;
-  res.locals.followingCount = 0;
-  res.locals.followerIdList = [];
+  res.locals.followerCount = req.user ? req.user.Followers.length : 0;
+  res.locals.followingCount = req.user ? req.user.Followings.length : 0;
+  res.locals.followerIdList = req.user
+    ? req.user.Followings.map((f) => f.id)
+    : [];
   next();
 });
 
@@ -18,13 +22,24 @@ router.get("/join", isNotLoggedIn, (req, res) => {
   res.render("join", { title: "회원가입 - engWordSNS" });
 });
 
-router.get("/main", (req, res, next) => {
-  const twits = [];
-  res.render("main", {
-    title: "engWordSNS",
-    twits,
-    user: req.user,
-  });
+router.get("/main", async (req, res, next) => {
+  //post 결과 보려면 이 부분 넣어야 함
+  try {
+    const posts = await Post.findAll({
+      include: {
+        model: User,
+        attributes: ["id", "nickname"],
+      },
+      order: [["createdAt", "DESC"]],
+    });
+    res.render("main", {
+      title: "engWordSNS",
+      twits: posts,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 module.exports = router;

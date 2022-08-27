@@ -76,8 +76,8 @@ app.use(passport.session());
 //변경
 app.use("/", pageRouter);
 app.use("/auth", auth);
-// app.use("/post", postRouter);
-// app.use("/snsUser", user);
+app.use("/post", postRouter);
+app.use("/user", user);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
