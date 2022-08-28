@@ -30,6 +30,9 @@ header {
     color: var(--main-blue);
     font-weight: 900;
 }
+.profile-container {
+    display: flex;
+}
 .sign-container {
     display: flex;
 }

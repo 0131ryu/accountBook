@@ -22,6 +22,10 @@ router.get("/join", isNotLoggedIn, (req, res) => {
   res.render("join", { title: "회원가입 - engWordSNS" });
 });
 
+router.get("/login", isNotLoggedIn, (req, res) => {
+  res.render("login", { title: "로그인 - engWordSNS" });
+});
+
 router.get("/main", async (req, res, next) => {
   //post 결과 보려면 이 부분 넣어야 함
   try {

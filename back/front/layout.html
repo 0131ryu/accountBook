@@ -6,13 +6,38 @@
     <title>{{title}}</title>
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="./css/header.css" />
     <link rel="stylesheet" href="./css/mainStyle.css">
 </head>
 
 <body>
+    <header>
+        <div class="inner">
+            <div class="header-container">
+                <div class="title">
+                    <a href="index.html">영단어 외우기</a>
+                    <a href="main" style="margin-left: 10px;">SNS</a>
+                </div>
+                <div class="sign-container">
+                    <div class="unsigned">
+                        <div class="sign-in"><a href="/login">로그인</a></div>
+                        <div class="sign-up"><a href="/join">회원가입</a></div>
+                    </div>
+                    <div class="signed ">
+                        <div class="dropdown">
+                            <div class="dropdown-content">
+                                <button id="sign-out">로그아웃</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <div class="container">
-        <div class="profile-wrap">
-            <div class="profile">
+        <div class="profile-wrap-login">
+            <div class="profile-login">
                 {% if user and user.id %}
                 <div class="user-name">{{'안녕하세요! ' + user.nickname + '님'}}</div>
                 <div class="half">
@@ -27,28 +52,16 @@
                 <a id="my-profile" href="/profile" class="btn">내 프로필</a>
                 <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
                 {% else %}
-                <form id="login-form" action="/auth/login" method="post">
-                    <div class="input-group">
-                        <label for="email">이메일</label>
-                        <input id="email" type="email" name="email" required autofocus>
-                    </div>
-                    <div class="input-group">
-                        <label for="password">비밀번호</label>
-                        <input id="password" type="password" name="password" required>
-                    </div>
-                    <a id="join" href="/join" class="btn">회원가입</a>
-                    <button id="login" type="submit" class="btn">로그인</button>
-                    <a id="kakao" href="/auth/kakao" class="btn">카카오톡</a>
-                </form>
+                <div class="hello">영단어 SNS에 오신 것을 환영합니다!</div>
                 {% endif %}
             </div>
-            <footer>
-                Made by&nbsp;
-                <a href="https://www.zerocho.com" target="_blank">ZeroCho</a>
-            </footer>
+
+            {% block content %}
+            {% endblock %}
+
+            {% block login %}
+            {% endblock %}
         </div>
-        {% block content %}
-        {% endblock %}
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
