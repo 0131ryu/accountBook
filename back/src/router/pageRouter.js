@@ -1,6 +1,6 @@
 const express = require("express");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
-const { Post, User } = require("../../models");
+const { Post, User, Hashtag } = require("../../models");
 
 const router = express.Router();
 router.use((req, res, next) => {
@@ -34,6 +34,28 @@ router.get("/main", async (req, res, next) => {
     });
     res.render("main", {
       title: "engWordSNS",
+      twits: posts,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.get("/hashtag", async (req, res, next) => {
+  const query = req.query.hashtag;
+  console.log("query", query);
+  if (!query) {
+    return res.redirect("/main");
+  }
+  try {
+    const hashtag = await Hashtag.findOne({ where: { title: query } });
+    let posts = [];
+    if (hashtag) {
+      posts = await hashtag.getPosts({ include: [{ model: User }] });
+    }
+    return res.render("main", {
+      title: `${query} || engWordSNS`,
       twits: posts,
     });
   } catch (error) {

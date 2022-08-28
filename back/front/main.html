@@ -27,15 +27,19 @@
         </form>
         {% for twit in twits %}
         <div class="twit">
-            <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
-            <input type="hidden" value="{{twit.id}}" class="twit-id">
+            <input type="" value="{{twit.User.id}}" class="twit-user-id">
+            <input type="" value="{{twit.id}}" class="twit-id">
             <div class="twit-author">{{twit.User.nick}}</div>
             {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
             <button class="twit-follow">팔로우하기</button>
             {% endif %}
+            {% if user.id and twit.User.id === user.id %}
+            <button class="twit-content-delete">삭제하기</button>
+            {% endif %}
             <div class="twit-content">{{twit.content}}</div>
             {% if twit.img %}
             <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
+
             {% endif %}
         </div>
         {% endfor %}
@@ -68,7 +72,28 @@
                 const userId = tag.parentNode.querySelector('.twit-user-id').value;
                 if (userId !== myId.value) {
                     if (confirm('팔로잉하시겠습니까?')) {
-                        axios.post(`/user/${userId}/follow`)
+                        axios.dee(`/user/${userId}/follow`)
+                            .then(() => {
+                                location.reload();
+                            })
+                            .catch((err) => {
+                                console.error(err);
+                            });
+                    }
+                }
+            }
+        });
+    });
+    //삭제하기
+    document.querySelectorAll('.twit-content-delete').forEach(function (tag) {
+        tag.addEventListener('click', function () {
+            const myId = document.querySelector('#my-id');
+            if (myId) {
+                const userId = tag.parentNode.querySelector('.twit-user-id').value;
+                const twitId = document.querySelector(".twit-id").value
+                if (userId === myId.value) {
+                    if (confirm('삭제하시겠습니까?')) {
+                        axios.delete(`/post/${twitId}`)
                             .then(() => {
                                 location.reload();
                             })
