@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="./css/header.css" />
     <link rel="stylesheet" href="./css/mainStyle.css">
     <link rel="stylesheet" href="./css/footer.css" />
+    <link rel="stylesheet" href="./css/jumbotron.css" />
+    <link rel="stylesheet" href="./css/main.css" />
 </head>
 
 <body>
@@ -16,8 +18,8 @@
         <div class="inner">
             <div class="header-container">
                 <div class="title">
-                    <a href="index.html">영단어 외우기</a>
-                    <a href="main" style="margin-left: 10px;">SNS</a>
+                    <a href="/index">영단어 외우기</a>
+                    <a href="/main" style="margin-left: 10px;">SNS</a>
                 </div>
                 <div class="sign-container">
                     {% if user and user.id %}
@@ -43,16 +45,15 @@
         {% block login %}
         {% endblock %}
     </div>
-    <footer style="position: relative;
-    top: 22vh;">
+    <!-- <footer style="position: relative;
+    top: 18vh;">
         <div class="inner">
             <div class="footer-container">
                 <div class="author">개발자 : 류지혜</div>
                 <div class="author-email">이메일 : 131ryuji@gmail.com</div>
             </div>
-            <!-- footer-container -->
         </div>
-    </footer>
+    </footer> -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         window.onload = () => {

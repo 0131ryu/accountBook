@@ -21,7 +21,7 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
       nickname,
       password: hash,
     });
-    return res.redirect("/main");
+    return res.redirect("/login");
   } catch (error) {
     console.log(error);
     return next(error);
@@ -44,7 +44,7 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
         console.error(loginError);
         return next(loginError);
       }
-      return res.redirect("/main");
+      return res.redirect("/index");
     });
   })(req, res, next);
 });

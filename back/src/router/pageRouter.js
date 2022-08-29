@@ -14,6 +14,26 @@ router.use((req, res, next) => {
   next();
 });
 
+router.get("/index", async (req, res, next) => {
+  //post 결과 보려면 이 부분 넣어야 함
+  try {
+    const posts = await Post.findAll({
+      include: {
+        model: User,
+        attributes: ["id", "nickname"],
+      },
+      order: [["createdAt", "DESC"]],
+    });
+    res.render("index", {
+      title: "engWord",
+      twits: posts,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.get("/profile", isLoggedIn, (req, res) => {
   res.render("profile", { title: "내 정보 - engWordSNS" });
 });
