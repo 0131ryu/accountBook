@@ -20,6 +20,7 @@ const user = require("./src/router/user");
 const auth = require("./src/router/auth");
 const pageRouter = require("./src/router/pageRouter");
 const postRouter = require("./src/router/postRouter");
+const wordRouter = require("./src/router/wordRouter");
 const { sequelize } = require("./models");
 const passportConfig = require("./passport");
 
@@ -78,6 +79,7 @@ app.use("/", pageRouter);
 app.use("/auth", auth);
 app.use("/post", postRouter);
 app.use("/user", user);
+app.use("/word", wordRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);

@@ -54,7 +54,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
       console.log(result);
       await post.addHashtags(result.map((r) => r[0]));
     }
-    res.redirect("/sns");
+    res.redirect("/main");
   } catch (error) {
     console.error(error);
     next(error);

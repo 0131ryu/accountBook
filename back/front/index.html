@@ -32,126 +32,96 @@
             <p>총 단어 수 : <span id="word-counting-all">0</span></p>
         </div>
         <div class="matrix-container">
-            <div class="matrix-item" id="easy">
-                <div class="matrix-item-header">
-                    <div class="matrix-title">🥉 Easy</div>
-                    <input type="text" class="matrix-input-eng-easy" placeholder="영어 입력 후 엔터" value=''
-                        id="matrix-input-eng" />
-                    <input type="text" class="matrix-input-kor-easy" placeholder="한글 입력 후 엔터" value=''
-                        id="matrix-input-kor" />
-                    <button class="matrix-input-btn-easy" id="matrix-input-btn">등록하기</button>
+            <form id="easy" action="/word/easy" method="post" enctype="multipart/form-data"></form>
+            <div class="matrix-item" value="easy">
+                <!-- <div class="matrix-item" id="easy"> -->
+                <div class="matrix-item">
+                    <div class="matrix-item-header">
+                        <div class="matrix-title">🥉 Easy</div>
+                        <input type="text" class="matrix-input-eng-easy" placeholder="영어 입력 후 엔터" value=''
+                            id="matrix-input-eng" />
+                        <input type="text" class="matrix-input-kor-easy" placeholder="한글 입력 후 엔터" value=''
+                            id="matrix-input-kor" />
+                        <button id="matrix-input-btn" type="submit" class="matrix-input-btn-easy">등록하기</button>
+                        <!-- <button class="matrix-input-btn-easy" id="matrix-input-btn">등록하기</button> -->
+                    </div>
+                    <!-- matrix-item-header -->
+                    <ul class="matrix-item-list" id="sections">
+
+                    </ul>
+                    <!-- matrix-item-list -->
                 </div>
-                <!-- matrix-item-header -->
-                <ul class="matrix-item-list" id="sections">
+                </form>
+                <!-- matrix-item decide -->
+                <div class="matrix-item" id="middle">
+                    <div class="matrix-item-header">
+                        <div class="matrix-title">🥈 Middle </div>
+                        <input type="text" class="matrix-input-eng-middle" placeholder="영어 입력 후 엔터" value=''
+                            id="matrix-input-eng" />
+                        <input type="text" class="matrix-input-kor-middle" placeholder="한글 입력 후 엔터" value=''
+                            id="matrix-input-kor" />
+                        <button class="matrix-input-btn-middle" id="matrix-input-btn">등록하기</button>
+                    </div>
+                    <!-- matrix-item-header -->
+                    <ul class="matrix-item-list">
 
-                </ul>
-                <!-- matrix-item-list -->
-            </div>
-            <!-- matrix-item decide -->
-            <div class="matrix-item" id="middle">
-                <div class="matrix-item-header">
-                    <div class="matrix-title">🥈 Middle </div>
-                    <input type="text" class="matrix-input-eng-middle" placeholder="영어 입력 후 엔터" value=''
-                        id="matrix-input-eng" />
-                    <input type="text" class="matrix-input-kor-middle" placeholder="한글 입력 후 엔터" value=''
-                        id="matrix-input-kor" />
-                    <button class="matrix-input-btn-middle" id="matrix-input-btn">등록하기</button>
+                    </ul>
+                    <!-- matrix-item-list -->
                 </div>
-                <!-- matrix-item-header -->
-                <ul class="matrix-item-list">
+                <!-- matrix-item do -->
+                <div class="matrix-item" id="advance">
+                    <div class="matrix-item-header">
+                        <div class="matrix-title">🥇 Advance </div>
+                        <input type="text" class="matrix-input-eng-advance" placeholder="영어 입력 후 엔터" value=''
+                            id="matrix-input-eng" />
+                        <input type="text" class="matrix-input-kor-advance" placeholder="한글 입력 후 엔터" value=''
+                            id="matrix-input-kor" />
+                        <button class="matrix-input-btn-advance" id="matrix-input-btn">등록하기</button>
+                    </div>
+                    <!-- matrix-item-header -->
+                    <ul class="matrix-item-list">
 
-                </ul>
-                <!-- matrix-item-list -->
-            </div>
-            <!-- matrix-item do -->
-            <div class="matrix-item" id="advance">
-                <div class="matrix-item-header">
-                    <div class="matrix-title">🥇 Advance </div>
-                    <input type="text" class="matrix-input-eng-advance" placeholder="영어 입력 후 엔터" value=''
-                        id="matrix-input-eng" />
-                    <input type="text" class="matrix-input-kor-advance" placeholder="한글 입력 후 엔터" value=''
-                        id="matrix-input-kor" />
-                    <button class="matrix-input-btn-advance" id="matrix-input-btn">등록하기</button>
+                    </ul>
                 </div>
-                <!-- matrix-item-header -->
-                <ul class="matrix-item-list">
+                <div class="deleted-items">
+                    <div class="deleted-item-list">
+                        <p>삭제한 단어들</p>
+                        <button class="deletedWord-btn" id="D">단어 확인하기</button>
+                        <button class="deletedWord-btn-close">닫기</button>
+                        <div class="deletedWord-result" name="deletedItems">
 
-                </ul>
-            </div>
-            <div class="deleted-items">
-                <div class="deleted-item-list">
-                    <p>삭제한 단어들</p>
-                    <button class="deletedWord-btn" id="D">단어 확인하기</button>
-                    <button class="deletedWord-btn-close">닫기</button>
-                    <div class="deletedWord-result" name="deletedItems">
-
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 </main>
 {% endblock %}
 
 {% block script %}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    if (document.getElementById('img')) {
-        document.getElementById('img').addEventListener('change', function (e) {
-            const formData = new FormData();
-            console.log(this, this.files);
-            formData.append('img', this.files[0]);
-            axios.post('/post/img', formData)
-                .then((res) => {
-                    document.getElementById('img-url').value = res.data.url;
-                    document.getElementById('img-preview').src = res.data.url;
-                    document.getElementById('img-preview').style.display = 'inline';
-                })
-                .catch((err) => {
-                    console.error(err);
-                });
-        });
-    }
-    document.querySelectorAll('.twit-follow').forEach(function (tag) {
-        tag.addEventListener('click', function () {
-            const myId = document.querySelector('#my-id');
-            if (myId) {
-                const userId = tag.parentNode.querySelector('.twit-user-id').value;
-                if (userId !== myId.value) {
-                    if (confirm('팔로잉하시겠습니까?')) {
-                        axios.dee(`/user/${userId}/follow`)
-                            .then(() => {
-                                location.reload();
-                            })
-                            .catch((err) => {
-                                console.error(err);
-                            });
-                    }
-                }
-            }
-        });
-    });
-    //삭제하기
-    document.querySelectorAll('.twit-content-delete').forEach(function (tag) {
-        tag.addEventListener('click', function () {
-            const myId = document.querySelector('#my-id');
-            if (myId) {
-                const userId = tag.parentNode.querySelector('.twit-user-id').value;
-                const twitId = document.querySelector(".twit-id").value
-                if (userId === myId.value) {
-                    if (confirm('삭제하시겠습니까?')) {
-                        axios.delete(`/post/${twitId}`)
-                            .then(() => {
-                                location.reload();
-                            })
-                            .catch((err) => {
-                                console.error(err);
-                            });
-                    }
-                }
-            }
-        });
-    });
+    //글쓰기
+    // document.querySelectorAll('.matrix-input-btn-easy').forEach(function (tag) {
+    //     tag.addEventListener('click', function () {
+    //         const myId = document.querySelector('#my-id');
+    //         if (myId) {
+    //             const userId = tag.parentNode.querySelector('.twit-user-id').value;
+    //             const twitId = document.querySelector(".twit-id").value
+    //             if (userId === myId.value) {
+    //                 if (confirm('삭제하시겠습니까?')) {
+    //                     axios.delete(`/post/${twitId}`)
+    //                         .then(() => {
+    //                             location.reload();
+    //                         })
+    //                         .catch((err) => {
+    //                             console.error(err);
+    //                         });
+    //                 }
+    //             }
+    //         }
+    //     });
+    // });
 
     window.onload = () => {
         if (new URL(location.href).searchParams.get('loginError')) {
