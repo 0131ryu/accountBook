@@ -37,10 +37,41 @@ header {
     display: flex;
 }
 .sign-container a{
-    font-size: 1.6rem;
+    font-size: 1.3rem;
 }
 .sign-in {
     margin-right: 1rem;
+}
+.signed, .unsigned {
+    max-width: 400px;
+    margin: 10px auto;
+}
+.signed > div, a {
+    float: left;
+    text-align: center;
+}
+.logout {
+    line-height: 37px;
+    margin-right: 10px;
+}
+.btn-logout {
+    display: inline-block;
+    padding: 0 5px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 4px;
+    background: white;
+    border: 1px solid var(--dark-gray);
+    color: var(--main-blue);
+    height: 37px;
+    line-height: 37px;
+    vertical-align: top;
+    font-size: 12px;
+}
+.btn-logout:hover {
+    color: var(--light-gray);
+    background: var(--dark-gray);
+    cursor: pointer;
 }
 .inner {
     margin: 0 auto;
@@ -51,33 +82,6 @@ header {
 }
 .hidden {
     display: none;
-}
-.dropdown {
-    position: relative;
-}
-.dropdown-button {
-    font-size: 1.4rem;
-    cursor: pointer;
-}
-.dropdown-content {
-    display: none;
-    position: absolute;
-    width: 100%;
-}
-.dropdown-content button {
-    width: 100%;
-    font-size: 1.4rem;
-    line-height: 2;
-    background-color: var(--light-gray);
-    border: 1px solid var(--dark-gray);
-}
-.dropdown-content button:hover {
-    background-color: var(--dark-gray);
-    color: white;
-    cursor: pointer;
-}
-.dropdown:hover .dropdown-content {
-    display: block;
 }
 @media only all and (min-width: 1200px) {
     .inner {

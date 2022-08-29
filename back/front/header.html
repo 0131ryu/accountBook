@@ -8,7 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="./css/header.css" />
     <link rel="stylesheet" href="./css/mainStyle.css">
-    <link rel="stylesheet" href="./css/footer.css" />
 </head>
 
 <body>
@@ -35,34 +34,6 @@
             </div>
         </div>
     </header>
-
-    <div class="container">
-        {% block content %}
-        {% endblock %}
-
-        {% block login %}
-        {% endblock %}
-    </div>
-    <footer style="position: relative;
-    top: 22vh;">
-        <div class="inner">
-            <div class="footer-container">
-                <div class="author">개발자 : 류지혜</div>
-                <div class="author-email">이메일 : 131ryuji@gmail.com</div>
-            </div>
-            <!-- footer-container -->
-        </div>
-    </footer>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script>
-        window.onload = () => {
-            if (new URL(location.href).searchParams.get('loginError')) {
-                alert(new URL(location.href).searchParams.get('loginError'));
-            }
-        };
-    </script>
-    {% block script %}
-    {% endblock %}
 </body>
 
 </html>

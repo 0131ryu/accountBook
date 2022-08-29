@@ -1,8 +1,35 @@
 {% extends 'layout.html' %}
 
+
+
+
+
 {% block content %}
+
 <div class="timeline">
     {% if user %}
+    <div class="container">
+        <div class="profile-wrap-login">
+            <div class="profile-login">
+                {% if user and user.id %}
+                <div class="user-name">{{'안녕하세요! ' + user.nickname + '님'}}</div>
+                <div class="half">
+                    <div>팔로잉</div>
+                    <div class="count following-count">{{followingCount}}</div>
+                </div>
+                <div class="half">
+                    <div>팔로워</div>
+                    <div class="count follower-count">{{followerCount}}</div>
+                </div>
+                <input id="my-id" type="hidden" value="{{user.id}}">
+                <a id="my-profile" href="/profile" class="btn profile-info">내 프로필</a>
+                <a id="logout" href="/auth/logout" class="btn profile-info">로그아웃</a>
+                {% else %}
+                <div class="hello">영단어 SNS에 오신 것을 환영합니다!</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
     <div>
         <form id="twit-form" action="/post" method="post" enctype="multipart/form-data">
             <div class="input-group">
@@ -48,6 +75,7 @@
 {% endblock %}
 
 {% block script %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     if (document.getElementById('img')) {
         document.getElementById('img').addEventListener('change', function (e) {
@@ -105,5 +133,11 @@
             }
         });
     });
+
+    window.onload = () => {
+        if (new URL(location.href).searchParams.get('loginError')) {
+            alert(new URL(location.href).searchParams.get('loginError'));
+        }
+    };
 </script>
 {% endblock %}
