@@ -32,101 +32,246 @@
             <p>총 단어 수 : <span id="word-counting-all">0</span></p>
         </div>
         <div class="matrix-container">
-            <form id="easy" action="/word/easy" method="post" enctype="multipart/form-data"></form>
-            <div class="matrix-item" value="easy">
-                <!-- <div class="matrix-item" id="easy"> -->
-                <div class="matrix-item">
-                    <div class="matrix-item-header">
-                        <div class="matrix-title">🥉 Easy</div>
-                        <input type="text" class="matrix-input-eng-easy" placeholder="영어 입력 후 엔터" value=''
-                            id="matrix-input-eng" />
-                        <input type="text" class="matrix-input-kor-easy" placeholder="한글 입력 후 엔터" value=''
-                            id="matrix-input-kor" />
-                        <button id="matrix-input-btn" type="submit" class="matrix-input-btn-easy">등록하기</button>
-                        <!-- <button class="matrix-input-btn-easy" id="matrix-input-btn">등록하기</button> -->
-                    </div>
-                    <!-- matrix-item-header -->
-                    <ul class="matrix-item-list" id="sections">
-
-                    </ul>
-                    <!-- matrix-item-list -->
+            <div class="matrix-item">
+                <div class="matrix-item-header">
+                    <div class="matrix-title">🥉 Easy </div>
+                    <form id="word-easy">
+                        <input id="english" type="text" placeholder="영어 입력" class="english-easy">
+                        <input id="korean" type="text" placeholder="한글 입력" class="korean-easy">
+                        <input id="easy" type="hidden" placeholder="easy" class="easy">
+                        <button class="matrix-input-btn-easy" id="matrix-input-btn" type="submit">등록하기</button>
+                    </form>
                 </div>
-                </form>
-                <!-- matrix-item decide -->
-                <div class="matrix-item" id="middle">
-                    <div class="matrix-item-header">
-                        <div class="matrix-title">🥈 Middle </div>
-                        <input type="text" class="matrix-input-eng-middle" placeholder="영어 입력 후 엔터" value=''
-                            id="matrix-input-eng" />
-                        <input type="text" class="matrix-input-kor-middle" placeholder="한글 입력 후 엔터" value=''
-                            id="matrix-input-kor" />
-                        <button class="matrix-input-btn-middle" id="matrix-input-btn">등록하기</button>
-                    </div>
-                    <!-- matrix-item-header -->
-                    <ul class="matrix-item-list">
 
-                    </ul>
-                    <!-- matrix-item-list -->
-                </div>
-                <!-- matrix-item do -->
-                <div class="matrix-item" id="advance">
-                    <div class="matrix-item-header">
-                        <div class="matrix-title">🥇 Advance </div>
-                        <input type="text" class="matrix-input-eng-advance" placeholder="영어 입력 후 엔터" value=''
-                            id="matrix-input-eng" />
-                        <input type="text" class="matrix-input-kor-advance" placeholder="한글 입력 후 엔터" value=''
-                            id="matrix-input-kor" />
-                        <button class="matrix-input-btn-advance" id="matrix-input-btn">등록하기</button>
-                    </div>
-                    <!-- matrix-item-header -->
-                    <ul class="matrix-item-list">
-
-                    </ul>
-                </div>
-                <div class="deleted-items">
-                    <div class="deleted-item-list">
-                        <p>삭제한 단어들</p>
-                        <button class="deletedWord-btn" id="D">단어 확인하기</button>
-                        <button class="deletedWord-btn-close">닫기</button>
-                        <div class="deletedWord-result" name="deletedItems">
-
+                <!-- matrix-item-header -->
+                <ul class="matrix-item-list">
+                    {% if user and user.id %}
+                    {% for word in wordsEasy %}
+                    <li class="list-item" id="${word.wordIdx}">
+                        <div class="done-text-container">
+                            <input type="checkbox" class="word-done" {{word.status}} name="countCheckbox"
+                                onClick="getCountCheckbox()" />
+                            <p class="word-text-eng">{{word.english}}</p>
                         </div>
+                        <div class="done-text-container">
+                            <p class="word-text-kor">{{word.korean}}</p>
+                            <p class="word-text-eng">[{{word.id}}]</p>
+                        </div>
+                        <div class="update-delete-container">
+                            <i class="word-update fa-solid fa-pencil"></i>
+                            <i class="word-delete fa-solid fa-trash-can"></i>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="matrix-item" id="middle">
+                <div class="matrix-item-header">
+                    <div class="matrix-title">🥈 Middle </div>
+                    <form id="word-middle">
+                        <input id="english" type="text" placeholder="영어 입력" class="english-middle">
+                        <input id="korean" type="text" placeholder="한글 입력" class="korean-middle">
+                        <input id="middle" type="hidden" placeholder="middle" class="middle">
+                        <button class="matrix-input-btn-middle" id="matrix-input-btn" type="submit">등록하기</button>
+                    </form>
+                </div>
+
+                <!-- matrix-item-header -->
+                <ul class="matrix-item-list">
+                    {% if user and user.id %}
+                    {% for word in wordsMiddle %}
+                    <li class="list-item" id="${word.wordIdx}">
+                        <div class="done-text-container">
+
+                            <input type="checkbox" class="word-done" {{word.status}} name="countCheckbox"
+                                onClick="getCountCheckbox()" />
+                            <p class="word-text-eng">{{word.english}}</p>
+                        </div>
+                        <div class="done-text-container">
+                            <p class="word-text-kor">{{word.korean}}</p>
+                            <p class="word-text-eng">[{{word.id}}]</p>
+                        </div>
+                        <div class="update-delete-container">
+                            <i class="word-update fa-solid fa-pencil"></i>
+                            <i class="word-delete fa-solid fa-trash-can"></i>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+            <!-- matrix-item do -->
+            <div class="matrix-item" id="advance">
+                <div class="matrix-item-header">
+                    <div class="matrix-title">🥇 Advance </div>
+                    <form id="word-advance">
+                        <input id="english" type="text" placeholder="영어 입력" class="english-advance">
+                        <input id="korean" type="text" placeholder="한글 입력" class="korean-advance">
+                        <input id="advance" type="hidden" placeholder="advance" class="advance">
+                        <button class="matrix-input-btn-advance" id="matrix-input-btn" type="submit">등록하기</button>
+                    </form>
+                </div>
+                <!-- matrix-item-header -->
+                <ul class="matrix-item-list">
+                    {% if user and user.id %}
+                    {% for word in wordsAdvance %}
+                    <li class="list-item" id="${word.wordIdx}">
+                        <div class="done-text-container">
+
+                            <input type="checkbox" class="word-done" {{word.status}} name="countCheckbox"
+                                onClick="getCountCheckbox()" />
+                            <p class="word-text-eng">{{word.english}}</p>
+                        </div>
+                        <div class="done-text-container">
+                            <p class="word-text-kor">{{word.korean}}</p>
+                            <p class="word-text-eng">[{{word.id}}]</p>
+                        </div>
+                        <div class="update-delete-container">
+                            <i class="word-update fa-solid fa-pencil"></i>
+                            <i class="word-delete fa-solid fa-trash-can"></i>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="deleted-items">
+                <div class="deleted-item-list">
+                    <p>삭제한 단어들</p>
+                    <button class="deletedWord-btn" id="D">단어 확인하기</button>
+                    <button class="deletedWord-btn-close">닫기</button>
+                    <div class="deletedWord-result" name="deletedItems">
+
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </main>
 {% endblock %}
 
 {% block script %}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    //글쓰기
-    // document.querySelectorAll('.matrix-input-btn-easy').forEach(function (tag) {
-    //     tag.addEventListener('click', function () {
-    //         const myId = document.querySelector('#my-id');
-    //         if (myId) {
-    //             const userId = tag.parentNode.querySelector('.twit-user-id').value;
-    //             const twitId = document.querySelector(".twit-id").value
-    //             if (userId === myId.value) {
-    //                 if (confirm('삭제하시겠습니까?')) {
-    //                     axios.delete(`/post/${twitId}`)
-    //                         .then(() => {
-    //                             location.reload();
-    //                         })
-    //                         .catch((err) => {
-    //                             console.error(err);
-    //                         });
-    //                 }
-    //             }
-    //         }
-    //     });
-    // });
-
     window.onload = () => {
         if (new URL(location.href).searchParams.get('loginError')) {
             alert(new URL(location.href).searchParams.get('loginError'));
         }
     };
+    //word-easy 글쓰기
+    document.getElementById('word-easy').addEventListener('submit', async (event) => {
+        const $english = document.querySelector(".english-easy");
+        const $korean = document.querySelector(".korean-easy")
+        const $type = document.querySelector(".easy")
+
+        event.preventDefault();
+        let english = $english.value;
+        let korean = $korean.value;
+        let type = $type.id;
+
+        console.log(english, korean, type);
+
+        if (!english || !korean) {
+            alert("영어, 한글 단어를 입력해주세요");
+            return false;
+        }
+
+        try {
+            await axios.post('/word/easy', { english, korean, type });
+            location.reload();
+        } catch (err) {
+            console.error(err);
+        }
+        english.value = '';
+        korean.value = '';
+        type.value = "easy";
+    });
+
+    //word-middle 글쓰기
+    document.getElementById('word-middle').addEventListener('submit', async (event) => {
+        const $english = document.querySelector(".english-middle");
+        const $korean = document.querySelector(".korean-middle")
+        const $type = document.querySelector(".middle")
+
+        event.preventDefault();
+        let english = $english.value;
+        let korean = $korean.value;
+        let type = $type.id;
+
+        console.log(english, korean, type);
+
+        if (!english || !korean) {
+            alert("영어, 한글 단어를 입력해주세요");
+            return false;
+        }
+
+        try {
+            await axios.post('/word/middle', { english, korean, type });
+            location.reload();
+            // getUser();
+        } catch (err) {
+            console.error(err);
+        }
+        english.value = '';
+        korean.value = '';
+        type.value = "middle";
+    });
+
+    //word-advance 글쓰기
+    document.getElementById('word-advance').addEventListener('submit', async (event) => {
+        const $english = document.querySelector(".english-advance");
+        const $korean = document.querySelector(".korean-advance")
+        const $type = document.querySelector(".advance")
+
+        event.preventDefault();
+        let english = $english.value;
+        let korean = $korean.value;
+        let type = $type.id;
+
+        console.log(english, korean, type);
+
+        if (!english || !korean) {
+            alert("영어, 한글 단어를 입력해주세요");
+            return false;
+        }
+
+        try {
+            await axios.post('/word/advance', { english, korean, type });
+            location.reload();
+        } catch (err) {
+            console.error(err);
+        }
+        english.value = '';
+        korean.value = '';
+        type.value = "advance";
+    });
+    //word-easy 수정 - 체크박스
+
+
+    //word-easy 수정
+    // document.querySelectorAll('word-update').addEventListener('click', async (event) => {
+    //     english = prompt("수정할 영어단어를 입력하세요");
+    //     korean = prompt("수정할 단어 뜻을 입력하세요");
+    //     event.preventDefault();
+
+    //     console.log(english, korean, type);
+
+    //     if (!english || !korean) {
+    //         alert("영어, 한글 단어를 입력해주세요");
+    //         return false;
+    //     }
+
+    //     try {
+    //         await axios.post('/word/easy', { english, korean, type });
+    //         // getUser();
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    //     english.value = '';
+    //     korean.value = '';
+    //     type.value = "easy";
+    // });
+
 </script>
 {% endblock %}

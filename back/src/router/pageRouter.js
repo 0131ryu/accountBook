@@ -1,6 +1,6 @@
 const express = require("express");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
-const { Post, User, Hashtag } = require("../../models");
+const { Post, User, Hashtag, Word } = require("../../models");
 
 const router = express.Router();
 router.use((req, res, next) => {
@@ -14,6 +14,7 @@ router.use((req, res, next) => {
   next();
 });
 
+//영단어
 router.get("/index", async (req, res, next) => {
   //post 결과 보려면 이 부분 넣어야 함
   try {
@@ -24,9 +25,45 @@ router.get("/index", async (req, res, next) => {
       },
       order: [["createdAt", "DESC"]],
     });
+    const wordsEasy = await Word.findAll({
+      include: {
+        model: User,
+        attributes: ["id"],
+      },
+      attributes: ["id", "english", "korean", "status"],
+      where: {
+        type: "easy",
+      },
+      order: [["createdAt", "DESC"]],
+    });
+    const wordsMiddle = await Word.findAll({
+      include: {
+        model: User,
+        attributes: ["id"],
+      },
+      attributes: ["id", "english", "korean", "status"],
+      where: {
+        type: "middle",
+      },
+      order: [["createdAt", "DESC"]],
+    });
+    const wordsAdvance = await Word.findAll({
+      include: {
+        model: User,
+        attributes: ["id"],
+      },
+      attributes: ["id", "english", "korean", "status"],
+      where: {
+        type: "advance",
+      },
+      order: [["createdAt", "DESC"]],
+    });
     res.render("index", {
       title: "engWord",
       twits: posts,
+      wordsEasy: wordsEasy,
+      wordsMiddle: wordsMiddle,
+      wordsAdvance: wordsAdvance,
     });
   } catch (error) {
     console.error(error);
@@ -46,6 +83,7 @@ router.get("/login", isNotLoggedIn, (req, res) => {
   res.render("login", { title: "로그인 - engWordSNS" });
 });
 
+//sns
 router.get("/main", async (req, res, next) => {
   //post 결과 보려면 이 부분 넣어야 함
   try {

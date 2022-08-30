@@ -6,6 +6,7 @@ const session = require("express-session");
 const nunjucks = require("nunjucks");
 const dotenv = require("dotenv");
 const passport = require("passport");
+const bodyParser = require("body-parser");
 
 //기존코드
 const compression = require("compression");
@@ -42,6 +43,7 @@ sequelize
     console.error(err);
   });
 
+app.use(bodyParser.json());
 app.use(morgan("dev"));
 
 //cors 설정

@@ -10,21 +10,58 @@ router.use((req, res, next) => {
   next();
 });
 
+//글쓰기
 router.post("/easy", isLoggedIn, async (req, res, next) => {
   const { english, korean, type } = req.body;
   try {
-    const word = await Word.create({
-      userId: req.user.id,
+    const wordsEasy = await Word.create({
+      // 단어 등록
+      UserId: req.user.id,
       english,
       korean,
       type,
-      status: req.params.id,
+      status: "A",
     });
-    console.log("word", word);
-    res.redirect("/index");
-  } catch (error) {
-    console.error(error);
-    next(error);
+    return res.redirect("/index");
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.post("/middle", isLoggedIn, async (req, res, next) => {
+  const { english, korean, type } = req.body;
+  try {
+    const wordsMiddle = await Word.create({
+      // 단어 등록
+      UserId: req.user.id,
+      english,
+      korean,
+      type,
+      status: "A",
+    });
+    return res.redirect("/index");
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.post("/advance", isLoggedIn, async (req, res, next) => {
+  const { english, korean, type } = req.body;
+  try {
+    const wordsAdvance = await Word.create({
+      // 단어 등록
+      UserId: req.user.id,
+      english,
+      korean,
+      type,
+      status: "A",
+    });
+    return res.redirect("/index");
+  } catch (err) {
+    console.error(err);
+    next(err);
   }
 });
 

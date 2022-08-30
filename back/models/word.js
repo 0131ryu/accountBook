@@ -10,11 +10,11 @@ module.exports = class Word extends Sequelize.Model {
         },
         korean: {
           type: Sequelize.STRING(100),
-          allowNull: true,
+          allowNull: false,
         },
         type: {
           type: Sequelize.STRING(30),
-          allowNull: true,
+          allowNull: false,
         },
         status: {
           type: Sequelize.STRING(30),

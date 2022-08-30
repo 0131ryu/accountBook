@@ -36,15 +36,7 @@ span {
     font-size: 2rem;
     font-weight: 700;
 }
-#matrix-input-eng {
-    width: 35%;
-    font-size: 1.2rem;
-    margin-top: 1rem;
-    padding-left: 0.5rem;
-    line-height: 1.8;
-    /* input이 있으면 line-height 항상 존재 */
-}
-#matrix-input-kor {
+form > input {
     width: 35%;
     font-size: 1.2rem;
     margin-top: 1rem;
@@ -69,7 +61,7 @@ span {
     /* 헤더를 제외한 모든 높이 차지 */
     overflow-y: auto;
     /* 스크롤 기능 */
-    height: 500px;
+    height: 400px;
     overflow: scroll;
 }
 
@@ -222,11 +214,8 @@ span {
     color: var(--light-gray);
 }
 /* 모바일 레이아웃 설정 */
-@media only all and (max-width: 768px) {
+@media only all and (max-width: 1200px) {
     .matrix-container {
-        /* width: 100%;
-        height: 100%;
-        display: block; */
         max-width: 1200px;
     }
     .matrix-item{
@@ -251,7 +240,6 @@ span {
         width: 500px;
         height: 1650px;
         display: block;
-        /* position: absolute; */
     }
     .matrix-item{
         width: 65%;
@@ -265,4 +253,7 @@ span {
         top: 3rem;
         right: 8rem;
     }
+}
+.easy-form {
+    background: black;
 }
