@@ -18,17 +18,17 @@
                 <p><span>Easy, Middle, Advance</span>로 분류해서 외워봅시다</p>
             </div>
             <div class="word-finding">
-                <form id="word-form" action="/index" method="get">
+                <form id="word-form" action="/english" method="get">
                     <input id="english" type="text" placeholder="검색할 영어단어 입력" name="english">
-                    <button class="word-find-eng-btn" id="matrix-input-btn-search" type="submit">검색하기</button>
+                    <button class="word-find-eng-btn" id="matrix-input-btn-search">검색</button>
                 </form>
-                {% if words %}
+                <!-- {% if words %}
                 <p class="word-find-result">[결과값]
                     영단어 : <span class="word-find-result-eng">{{word.english}}</span>
                     한글 : <span class="word-find-result-kor">{{word.korean}}</span> 종류 : <span
                         class="word-find-result-type">{{word.type}}</span>
                 </p>
-                {% endif %}
+                {% endif %} -->
             </div>
         </div>
         <!-- jumbotron-container -->
@@ -55,16 +55,16 @@
                     {% for word in wordsEasy %}
                     <li class="list-item" id="${word.wordIdx}">
                         <div class="done-text-container">
-                            <input type="checkbox" class="word-done" {{word.status}} name="countCheckbox"
-                                onClick="getCountCheckbox()" />
+                            <input type="checkbox" class="word-done" {{word.status}} name="countCheckbox" />
                             <p class="word-text-eng">{{word.english}}</p>
                         </div>
                         <div class="done-text-container">
                             <p class="word-text-kor">{{word.korean}}</p>
-                            <p class="word-text-eng">[{{word.id}}]</p>
+                            <p class="word-id" id="{{word.id}}">[{{word.id}}]</p>
                         </div>
                         <div class="update-delete-container">
-                            <i class="word-update fa-solid fa-pencil"></i>
+                            <i id="word-update" class="word-update fa-solid fa-pencil" data-id="{{word.id}}"
+                                onClick=`${getCountCheckbox(event)}`></i>
                             <i class="word-delete fa-solid fa-trash-can"></i>
                         </div>
                     </li>
@@ -97,10 +97,11 @@
                         </div>
                         <div class="done-text-container">
                             <p class="word-text-kor">{{word.korean}}</p>
-                            <p class="word-text-eng">[{{word.id}}]</p>
+                            <p class="word-id" id="{{word.id}}">[{{word.id}}]</p>
                         </div>
                         <div class="update-delete-container">
-                            <i class="word-update fa-solid fa-pencil"></i>
+                            <i id="word-update" class="word-update fa-solid fa-pencil" data-id="{{word.id}}"
+                                onClick=`${getCountCheckbox(event)}`></i>
                             <i class="word-delete fa-solid fa-trash-can"></i>
                         </div>
                     </li>
@@ -133,10 +134,11 @@
                         </div>
                         <div class="done-text-container">
                             <p class="word-text-kor">{{word.korean}}</p>
-                            <p class="word-text-eng">[{{word.id}}]</p>
+                            <p class="word-id" id="{{word.id}}">[{{word.id}}]</p>
                         </div>
                         <div class="update-delete-container">
-                            <i class="word-update fa-solid fa-pencil"></i>
+                            <i id="word-update" class="word-update fa-solid fa-pencil" data-id="{{word.id}}"
+                                onClick=`${getCountCheckbox(event)}`></i>
                             <i class="word-delete fa-solid fa-trash-can"></i>
                         </div>
                     </li>
@@ -172,28 +174,32 @@
 
 
     //word-easy 수정
-    // document.querySelectorAll('word-update').addEventListener('click', async (event) => {
-    //     english = prompt("수정할 영어단어를 입력하세요");
-    //     korean = prompt("수정할 단어 뜻을 입력하세요");
-    //     event.preventDefault();
+    async function getCountCheckbox(event) {
 
-    //     console.log(english, korean, type);
+        const english = prompt("수정할 영어단어를 입력하세요");
+        const korean = prompt("수정할 단어 뜻을 입력하세요");
+        const id = event.target.dataset.id;
+        console.log("id", event.target.dataset.id);
 
-    //     if (!english || !korean) {
-    //         alert("영어, 한글 단어를 입력해주세요");
-    //         return false;
-    //     }
+        event.preventDefault();
+        // console.log(english, korean, id);
 
-    //     try {
-    //         await axios.post('/word/easy', { english, korean, type });
-    //         // getUser();
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    //     english.value = '';
-    //     korean.value = '';
-    //     type.value = "easy";
-    // });
+        if (!english || !korean) {
+            alert("영어, 한글 단어를 입력해주세요");
+            return false;
+        }
+
+        try {
+            await axios.put(`/word/${id}`, { english, korean });
+            window.location.reload();
+        } catch (err) {
+            console.error(err);
+        }
+        english.value = '';
+        korean.value = '';
+    }
+
+
 
 </script>
 {% endblock %}

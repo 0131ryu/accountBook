@@ -36,6 +36,7 @@ module.exports = class Word extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.Word.belongsTo(db.User);
+    db.Word.belongsToMany(db.User, { through: "WordUser" });
+    // db.Word.belongsToMany(db.Word);
   }
 };
