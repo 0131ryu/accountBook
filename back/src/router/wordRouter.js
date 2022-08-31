@@ -22,6 +22,7 @@ router.post("/write", isLoggedIn, async (req, res, next) => {
       type,
       status: "A",
     });
+    console.log("words", words);
     return res.redirect("/index");
   } catch (err) {
     console.error(err);
@@ -30,20 +31,33 @@ router.post("/write", isLoggedIn, async (req, res, next) => {
 });
 
 //체크박스 수정
-// router.patch("/checkboxes", isLoggedIn, async (req, res, next) => {
-//   const { english, korean, type } = req.body;
-//   try {
-//     const wordsAdvance = await Word.update({
-//       include: {
-//         model: Word,
-//         attributes: ["id"],
-//       },
+// router.patch("/:checkboxId", function (req, res, next) {
+//   const checkboxId = req.params.checkboxId;
+//   Word.update(
+//     {
+//       status: req.body.status,
+//     },
+//     {
+//       where: { id: checkboxId }, //word의 id
+//     }
+//   )
+//     .then((num) => {
+//       if (num == 1) {
+//         res.send({
+//           message: "Word was updated successfully.",
+//         });
+//       } else {
+//         res.send({
+//           message: `Cannot update word with id=${checkboxId}. Maybe Tutorial was not found or req.body is empty!`,
+//         });
+//       }
+//     })
+//     .catch((err) => {
+//       res.status(500).send({
+//         message: `Error updating Word with id=${checkboxId}`,
+//       });
+//       console.log(err);
 //     });
-//     return res.redirect("/index");
-//   } catch (err) {
-//     console.error(err);
-//     next(err);
-//   }
 // });
 
 //내용 수정
@@ -62,7 +76,7 @@ router.put("/:id", function (req, res, next) {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "UserInfo was updated successfully.",
+          message: "Word was updated successfully.",
         });
       } else {
         res.send({
@@ -72,70 +86,60 @@ router.put("/:id", function (req, res, next) {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating UserInfo with id=" + id,
+        message: "Error updating Word with id=" + id,
       });
       console.log(err);
     });
 });
 
 //삭제 : status 상태 "D"
-// router.put("/:deleteId", function (req, res, next) {
-//   const deleteId = req.params.id;
-
-//   Word.update(
-//     {
-//       status: "D",
-//     },
-//     {
-//       where: { id: deleteId }, //word의 id
-//     }
-//   )
-//     .then((num) => {
-//       if (num == 1) {
-//         res.send({
-//           message: "UserInfo was updated successfully.",
-//         });
-//       } else {
-//         res.send({
-//           message: `Cannot update word with id=${id}. Maybe Tutorial was not found or req.body is empty!`,
-//         });
-//       }
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message: "Error updating UserInfo with id=" + id,
-//       });
-//       console.log(err);
-//     });
-// });
+router.patch("/:deleteId", function (req, res, next) {
+  const deleteId = req.params.deleteId;
+  console.log(deleteId);
+  Word.update(
+    {
+      status: "D",
+    },
+    {
+      where: { id: deleteId }, //word의 id
+    }
+  )
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "Word was updated successfully.",
+        });
+      } else {
+        res.send({
+          message: `Cannot update word with id=${deleteId}. Maybe Word was not found or req.body is empty!`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: `Error updating UserInfo with id=${deleteId}`,
+      });
+      console.log(err);
+    });
+});
 
 //단어 찾기
 // router.get("/:english", async (req, res, next) => {
-//   const english = decodeURIComponent(req.params.english); //검색어
-//   const UserId = req.query.id;
-
-//   Word.findOne({
-//     attributes: ["id", "english", "korean", "status"],
-//     where: {
-//       english: english,
-//     },
-//   })
-//     .then((num) => {
-//       if (num == 1) {
-//         res.send({
-//           message: "UserInfo was updated successfully.",
-//         });
-//       } else {
-//         res.send({
-//           message: `Cannot find word with english=${english}`,
-//         });
-//       }
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message: "Error updating UserInfo with id=" + english,
-//       });
-//       console.log(err);
+//   // const english = decodeURIComponent(req.params.english); //검색어
+//   const english = req.params.english;
+//   try {
+//     const findWords = Word.findAll({
+//       attributes: ["english", "korean", "status"],
+//       where: {
+//         english: english,
+//       },
 //     });
+//     console.log("findWords", findWords);
+//     return res.redirect("/index");
+//   } catch (err) {
+//     console.error(err);
+//     next(err);
+//   }
 // });
+
 module.exports = router;

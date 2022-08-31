@@ -1,6 +1,7 @@
 const express = require("express");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const { Post, User, Hashtag, Word } = require("../../models");
+const { Op } = require("sequelize");
 
 const router = express.Router();
 router.use((req, res, next) => {
@@ -32,6 +33,7 @@ router.get("/index", async (req, res, next) => {
       },
       attributes: ["id", "english", "korean", "status"],
       where: {
+        [Op.or]: [{ status: "A" }, { status: "C" }],
         type: "easy",
       },
       order: [["createdAt", "DESC"]],
@@ -43,6 +45,7 @@ router.get("/index", async (req, res, next) => {
       },
       attributes: ["id", "english", "korean", "status"],
       where: {
+        [Op.or]: [{ status: "A" }, { status: "C" }],
         type: "middle",
       },
       order: [["createdAt", "DESC"]],
@@ -54,6 +57,7 @@ router.get("/index", async (req, res, next) => {
       },
       attributes: ["id", "english", "korean", "status"],
       where: {
+        [Op.or]: [{ status: "A" }, { status: "C" }],
         type: "advance",
       },
       order: [["createdAt", "DESC"]],
