@@ -10,11 +10,11 @@ router.use((req, res, next) => {
   next();
 });
 
-//글쓰기
-router.post("/easy", isLoggedIn, async (req, res, next) => {
+//단어 쓰기
+router.post("/write", isLoggedIn, async (req, res, next) => {
   const { english, korean, type } = req.body;
   try {
-    const wordsEasy = await Word.create({
+    const words = await Word.create({
       // 단어 등록
       UserId: req.user.id,
       english,
@@ -29,40 +29,38 @@ router.post("/easy", isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.post("/middle", isLoggedIn, async (req, res, next) => {
-  const { english, korean, type } = req.body;
-  try {
-    const wordsMiddle = await Word.create({
-      // 단어 등록
-      UserId: req.user.id,
-      english,
-      korean,
-      type,
-      status: "A",
-    });
-    return res.redirect("/index");
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-});
+//단어 찾기
+// router.get("/english", isLoggedIn, async (req, res, next) => {
+//   Word.findAll({
+//     attributes: ["english", "korean", "type"],
+//     where: {
+//       english: req.body.english,
+//       status: "A",
+//     },
+//   })
+//     .then((words) => {
+//       res.send(words);
+//     })
+//     .catch((err) => {
+//       throw err;
+//     });
+// });
 
-router.post("/advance", isLoggedIn, async (req, res, next) => {
-  const { english, korean, type } = req.body;
-  try {
-    const wordsAdvance = await Word.create({
-      // 단어 등록
-      UserId: req.user.id,
-      english,
-      korean,
-      type,
-      status: "A",
-    });
-    return res.redirect("/index");
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-});
+//체크박스 수정
+// router.patch("/checkboxes", isLoggedIn, async (req, res, next) => {
+//   const { english, korean, type } = req.body;
+//   try {
+//     const wordsAdvance = await Word.update({
+//       include: {
+//         model: Word,
+//         attributes: ["id"],
+//       },
+//     });
+//     return res.redirect("/index");
+//   } catch (err) {
+//     console.error(err);
+//     next(err);
+//   }
+// });
 
 module.exports = router;

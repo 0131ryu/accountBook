@@ -58,18 +58,44 @@ router.get("/index", async (req, res, next) => {
       },
       order: [["createdAt", "DESC"]],
     });
+    // const findWords = Word.findAll({
+    //   attributes: ["english", "korean", "type"],
+    //   where: {
+    //     english: req.words.english,
+    //     status: "A",
+    //   },
+    // });
     res.render("index", {
       title: "engWord",
       twits: posts,
       wordsEasy: wordsEasy,
       wordsMiddle: wordsMiddle,
       wordsAdvance: wordsAdvance,
+      // words: findWords,
     });
   } catch (error) {
     console.error(error);
     next(error);
   }
 });
+
+// router.post("/index/find", isLoggedIn, async (req, res, next) => {
+//   try {
+//     const words = Word.findAll({
+//       attributes: ["english", "korean", "type"],
+//       where: {
+//         english: req.body.english,
+//         status: "A",
+//       },
+//     });
+//     res.render("index", {
+//       words: words,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     next(error);
+//   }
+// });
 
 router.get("/profile", isLoggedIn, (req, res) => {
   res.render("profile", { title: "내 정보 - engWordSNS" });

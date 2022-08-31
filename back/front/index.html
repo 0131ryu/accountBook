@@ -18,12 +18,17 @@
                 <p><span>Easy, Middle, Advance</span>로 분류해서 외워봅시다</p>
             </div>
             <div class="word-finding">
-                <input type="text" class="word-find-eng" placeholder="검색할 영어 단어는?" value='' id="matrix-input-eng" />
-                <button class="word-find-eng-btn" id="matrix-input-btn">검색하기</button>
+                <form id="word-form" action="/index" method="get">
+                    <input id="english" type="text" placeholder="검색할 영어단어 입력" name="english">
+                    <button class="word-find-eng-btn" id="matrix-input-btn-search" type="submit">검색하기</button>
+                </form>
+                {% if words %}
                 <p class="word-find-result">[결과값]
-                    영단어 : <span class="word-find-result-eng"></span>
-                    한글 : <span class="word-find-result-kor"></span> 종류 : <span class="word-find-result-type"></span>
+                    영단어 : <span class="word-find-result-eng">{{word.english}}</span>
+                    한글 : <span class="word-find-result-kor">{{word.korean}}</span> 종류 : <span
+                        class="word-find-result-type">{{word.type}}</span>
                 </p>
+                {% endif %}
             </div>
         </div>
         <!-- jumbotron-container -->
@@ -35,10 +40,11 @@
             <div class="matrix-item">
                 <div class="matrix-item-header">
                     <div class="matrix-title">🥉 Easy </div>
-                    <form id="word-easy">
-                        <input id="english" type="text" placeholder="영어 입력" class="english-easy">
-                        <input id="korean" type="text" placeholder="한글 입력" class="korean-easy">
-                        <input id="easy" type="hidden" placeholder="easy" class="easy">
+                    <form id="word-form" action="/word/write" method="post">
+                        <input id="english" type="text" placeholder="영어 입력" name="english">
+                        <input id="korean" type="text" placeholder="한글 입력" name="korean">
+                        <input id="checkboxs" type="checkbox" placeholder="easy" name="type" value="easy">
+                        <label for="easy" class="label-easy">easy</label>
                         <button class="matrix-input-btn-easy" id="matrix-input-btn" type="submit">등록하기</button>
                     </form>
                 </div>
@@ -69,11 +75,12 @@
             <div class="matrix-item" id="middle">
                 <div class="matrix-item-header">
                     <div class="matrix-title">🥈 Middle </div>
-                    <form id="word-middle">
-                        <input id="english" type="text" placeholder="영어 입력" class="english-middle">
-                        <input id="korean" type="text" placeholder="한글 입력" class="korean-middle">
-                        <input id="middle" type="hidden" placeholder="middle" class="middle">
-                        <button class="matrix-input-btn-middle" id="matrix-input-btn" type="submit">등록하기</button>
+                    <form id="word-form" action="/word/write" method="post">
+                        <input id="english" type="text" placeholder="영어 입력" name="english">
+                        <input id="korean" type="text" placeholder="한글 입력" name="korean">
+                        <input id="checkboxs" type="checkbox" placeholder="easy" name="type" value="middle">
+                        <label for="middle">middle</label>
+                        <button class="matrix-input-btn-easy" id="matrix-input-btn" type="submit">등록하기</button>
                     </form>
                 </div>
 
@@ -105,11 +112,12 @@
             <div class="matrix-item" id="advance">
                 <div class="matrix-item-header">
                     <div class="matrix-title">🥇 Advance </div>
-                    <form id="word-advance">
-                        <input id="english" type="text" placeholder="영어 입력" class="english-advance">
-                        <input id="korean" type="text" placeholder="한글 입력" class="korean-advance">
-                        <input id="advance" type="hidden" placeholder="advance" class="advance">
-                        <button class="matrix-input-btn-advance" id="matrix-input-btn" type="submit">등록하기</button>
+                    <form id="word-form" action="/word/write" method="post">
+                        <input id="english" type="text" placeholder="영어 입력" name="english">
+                        <input id="korean" type="text" placeholder="한글 입력" name="korean">
+                        <input id="checkboxs" type="checkbox" placeholder="easy" name="type" value="advance">
+                        <label for="advance">advance</label>
+                        <button class="matrix-input-btn-easy" id="matrix-input-btn" type="submit">등록하기</button>
                     </form>
                 </div>
                 <!-- matrix-item-header -->
@@ -159,93 +167,7 @@
             alert(new URL(location.href).searchParams.get('loginError'));
         }
     };
-    //word-easy 글쓰기
-    document.getElementById('word-easy').addEventListener('submit', async (event) => {
-        const $english = document.querySelector(".english-easy");
-        const $korean = document.querySelector(".korean-easy")
-        const $type = document.querySelector(".easy")
 
-        event.preventDefault();
-        let english = $english.value;
-        let korean = $korean.value;
-        let type = $type.id;
-
-        console.log(english, korean, type);
-
-        if (!english || !korean) {
-            alert("영어, 한글 단어를 입력해주세요");
-            return false;
-        }
-
-        try {
-            await axios.post('/word/easy', { english, korean, type });
-            location.reload();
-        } catch (err) {
-            console.error(err);
-        }
-        english.value = '';
-        korean.value = '';
-        type.value = "easy";
-    });
-
-    //word-middle 글쓰기
-    document.getElementById('word-middle').addEventListener('submit', async (event) => {
-        const $english = document.querySelector(".english-middle");
-        const $korean = document.querySelector(".korean-middle")
-        const $type = document.querySelector(".middle")
-
-        event.preventDefault();
-        let english = $english.value;
-        let korean = $korean.value;
-        let type = $type.id;
-
-        console.log(english, korean, type);
-
-        if (!english || !korean) {
-            alert("영어, 한글 단어를 입력해주세요");
-            return false;
-        }
-
-        try {
-            await axios.post('/word/middle', { english, korean, type });
-            location.reload();
-            // getUser();
-        } catch (err) {
-            console.error(err);
-        }
-        english.value = '';
-        korean.value = '';
-        type.value = "middle";
-    });
-
-    //word-advance 글쓰기
-    document.getElementById('word-advance').addEventListener('submit', async (event) => {
-        const $english = document.querySelector(".english-advance");
-        const $korean = document.querySelector(".korean-advance")
-        const $type = document.querySelector(".advance")
-
-        event.preventDefault();
-        let english = $english.value;
-        let korean = $korean.value;
-        let type = $type.id;
-
-        console.log(english, korean, type);
-
-        if (!english || !korean) {
-            alert("영어, 한글 단어를 입력해주세요");
-            return false;
-        }
-
-        try {
-            await axios.post('/word/advance', { english, korean, type });
-            location.reload();
-        } catch (err) {
-            console.error(err);
-        }
-        english.value = '';
-        korean.value = '';
-        type.value = "advance";
-    });
     //word-easy 수정 - 체크박스
 
 
