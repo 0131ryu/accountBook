@@ -18,7 +18,7 @@
                 <p><span>Easy, Middle, Advance</span>로 분류해서 외워봅시다</p>
             </div>
             <div class="word-finding">
-                <form id="word-form" action="/word/english" method="get">
+                <form id="word-form" action="/word" method="get">
                     <input id="english" type="text" placeholder="검색할 영어단어 입력" name="english">
                     <button class="word-find-eng-btn" id="matrix-input-btn-search">검색</button>
                 </form>
@@ -33,8 +33,23 @@
         </div>
         <!-- jumbotron-container -->
         <div class="word-counting">
-            <p>외운 단어 수 : <span id="word-counting-checked">0</span></p>
-            <p>총 단어 수 : <span id="word-counting-all">0</span></p>
+            <p>외운 단어 수 :
+                {% if countAll and count %}
+                <span id="word-counting-checked">{{count}}
+                    {% else %}
+                    <span id="word-counting-checked">0
+                        {% endif %}
+                    </span>
+            </p>
+            <p>총 단어 수 :
+                {% if countAll and count %}
+                <span id="word-counting-all">{{countAll}}
+                    {% else %}
+                    <span id="word-counting-all">0
+                        {% endif %}
+                    </span>
+            </p>
+
         </div>
 
         <div class="matrix-container">
@@ -59,6 +74,7 @@
                 <ul class="matrix-item-list">
                     {% if user and user.id %}
                     {% for word in wordsEasy %}
+                    {% if user.id === word.UserId %}
                     <li class="list-item" id="${word.wordIdx}">
                         <div class="done-text-container">
                             {% if word.status === "C" %}
@@ -87,6 +103,7 @@
                                 onClick=`${getStatus(event)}` id="D"></i>
                         </div>
                     </li>
+                    {% endif %}
                     {% endfor %}
                     {% endif %}
                 </ul>
@@ -107,6 +124,7 @@
                 <ul class="matrix-item-list">
                     {% if user and user.id %}
                     {% for word in wordsMiddle %}
+                    {% if user.id === word.UserId %}
                     <li class="list-item" id="${word.wordIdx}">
                         <div class="done-text-container">
                             {% if word.status === "C" %}
@@ -135,6 +153,7 @@
                                 onClick=`${getStatus(event)}` id="D"></i>
                         </div>
                     </li>
+                    {% endif %}
                     {% endfor %}
                     {% endif %}
                 </ul>
@@ -155,6 +174,7 @@
                 <ul class="matrix-item-list">
                     {% if user and user.id %}
                     {% for word in wordsAdvance %}
+                    {% if user.id === word.UserId %}
                     <li class="list-item" id="${word.wordIdx}">
                         <div class="done-text-container">
                             {% if word.status === "C" %}
@@ -183,6 +203,7 @@
                                 onClick=`${getStatus(event)}` id="D"></i>
                         </div>
                     </li>
+                    {% endif %}
                     {% endfor %}
                     {% endif %}
                 </ul>

@@ -13,6 +13,9 @@ router.use((req, res, next) => {
     ? req.user.Followings.map((f) => f.id)
     : [];
   next();
+
+  console.log("res.locals.user", res.locals.user);
+  console.log("req.user", req.user);
 });
 
 //영단어
@@ -31,7 +34,7 @@ router.get("/index", async (req, res, next) => {
         model: User,
         attributes: ["id"],
       },
-      attributes: ["id", "english", "korean", "status"],
+      attributes: ["id", "english", "korean", "status", "UserId"],
       where: {
         [Op.or]: [{ status: "A" }, { status: "C" }],
         type: "easy",
@@ -43,7 +46,7 @@ router.get("/index", async (req, res, next) => {
         model: User,
         attributes: ["id"],
       },
-      attributes: ["id", "english", "korean", "status"],
+      attributes: ["id", "english", "korean", "status", "UserId"],
       where: {
         [Op.or]: [{ status: "A" }, { status: "C" }],
         type: "middle",
@@ -55,26 +58,32 @@ router.get("/index", async (req, res, next) => {
         model: User,
         attributes: ["id"],
       },
-      attributes: ["id", "english", "korean", "status"],
+      attributes: ["id", "english", "korean", "status", "UserId"],
       where: {
         [Op.or]: [{ status: "A" }, { status: "C" }],
         type: "advance",
       },
       order: [["createdAt", "DESC"]],
     });
-    // const words = Word.findAll({
-    //   attributes: ["english", "korean", "type"],
-    //   where: {
-    //     status: "A",
-    //   },
-    // });
+    const countAll = await Word.count({
+      where: {
+        UserId: 1,
+      },
+    });
+    const count = await Word.count({
+      where: {
+        status: "C",
+        UserId: 1,
+      },
+    });
     res.render("index", {
       title: "engWord",
       twits: posts,
       wordsEasy: wordsEasy,
       wordsMiddle: wordsMiddle,
       wordsAdvance: wordsAdvance,
-      // words: words,
+      countAll: countAll,
+      count: count,
     });
   } catch (error) {
     console.error(error);

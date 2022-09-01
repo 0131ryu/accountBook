@@ -96,7 +96,7 @@
                 const userId = tag.parentNode.querySelector('.twit-user-id').value;
                 if (userId !== myId.value) {
                     if (confirm('팔로잉하시겠습니까?')) {
-                        axios.dee(`/user/${userId}/follow`)
+                        axios.post(`/user/${userId}/follow`)
                             .then(() => {
                                 location.reload();
                             })

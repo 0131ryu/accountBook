@@ -14,6 +14,7 @@ router.use((req, res, next) => {
 //단어 쓰기
 router.post("/write", isLoggedIn, async (req, res, next) => {
   const { english, korean, type } = req.body;
+  console.log("userId", req.user.id);
   try {
     const words = await Word.create({
       // 단어 등록
@@ -149,22 +150,21 @@ router.patch("/status/1", function (req, res, next) {
 });
 
 //단어 찾기
-// router.get("/:english", async (req, res, next) => {
-//   // const english = decodeURIComponent(req.params.english); //검색어
-//   const english = req.params.english;
-//   try {
-//     const findWords = Word.findAll({
-//       attributes: ["english", "korean", "status"],
-//       where: {
-//         english: english,
-//       },
-//     });
-//     console.log("findWords", findWords);
-//     return res.redirect("/index");
-//   } catch (err) {
-//     console.error(err);
-//     next(err);
-//   }
-// });
+router.get("/:english", async (req, res, next) => {
+  const english = req.params.english;
+  console.log("english", english);
+  try {
+    const words = await Word.findOne({
+      where: { english: english },
+      attributes: ["english", "korean", "type"],
+    });
+    console.log("words", words);
+    res.send("result find!");
+    // return res.redirect("/index");
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
 
 module.exports = router;
