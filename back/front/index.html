@@ -36,7 +36,13 @@
             <p>외운 단어 수 : <span id="word-counting-checked">0</span></p>
             <p>총 단어 수 : <span id="word-counting-all">0</span></p>
         </div>
+
         <div class="matrix-container">
+            <div class="check_all">
+                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox" data-id=0 /> <label
+                    for="checkAll">모든 체크박스
+                    체크</label>
+            </div>
             <div class="matrix-item">
                 <div class="matrix-item-header">
                     <div class="matrix-title">🥉 Easy </div>
@@ -55,8 +61,19 @@
                     {% for word in wordsEasy %}
                     <li class="list-item" id="${word.wordIdx}">
                         <div class="done-text-container">
-                            <input type="checkbox" class="word-done" id="countCheckbox"
-                                onClick=`${getCountCheckbox(event)}` data-id="{{word.id}}" />
+                            {% if word.status === "C" %}
+                            <div class="check_item">
+                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox"
+                                    onClick=`${getStatusCheck(event)}` data-id="{{word.id}}" checked />
+                                <label for="checkitem"></label>
+                            </div>
+                            {% else %}
+                            <div class="check_item">
+                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox"
+                                    onClick=`${getStatusCheck(event)}` data-id="{{word.id}}" />
+                                <label for="checkitem"></label>
+                            </div>
+                            {% endif %}
                             <p class="word-text-eng">{{word.english}}</p>
                         </div>
                         <div class="done-text-container">
@@ -66,8 +83,8 @@
                         <div class="update-delete-container">
                             <i id="word-update" class="word-update fa-solid fa-pencil" data-id="{{word.id}}"
                                 onClick=`${getChangeWord(event)}`></i>
-                            <i class="word-delete fa-solid fa-trash-can" data-id="{{word.id}}"
-                                onClick=`${getStatus(event)}`></i>
+                            <i class="word-status fa-solid fa-trash-can" data-id="{{word.id}}"
+                                onClick=`${getStatus(event)}` id="D"></i>
                         </div>
                     </li>
                     {% endfor %}
@@ -92,9 +109,19 @@
                     {% for word in wordsMiddle %}
                     <li class="list-item" id="${word.wordIdx}">
                         <div class="done-text-container">
-
-                            <input type="checkbox" class="word-done" name="countCheckbox"
-                                onClick=`${getCountCheckbox(event)}` data-id="{{word.id}}" />
+                            {% if word.status === "C" %}
+                            <div class="check_item">
+                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox"
+                                    onClick=`${getStatusCheck(event)}` data-id="{{word.id}}" checked />
+                                <label for="checkitem"></label>
+                            </div>
+                            {% else %}
+                            <div class="check_item">
+                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox"
+                                    onClick=`${getStatusCheck(event)}` data-id="{{word.id}}" />
+                                <label for="checkitem"></label>
+                            </div>
+                            {% endif %}
                             <p class="word-text-eng">{{word.english}}</p>
                         </div>
                         <div class="done-text-container">
@@ -104,8 +131,8 @@
                         <div class="update-delete-container">
                             <i id="word-update" class="word-update fa-solid fa-pencil" data-id="{{word.id}}"
                                 onClick=`${getChangeWord(event)}`></i>
-                            <i class="word-delete fa-solid fa-trash-can" data-id="{{word.id}}"
-                                onClick=`${getStatus(event)}`></i>
+                            <i class="word-status fa-solid fa-trash-can" data-id="{{word.id}}"
+                                onClick=`${getStatus(event)}` id="D"></i>
                         </div>
                     </li>
                     {% endfor %}
@@ -130,9 +157,19 @@
                     {% for word in wordsAdvance %}
                     <li class="list-item" id="${word.wordIdx}">
                         <div class="done-text-container">
-
-                            <input type="checkbox" class="word-done" name="countCheckbox"
-                                onClick=`${getCountCheckbox(event)}` data-id="{{word.id}}" />
+                            {% if word.status === "C" %}
+                            <div class="check_item">
+                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox"
+                                    onClick=`${getStatusCheck(event)}` data-id="{{word.id}}" checked />
+                                <label for="checkitem"></label>
+                            </div>
+                            {% else %}
+                            <div class="check_item">
+                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox"
+                                    onClick=`${getStatusCheck(event)}` data-id="{{word.id}}" />
+                                <label for="checkitem"></label>
+                            </div>
+                            {% endif %}
                             <p class="word-text-eng">{{word.english}}</p>
                         </div>
                         <div class="done-text-container">
@@ -142,14 +179,15 @@
                         <div class="update-delete-container">
                             <i id="word-update" class="word-update fa-solid fa-pencil" data-id="{{word.id}}"
                                 onClick=`${getChangeWord(event)}`></i>
-                            <i class="word-delete fa-solid fa-trash-can" data-id="{{word.id}}"
-                                onClick=`${getStatus(event)}`></i>
+                            <i class="word-status fa-solid fa-trash-can" data-id="{{word.id}}"
+                                onClick=`${getStatus(event)}` id="D"></i>
                         </div>
                     </li>
                     {% endfor %}
                     {% endif %}
                 </ul>
             </div>
+
             <div class="deleted-items">
                 <div class="deleted-item-list">
                     <p>삭제한 단어들</p>
@@ -173,26 +211,6 @@
             alert(new URL(location.href).searchParams.get('loginError'));
         }
     };
-
-    //word 수정 - 체크박스
-    // async function getCountCheckbox(event) {
-    //     const status = event.target.checked ? "C" : "A";
-
-    //     console.log("status", status);
-    //     console.log("event.target.checked", event.target.checked)
-
-    //     const checkboxId = event.target.dataset.id;
-    //     console.log("checkboxId", event.target.dataset.id);
-
-    //     event.preventDefault();
-
-    //     try {
-    //         await axios.patch(`/word/${checkboxId}`, { status: status });
-    //         window.location.reload();
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    // }
 
     //word 수정
     async function getChangeWord(event) {
@@ -220,21 +238,115 @@
         korean.value = '';
     }
 
-    //word 삭제
+    //status 수정(A, C, D)
     async function getStatus(event) {
-        confirm("정말로 단어를 삭제하시겠습니까?");
-        const deleteId = event.target.dataset.id;
+        let status = "";
+
+        if (event.target.closest(".word-status").id === "A") {
+            status = "A"
+        } else if (event.target.closest(".word-status").id === "D") {
+            let result = confirm("정말로 단어를 삭제 하시겠습니까?");
+            if (result === true) {
+                alert("확인을 눌렀습니다.");
+                status = "D";
+            } else {
+                alert("취소를 눌렀습니다.");
+                status = "A";
+            }
+        }
+
+        const wordId = event.target.dataset.id;
         console.log("id", event.target.dataset.id);
+        console.log("status", event.target.closest(".word-status").id);
+        console.log("final status", status);
 
         event.preventDefault();
 
         try {
-            await axios.patch(`/word/${deleteId}`);
-            window.location.reload();
+            await axios.patch(`/word/${wordId}`, { status: status });
+            location.reload();
         } catch (err) {
             console.error(err);
         }
     }
 
+    //수정 - 체크박스
+    const checkboxes = document.querySelectorAll(".check_item input");
+    const checkAll = document.querySelector(".check_all input");
+
+    const agree = {
+        checkitem: false
+    }
+
+    checkboxes.forEach((item) => item.addEventListener("input", toggleCheckbox));
+
+    async function toggleCheckbox(event) {
+        const { checked, id } = event.target;
+        agree[id] = checked;
+        this.parentNode.classList.toggle("active");
+        checkAllStatus();
+
+        const status = event.target.checked ? "C" : "A";
+        const wordId = event.target.dataset.id;
+        console.log("id", event.target.dataset.id);
+        console.log("status", status);
+
+        try {
+            await axios.patch(`/word/${wordId}`, { status: status });
+        } catch (err) {
+            console.error(err);
+        }
+
+    }
+    function checkAllStatus() {
+        const { checkitem } = agree;
+        if (checkitem) {
+            checkAll.checked = true;
+        } else {
+            checkAll.checked = false;
+        }
+    }
+
+    checkAll.addEventListener("click", (event) => {
+        const { checked } = event.target;
+        if (checked) {
+            checkboxes.forEach((item) => {
+                item.checked = true;
+                agree[item.id] = true;
+                item.parentNode.classList.add("active");
+            })
+        } else {
+            checkboxes.forEach((item) => {
+                item.checked = false;
+                agree[item.id] = false;
+                item.parentNode.classList.remove("active");
+            })
+        }
+
+        const status = event.target.checked ? "C" : "A";
+        const wordId = event.target.dataset.id;
+        console.log("id", event.target.dataset.id);
+        console.log("status", status);
+
+        try {
+            axios.patch(`/word/status/1`, { status: status });
+        } catch (err) {
+            console.error(err);
+        }
+    })
+
+    async function getStatusCheck(event) {
+        // const status = event.target.checked ? "C" : "A";
+        // const wordId = event.target.dataset.id;
+        // console.log("id", event.target.dataset.id);
+        // console.log("status", status);
+
+        // try {
+        //     await axios.patch(`/word/${wordId}`, { status: status });
+        // } catch (err) {
+        //     console.error(err);
+        // }
+        console.log("hello");
+    }
 </script>
 {% endblock %}

@@ -289,3 +289,8 @@ label {
 .easy-form {
     background: black;
 }
+.check_all {
+    position: absolute;
+    left: 85%;
+    top: 3%;
+}
