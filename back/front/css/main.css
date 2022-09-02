@@ -37,7 +37,7 @@ span {
     font-weight: 700;
 }
 form > input {
-   width: 30%;
+   width: 35%;
     font-size: 1.2rem;
     margin-top: 1rem;
     padding-left: 0.5rem;
@@ -45,8 +45,9 @@ form > input {
     /* input이 있으면 line-height 항상 존재 */
 }
 #checkboxs {
-    width: 10%;
+    width: 1%;
     line-height: 1.8;
+    visibility: hidden;
 }
 label {
     font-size: 1.2rem;
@@ -72,7 +73,7 @@ label {
     color: var(--light-gray);
 }
 #matrix-input-btn {
-    width: 90%;
+    width: 40%;
     font-size: 1rem;
     height: 3rem;
     background-color: var(--main-blue);
@@ -128,7 +129,7 @@ label {
     right: 3%;
 }
 .word-find-result {
-    visibility: hidden;
+    /* visibility: hidden; */
     width: 50%;
     margin: 1rem 3rem;
     border: 3px solid var(--main-blue);

@@ -150,17 +150,17 @@ router.patch("/status/1", function (req, res, next) {
 });
 
 //단어 찾기
-router.get("/:english", async (req, res, next) => {
-  const english = req.params.english;
-  console.log("english", english);
+router.post("/find", async (req, res, next) => {
+  const { english } = req.body;
   try {
     const words = await Word.findOne({
       where: { english: english },
       attributes: ["english", "korean", "type"],
     });
     console.log("words", words);
-    res.send("result find!");
-    // return res.redirect("/index");
+    res.json(words.dataValues);
+    // res.send("result find!");
+    // res.render("index", { words: words });
   } catch (err) {
     console.error(err);
     next(err);

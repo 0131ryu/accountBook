@@ -18,32 +18,37 @@
                 <p><span>Easy, Middle, Advance</span>로 분류해서 외워봅시다</p>
             </div>
             <div class="word-finding">
-                <form id="word-form" action="/word" method="get">
-                    <input id="english" type="text" placeholder="검색할 영어단어 입력" name="english">
-                    <button class="word-find-eng-btn" id="matrix-input-btn-search">검색</button>
-                </form>
-                {% if words %}
+                <!-- <form id="word-form" action="/word/find" method="post">
+                    <input id="english" type="text" class="word-find-eng" placeholder="검색할 영어단어 입력" name="english">
+                    <button class="word-find-eng-btn" id="matrix-input-btn-search"}`
+                        type="submit">검색</button>
+                </form> -->
+                <input id="english" type="text" class="word-find-eng" placeholder="검색할 영어단어 입력" name="english">
+                <button class="word-find-eng-btn" id="matrix-input-btn-search"
+                    onClick=`${getSearchWord(event)}`>검색</button>
+                <p>결과 : <span class="word-finding-result"></span></p>
+                <!-- {% if words %} -->
                 <p class="word-find-result">[결과값]
                     영단어 : <span class="word-find-result-eng">{{word.english}}</span>
                     한글 : <span class="word-find-result-kor">{{word.korean}}</span> 종류 : <span
                         class="word-find-result-type">{{word.type}}</span>
                 </p>
-                {% endif %}
+                <!-- {% endif %} -->
             </div>
         </div>
         <!-- jumbotron-container -->
         <div class="word-counting">
             <p>외운 단어 수 :
-                {% if countAll and count %}
-                <span id="word-counting-checked">{{count}}
+                {% if total.id %}
+                <span id="word-counting-checked">{{total.id}}
                     {% else %}
                     <span id="word-counting-checked">0
                         {% endif %}
                     </span>
             </p>
             <p>총 단어 수 :
-                {% if countAll and count %}
-                <span id="word-counting-all">{{countAll}}
+                {% if count %}
+                <span id="word-counting-all">{{count}}
                     {% else %}
                     <span id="word-counting-all">0
                         {% endif %}
@@ -64,8 +69,7 @@
                     <form id="word-form" action="/word/write" method="post">
                         <input id="english" type="text" placeholder="영어 입력" name="english">
                         <input id="korean" type="text" placeholder="한글 입력" name="korean">
-                        <input id="checkboxs" type="checkbox" placeholder="easy" name="type" value="easy">
-                        <label for="easy" class="label-easy">easy</label>
+                        <input id="checkboxs" type="checkbox" name="type" value="easy" checked>
                         <button class="matrix-input-btn-easy" id="matrix-input-btn" type="submit">등록하기</button>
                     </form>
                 </div>
@@ -114,8 +118,7 @@
                     <form id="word-form" action="/word/write" method="post">
                         <input id="english" type="text" placeholder="영어 입력" name="english">
                         <input id="korean" type="text" placeholder="한글 입력" name="korean">
-                        <input id="checkboxs" type="checkbox" placeholder="easy" name="type" value="middle">
-                        <label for="middle">middle</label>
+                        <input id="checkboxs" type="checkbox" name="type" value="middle" checked>
                         <button class="matrix-input-btn-easy" id="matrix-input-btn" type="submit">등록하기</button>
                     </form>
                 </div>
@@ -165,8 +168,7 @@
                     <form id="word-form" action="/word/write" method="post">
                         <input id="english" type="text" placeholder="영어 입력" name="english">
                         <input id="korean" type="text" placeholder="한글 입력" name="korean">
-                        <input id="checkboxs" type="checkbox" placeholder="easy" name="type" value="advance">
-                        <label for="advance">advance</label>
+                        <input id="checkboxs" type="checkbox" name="type" value="advance" checked>
                         <button class="matrix-input-btn-easy" id="matrix-input-btn" type="submit">등록하기</button>
                     </form>
                 </div>
@@ -356,18 +358,52 @@
         }
     })
 
-    async function getStatusCheck(event) {
-        // const status = event.target.checked ? "C" : "A";
-        // const wordId = event.target.dataset.id;
-        // console.log("id", event.target.dataset.id);
-        // console.log("status", status);
+    async function getSearchWord(event) {
+        const $english = document.querySelector(".word-find-eng");
+        const $resultInfo = document.querySelector(".word-find-result");
+        const english = $english.value;
 
-        // try {
-        //     await axios.patch(`/word/${wordId}`, { status: status });
-        // } catch (err) {
-        //     console.error(err);
-        // }
-        console.log("hello");
+        if (!english) {
+            alert("찾고자 하는 영어 단어를 정확히 입력하세요");
+            $resultInfo.style.visibility = "hidden";
+            return;
+        }
+
+        try {
+            const result = await axios.post(`/word/find`, { english: english })
+                .then(res => {
+                    console.log("res", res.data)
+                    console.log("type", res.data.type);
+                    console.log("한글", res.data.korean);
+
+                    const wordInfo = res.data;
+
+                    const findEnglish = wordInfo.english;
+                    const findKorean = wordInfo.korean;
+                    const findType = wordInfo.type;
+
+                    const resultItem = document.createElement("p");
+
+                    resultItem.innerHTML = `${findType}`
+                    console.log(resultItem);
+
+
+                    const result = document.querySelector(".word-finding-result");
+                    result.innerHTML = `${findEnglish} | ${findKorean} | ${findType}`
+                    console.log("result", result);
+
+                })
+                .catch(error => {
+                    console.log(error.res);
+                });
+
+
+
+        } catch (err) {
+            console.error(err);
+        }
+
+
     }
 </script>
 {% endblock %}
