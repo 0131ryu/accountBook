@@ -150,11 +150,14 @@ router.patch("/status/1", function (req, res, next) {
 });
 
 //단어 찾기
-router.post("/find", async (req, res, next) => {
-  const { english } = req.body;
+router.get("/find/:english", async (req, res, next) => {
+  const english = req.params.english;
   try {
     const words = await Word.findOne({
-      where: { english: english },
+      where: {
+        english: english,
+        [Op.or]: [{ status: "A" }, { status: "C" }],
+      },
       attributes: ["english", "korean", "type"],
     });
     console.log("words", words);

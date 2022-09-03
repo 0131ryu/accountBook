@@ -29,9 +29,8 @@
                 <p>결과 : <span class="word-finding-result"></span></p>
                 <!-- {% if words %} -->
                 <p class="word-find-result">[결과값]
-                    영단어 : <span class="word-find-result-eng">{{word.english}}</span>
-                    한글 : <span class="word-find-result-kor">{{word.korean}}</span> 종류 : <span
-                        class="word-find-result-type">{{word.type}}</span>
+                    영단어 : <span class="word-find-result-eng"></span>
+                    한글 : <span class="word-find-result-kor"></span> 종류 : <span class="word-find-result-type"></span>
                 </p>
                 <!-- {% endif %} -->
             </div>
@@ -370,7 +369,7 @@
         }
 
         try {
-            const result = await axios.post(`/word/find`, { english: english })
+            const result = await axios.get(`/word/find/${english}`, { english: english })
                 .then(res => {
                     console.log("res", res.data)
                     console.log("type", res.data.type);
@@ -394,16 +393,12 @@
 
                 })
                 .catch(error => {
+                    alert("존재하지 않는 영어 단어입니다. 다시 검색하세요.");
                     console.log(error.res);
                 });
-
-
-
         } catch (err) {
             console.error(err);
         }
-
-
     }
 </script>
 {% endblock %}
