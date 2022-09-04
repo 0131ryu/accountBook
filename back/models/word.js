@@ -36,7 +36,6 @@ module.exports = class Word extends Sequelize.Model {
   }
 
   static associate(db) {
-    // db.Word.belongsTo(db.User, { as: "u", foreignKey: "id" });
-    db.Word.belongsTo(db.User, { foreignKey: "id" });
+    db.Word.belongsTo(db.User);
   }
 };

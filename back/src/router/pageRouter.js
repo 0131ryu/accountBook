@@ -2,6 +2,7 @@ const express = require("express");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const { Post, User, Hashtag, Word } = require("../../models");
 const { Op, fn, col, literal } = require("sequelize");
+const sequelize = require("sequelize");
 
 const router = express.Router();
 router.use((req, res, next) => {
@@ -13,9 +14,6 @@ router.use((req, res, next) => {
     ? req.user.Followings.map((f) => f.id)
     : [];
   next();
-
-  console.log("res.locals.user", res.locals.user);
-  console.log("req.user", req.user);
 });
 
 //영단어
@@ -23,7 +21,7 @@ router.get("/index", async (req, res, next) => {
   //유저 아이디 값을 params로 넘겨서 받아 개수로 받으면 어떨지?
   //post 결과 보려면 이 부분 넣어야 함
   try {
-    const posts = await Post.findAll({
+    const words = await Word.findAll({
       include: {
         model: User,
         attributes: ["id", "nickname"],
@@ -67,17 +65,31 @@ router.get("/index", async (req, res, next) => {
       order: [["createdAt", "DESC"]],
     });
     //inner join
-    // const total = await Word.findAll({
-    //   include: {
-    //     model: User,
-    //     attributes: ["id"],
-    //   },
-    //   order: [["createdAt", "DESC"]],
-    // });
-    const count = await Word.count({
+    const total = await Word.count({
+      include: {
+        model: User,
+        attributes: ["id"],
+      },
+      where: {
+        UserId: req.user.id,
+        // UserId: {
+        //   [Op.or]: [0, req.user.id],
+        // },
+        // [Op.or]: [{ UserId: undefined }, { UserId: req.user.id }],
+      },
+    });
+    const counting = await Word.count({
+      include: {
+        model: User,
+        attributes: ["id"],
+      },
       where: {
         status: "C",
-        // UserId: 1,
+        UserId: req.user.id,
+        // UserId: {
+        //   [Op.or]: [0, req.user.id],
+        // },
+        // [Op.or]: [{ UserId: undefined }, { UserId: req.user.id }],
       },
     });
     const deletedWord = await Word.findAll({
@@ -91,14 +103,15 @@ router.get("/index", async (req, res, next) => {
       },
       order: [["createdAt", "DESC"]],
     });
+    console.log("counting", counting);
     res.render("index", {
       title: "engWord",
-      twits: posts,
+      words: words,
       wordsEasy: wordsEasy,
       wordsMiddle: wordsMiddle,
       wordsAdvance: wordsAdvance,
-      // total: total,
-      count: count,
+      total: total,
+      counting: counting,
       deletedWord: deletedWord,
     });
   } catch (error) {
