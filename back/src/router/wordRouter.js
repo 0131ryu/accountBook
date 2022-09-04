@@ -150,11 +150,13 @@ router.patch("/status/1", function (req, res, next) {
 });
 
 //단어 찾기
-router.get("/find/:english", async (req, res, next) => {
+router.get("/:id/:english", async (req, res, next) => {
+  const id = req.params.id;
   const english = req.params.english;
   try {
     const words = await Word.findOne({
       where: {
+        UserId: id,
         english: english,
         [Op.or]: [{ status: "A" }, { status: "C" }],
       },

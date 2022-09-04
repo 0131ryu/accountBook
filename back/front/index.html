@@ -1,5 +1,4 @@
 {% extends 'layout.html' %}
-
 {% block content %}
 
 <main>
@@ -18,15 +17,12 @@
                 <p><span>Easy, Middle, Advance</span>로 분류해서 외워봅시다</p>
             </div>
             <div class="word-finding">
-                <!-- <form id="word-form" action="/word/find" method="post">
-                    <input id="english" type="text" class="word-find-eng" placeholder="검색할 영어단어 입력" name="english">
-                    <button class="word-find-eng-btn" id="matrix-input-btn-search"}`
-                        type="submit">검색</button>
-                </form> -->
+                {% if user and user.id %}
                 <input id="english" type="text" class="word-find-eng" placeholder="검색할 영어단어 입력" name="english">
-                <button class="word-find-eng-btn" id="matrix-input-btn-search"
-                    onClick=`${getSearchWord(event)}`>검색</button>
+                <button class="word-find-eng-btn" id="matrix-input-btn-search" onClick=`${getSearchWord(event)}`
+                    data-id="{{user.id}}">검색</button>
                 <p>결과 : <span class="word-finding-result"></span></p>
+                {% endif %}
                 <!-- {% if words %} -->
                 <p class="word-find-result">[결과값]
                     영단어 : <span class="word-find-result-eng"></span>
@@ -38,21 +34,21 @@
         <!-- jumbotron-container -->
         <div class="word-counting">
             <p>외운 단어 수 :
-                {% if total.id %}
-                <span id="word-counting-checked">{{total.id}}
+                {% if counting %}
+                <span id="word-counting-checked">{{counting}}
                     {% else %}
                     <span id="word-counting-checked">0
                         {% endif %}
                     </span>
             </p>
-            <p>총 단어 수 :
-                {% if count %}
-                <span id="word-counting-all">{{count}}
+            <!-- <p>총 단어 수 :
+                {% if total %}
+                <span id="word-counting-all">{{total}}
                     {% else %}
                     <span id="word-counting-all">0
                         {% endif %}
                     </span>
-            </p>
+            </p> -->
 
         </div>
 
@@ -361,15 +357,21 @@
         const $english = document.querySelector(".word-find-eng");
         const $resultInfo = document.querySelector(".word-find-result");
         const english = $english.value;
+        const id = event.target.dataset.id;
+        console.log("id", id);
 
         if (!english) {
             alert("찾고자 하는 영어 단어를 정확히 입력하세요");
-            $resultInfo.style.visibility = "hidden";
+
+            return;
+        }
+        if (!id) {
+            alert("등록한 단어가 아닙니다. 새로 작성해주세요");
             return;
         }
 
         try {
-            const result = await axios.get(`/word/find/${english}`, { english: english })
+            const result = await axios.get(`/word/${id}/${english}`, { english: english, id: id })
                 .then(res => {
                     console.log("res", res.data)
                     console.log("type", res.data.type);

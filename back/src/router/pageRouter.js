@@ -67,13 +67,13 @@ router.get("/index", async (req, res, next) => {
       order: [["createdAt", "DESC"]],
     });
     //inner join
-    const total = await Word.findAll({
-      include: {
-        model: User,
-        attributes: ["id"],
-      },
-      order: [["createdAt", "DESC"]],
-    });
+    // const total = await Word.findAll({
+    //   include: {
+    //     model: User,
+    //     attributes: ["id"],
+    //   },
+    //   order: [["createdAt", "DESC"]],
+    // });
     const count = await Word.count({
       where: {
         status: "C",
@@ -97,7 +97,7 @@ router.get("/index", async (req, res, next) => {
       wordsEasy: wordsEasy,
       wordsMiddle: wordsMiddle,
       wordsAdvance: wordsAdvance,
-      total: total,
+      // total: total,
       count: count,
       deletedWord: deletedWord,
     });
@@ -106,26 +106,6 @@ router.get("/index", async (req, res, next) => {
     next(error);
   }
 });
-
-//단어 찾기
-// router.get("/index/:english", async (req, res, next) => {
-//   const english = req.params.english;
-//   console.log("english", english);
-//   try {
-//     const words = await Word.findOne({
-//       where: { english: english },
-//       attributes: ["english", "korean", "type"],
-//     });
-//     console.log("words", words);
-//     res.send("result find!");
-//     // res.render(`index/${english}`, {
-//     //   words: words,
-//     // });
-//   } catch (err) {
-//     console.error(err);
-//     next(err);
-//   }
-// });
 
 router.get("/profile", isLoggedIn, (req, res) => {
   res.render("profile", { title: "내 정보 - engWordSNS" });
