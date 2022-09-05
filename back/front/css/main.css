@@ -18,7 +18,7 @@ span {
 }
 .matrix-item {
     width: 32%;
-    height: 50rem;
+    height: 40rem;
     border: 0.5px solid var(--dark-gray);
     border-radius: 5px 5px 0 0;
     margin: 10.5rem 0.5rem;
@@ -118,7 +118,7 @@ label {
     right: 5%;
 }
 .word-find-result {
-    /* visibility: hidden; */
+    visibility: hidden;
     width: 50%;
     margin: 1rem 3rem;
     border: 3px solid var(--main-blue);
@@ -187,7 +187,7 @@ label {
      border-style: hidden;
      font-weight: 900;
      position: absolute;
-     top: 95%;
+     top: 85%;
  }
  .deletedWord-btn {
      width: 20%;

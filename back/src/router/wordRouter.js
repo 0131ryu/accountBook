@@ -173,39 +173,23 @@ router.get("/:id/:english", async (req, res, next) => {
   }
 });
 
-//total
-// router.get("/:id", async (req, res, next) => {
-//   const id = req.params.id;
-//   try {
-//     const total = await Word.count({
-//       include: {
-//         model: User,
-//         attributes: ["id"],
-//       },
-//       where: {
-//         UserId: id,
-//       },
-//     });
-//     const counting = await Word.count({
-//       include: {
-//         model: User,
-//         attributes: ["id"],
-//       },
-//       where: {
-//         status: "C",
-//         UserId: id,
-//       },
-//     });
-//     console.log("total", total);
-//     console.log("counting", counting);
-//     res.json({
-//       total: total,
-//       counting: counting,
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     next(err);
-//   }
-// });
+router.delete("/:id", async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    const words = await Word.destroy({
+      where: {
+        id: id,
+        userId: req.user.id,
+      },
+      force: true, //DB에서 최종 삭제
+    });
+    console.log("words", words);
+    res.json(words.dataValues);
+    // res.send("result find!");
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
 
 module.exports = router;

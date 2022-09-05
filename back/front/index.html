@@ -22,12 +22,10 @@
                 <button class="word-find-eng-btn" id="matrix-input-btn" onClick=`${getSearchWord(event)}`
                     data-id="{{user.id}}">검색</button>
                 {% endif %}
-                <!-- {% if words %} -->
-                <p class="word-find-result">[결과값]
+                <div class="word-find-result">[결과값]
                     영단어 : <span class="word-find-result-eng"></span>
                     한글 : <span class="word-find-result-kor"></span> 종류 : <span class="word-find-result-type"></span>
-                </p>
-                <!-- {% endif %} -->
+                </div>
             </div>
         </div>
         <!-- jumbotron-container -->
@@ -50,7 +48,7 @@
             </p>
 
         </div>
-
+        <!-- {% if words %} -->
         <div class="matrix-container">
             <div class="check_all">
                 <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox" data-id=0 /> <label
@@ -227,6 +225,7 @@
                 </div>
             </div>
         </div>
+        <!-- {% endif %} -->
     </div>
 </main>
 {% endblock %}
@@ -374,14 +373,12 @@
 
     async function getSearchWord(event) {
         const $english = document.querySelector(".word-find-eng");
-        const $resultInfo = document.querySelector(".word-find-result");
         const english = $english.value;
         const id = event.target.dataset.id;
         console.log("id", id);
 
         if (!english) {
             alert("찾고자 하는 영어 단어를 정확히 입력하세요");
-
             return;
         }
         if (!id) {
@@ -395,6 +392,10 @@
                     console.log("res", res.data)
                     console.log("type", res.data.type);
                     console.log("한글", res.data.korean);
+
+                    const $resultInfo = document.querySelector(".word-find-result");
+                    console.log("$resultInfo", $resultInfo)
+                    $resultInfo.style.visibility = "visible";
 
                     const wordInfo = res.data;
 
@@ -412,6 +413,9 @@
                 })
                 .catch(error => {
                     alert("존재하지 않는 영어 단어입니다. 다시 검색하세요.");
+                    const $resultInfo = document.querySelector(".word-find-result");
+                    console.log("$resultInfo", $resultInfo)
+                    $resultInfo.style.visibility = "hidden";
                     console.log(error.res);
                 });
         } catch (err) {
@@ -449,8 +453,21 @@
         }
     }
 
-    // async function getDelete(event) {
-    //     console.log("삭제?")
-    // }
+    async function getDelete(event) {
+        const id = event.target.dataset.id;
+        console.log("id", id);
+        try {
+            if (confirm("[최종삭제] 삭제 후 새로 생성해야 합니다.")) {
+                await axios.delete(`/word/${id}`).then(() => {
+                    location.reload();
+
+                }).catch((err) => {
+                    console.error(err);
+                })
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
 </script>
 {% endblock %}
