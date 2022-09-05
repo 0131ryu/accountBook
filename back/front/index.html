@@ -204,14 +204,25 @@
                     {% endif %}
                 </ul>
             </div>
-
             <div class="deleted-items">
                 <div class="deleted-item-list">
-                    <p>삭제한 단어들</p>
-                    <button class="deletedWord-btn" id="D">단어 확인하기</button>
-                    <button class="deletedWord-btn-close">닫기</button>
-                    <div class="deletedWord-result" name="deletedItems">
-
+                    <button class="deletedWord-btn" data-status="D" onClick=`${getStatusD(event)}`>삭제한 단어 확인하기</button>
+                    <div class="deletedItems" name="deletedItems">
+                        {% for word in deletedWord %}
+                        <li class="deletedWords-result" id="${word.wordIdx}">
+                            <div class="done-text-container">
+                                <p class="word-id" id="{{word.id}}">[{{word.type}}]</p>
+                                <p class="word-text-eng">{{word.english}}</p>
+                                <p class="word-text-kor">{{word.korean}}</p>
+                            </div>
+                            <div class="update-delete-container">
+                                <i class="word-deleted-change fa fa-refresh" data-id="{{word.id}}"
+                                    data-status="{{word.status}}" onClick=`${getStatusA(event)}`></i>
+                                <i class="word-deleted-done fa-solid fa-trash-can" data-id="{{word.id}}"
+                                    onClick=`${getDelete(event)}`></i>
+                            </div>
+                        </li>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -237,12 +248,12 @@
         const type = prompt("수정할 타입(easy, middle, advance)을 입력하세요");
         const id = event.target.dataset.id;
         console.log("id", event.target.dataset.id);
-
         event.preventDefault();
+
         // console.log(english, korean, id);
 
-        if (!english || !korean) {
-            alert("영어, 한글 단어를 입력해주세요");
+        if (!english || !korean || !type) {
+            alert("영어, 한글, 타입을 각각 입력해주세요");
             return false;
         }
 
@@ -259,6 +270,8 @@
     //status 수정(A, C, D)
     async function getStatus(event) {
         let status = "";
+        // const condition = event.target.closest(".word-status").id
+        // console.log("condition", condition)
 
         if (event.target.closest(".word-status").id === "A") {
             status = "A"
@@ -341,7 +354,6 @@
                 item.parentNode.classList.remove("active");
             })
         }
-
         const status = event.target.checked ? "C" : "A";
         const wordId = event.target.dataset.id;
         console.log("id", event.target.dataset.id);
@@ -350,6 +362,11 @@
 
         try {
             axios.patch(`/word/status/1`, { status: status });
+
+            setTimeout(() => {
+                window.location.reload();
+            }, (500));
+
         } catch (err) {
             console.error(err);
         }
@@ -401,5 +418,39 @@
             console.error(err);
         }
     }
+
+    function getStatusD(event) {
+        const deletedWords = document.querySelector('.deletedItems');
+        deletedWords.toggleAttribute("hidden")
+    }
+
+    async function getStatusA(event) {
+        let status = event.target.dataset.status;
+        const wordId = event.target.dataset.id;
+        console.log("id", wordId);
+        console.log(status);
+
+        let result = confirm("단어를 복구하시겠습니까?");
+        if (result === true) {
+            alert("확인을 눌렀습니다.");
+            status = "A";
+            console.log("status", status);
+        } else {
+            alert("취소를 눌렀습니다.");
+            status = "D";
+            console.log("status", status);
+        }
+
+        try {
+            await axios.patch(`/word/${wordId}`, { status: status });
+            location.reload();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    // async function getDelete(event) {
+    //     console.log("삭제?")
+    // }
 </script>
 {% endblock %}

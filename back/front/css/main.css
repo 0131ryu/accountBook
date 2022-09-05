@@ -176,53 +176,56 @@ label {
     left: 50%;
 }
 .deleted-items {
-   display: flex;
-   justify-content: center;
-}
-.deleted-item-list {
-    text-align: center;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    border-style: hidden;
-    font-weight: 900;
+    display: flex;
+    justify-content: center;
+ }
+ .deleted-item-list {
+     text-align: center;
+     width: 100%;
+     margin: 0;
+     padding: 0;
+     border-style: hidden;
+     font-weight: 900;
+     position: absolute;
+     top: 95%;
+ }
+ .deletedWord-btn {
+     width: 20%;
+     font-size: 1rem;
+     height: 2.5rem;
+     background-color: var(--dark-gray);
+     color: var(--light-gray);
+     font-weight: 900;
+     border-style: none;
+     cursor: pointer;
+     border-radius: 5px;
+ }
+ .deletedWord-btn-close {
+     width: 10%;
+     font-size: 1rem;
+     height: 2.5rem;
+     background-color: var(--light-gray);
+     color: var(--dark-gray);
+     font-weight: 900;
+     border-style: none;
+     cursor: pointer;
+     border-radius: 5px;
+ }
+ .deletedItems {
     height: 20em;
     overflow: scroll;
-}
-.deletedWord-btn {
-    width: 20%;
-    font-size: 1rem;
-    height: 2.5rem;
-    background-color: var(--dark-gray);
-    color: var(--light-gray);
-    font-weight: 900;
-    border-style: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-.deletedWord-btn-close {
-    width: 10%;
-    font-size: 1rem;
-    height: 2.5rem;
-    background-color: var(--light-gray);
-    color: var(--dark-gray);
-    font-weight: 900;
-    border-style: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-.deletedWords-result {
-    width: 60%;
-    position: relative;
-    right: 0%;
-    margin: 1rem auto;
-    border: 3px solid var(--light-gray);
-    border-radius: 5px;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+ }
+ .deletedWords-result {
+     width: 40%;
+     margin: 1rem auto;
+     border: 3px solid var(--light-gray);
+     border-radius: 5px;
+     padding: 1rem;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     
+ }
 .changeStatusdWord-btn {
     width: 20%;
     font-size: 1rem;

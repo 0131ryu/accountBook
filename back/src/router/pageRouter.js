@@ -95,9 +95,10 @@ router.get("/index", async (req, res, next) => {
           model: User,
           attributes: ["id"],
         },
-        attributes: ["id", "english", "korean", "type"],
+        attributes: ["id", "english", "korean", "type", "status"],
         where: {
           status: "D",
+          UserId: req.user.id,
         },
         order: [["createdAt", "DESC"]],
       });
