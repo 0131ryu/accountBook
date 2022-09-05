@@ -19,9 +19,8 @@
             <div class="word-finding">
                 {% if user and user.id %}
                 <input id="english" type="text" class="word-find-eng" placeholder="검색할 영어단어 입력" name="english">
-                <button class="word-find-eng-btn" id="matrix-input-btn-search" onClick=`${getSearchWord(event)}`
+                <button class="word-find-eng-btn" id="matrix-input-btn" onClick=`${getSearchWord(event)}`
                     data-id="{{user.id}}">검색</button>
-                <p>결과 : <span class="word-finding-result"></span></p>
                 {% endif %}
                 <!-- {% if words %} -->
                 <p class="word-find-result">[결과값]
@@ -235,6 +234,7 @@
 
         const english = prompt("수정할 영어단어를 입력하세요");
         const korean = prompt("수정할 단어 뜻을 입력하세요");
+        const type = prompt("수정할 타입(easy, middle, advance)을 입력하세요");
         const id = event.target.dataset.id;
         console.log("id", event.target.dataset.id);
 
@@ -247,7 +247,7 @@
         }
 
         try {
-            await axios.put(`/word/${id}`, { english, korean });
+            await axios.put(`/word/${id}`, { english, korean, type });
             window.location.reload();
         } catch (err) {
             console.error(err);
@@ -347,6 +347,7 @@
         console.log("id", event.target.dataset.id);
         console.log("status", status);
 
+
         try {
             axios.patch(`/word/status/1`, { status: status });
         } catch (err) {
@@ -384,15 +385,12 @@
                     const findKorean = wordInfo.korean;
                     const findType = wordInfo.type;
 
-                    const resultItem = document.createElement("p");
-
-                    resultItem.innerHTML = `${findType}`
-                    console.log(resultItem);
-
-
-                    const result = document.querySelector(".word-finding-result");
-                    result.innerHTML = `${findEnglish} | ${findKorean} | ${findType}`
-                    console.log("result", result);
+                    const resultEnglish = document.querySelector(".word-find-result-eng");
+                    const resultKorean = document.querySelector(".word-find-result-kor");
+                    const resultType = document.querySelector(".word-find-result-type");
+                    resultEnglish.innerHTML = `${findEnglish}`;
+                    resultKorean.innerHTML = `${findKorean}`;
+                    resultType.innerHTML = `${findType}`;
 
                 })
                 .catch(error => {

@@ -16,6 +16,25 @@ router.use((req, res, next) => {
   next();
 });
 
+router.get("/", async (req, res, next) => {
+  try {
+    const words = await Word.findAll({
+      include: {
+        model: User,
+        attributes: ["id", "nickname"],
+      },
+      order: [["createdAt", "DESC"]],
+    });
+    res.render("index", {
+      title: "engWord",
+      words: words,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 //영단어
 router.get("/index", async (req, res, next) => {
   //유저 아이디 값을 params로 넘겨서 받아 개수로 받으면 어떨지?

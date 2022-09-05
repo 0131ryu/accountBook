@@ -40,6 +40,7 @@ router.put("/:id", function (req, res, next) {
     {
       english: req.body.english,
       korean: req.body.korean,
+      type: req.body.type,
     },
     {
       where: { id: id }, //word의 id
@@ -171,5 +172,40 @@ router.get("/:id/:english", async (req, res, next) => {
     next(err);
   }
 });
+
+//total
+// router.get("/:id", async (req, res, next) => {
+//   const id = req.params.id;
+//   try {
+//     const total = await Word.count({
+//       include: {
+//         model: User,
+//         attributes: ["id"],
+//       },
+//       where: {
+//         UserId: id,
+//       },
+//     });
+//     const counting = await Word.count({
+//       include: {
+//         model: User,
+//         attributes: ["id"],
+//       },
+//       where: {
+//         status: "C",
+//         UserId: id,
+//       },
+//     });
+//     console.log("total", total);
+//     console.log("counting", counting);
+//     res.json({
+//       total: total,
+//       counting: counting,
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     next(err);
+//   }
+// });
 
 module.exports = router;
