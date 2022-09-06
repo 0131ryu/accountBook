@@ -2,11 +2,16 @@
 
 {% block content %}
 <div class="timeline">
+    <div class="myInfo">
+        <h2>{{user.nickname}}님의 정보</h2>
+        <button class="myInfo-change" data-id="{{user.id}}">닉네임 변경하기</button>
+    </div>
     <div class="followings half">
         <h2>팔로잉 목록</h2>
         {% if user.Followings %}
         {% for following in user.Followings %}
         <div>{{following.nickname}}</div>
+        <button class="following-delete" data-id="{{following.id}}" value="{{user.id}}">팔로잉 취소</button>
         {% endfor %}
         {% endif %}
     </div>
@@ -19,4 +24,47 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+{% block script %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    //팔로잉 삭제하기
+    document.querySelectorAll('.following-delete').forEach(function (tag) {
+        tag.addEventListener('click', function () {
+            const followingId = event.target.dataset.id;
+            console.log("followingId", followingId)
+            if (followingId) {
+                const userId = tag.parentNode.querySelector('.following-delete').value;
+                console.log("userId", userId);
+                if (userId !== followingId) {
+                    if (confirm('언팔로잉 하시겠습니까?')) {
+                        axios.post(`/user/${followingId}/unfollow`)
+                            .then(() => {
+                                location.reload();
+                            })
+                            .catch((err) => {
+                                console.error(err);
+                            });
+                    }
+                }
+            }
+        });
+    });
+    //내 닉네임 변경
+    document.querySelector(".myInfo-change").addEventListener("click", () => {
+        const userId = event.target.dataset.id
+        const nickname = prompt("수정할 닉네임을 입력하세요");
+        console.log(userId);
+        console.log("nicknmae", nickname);
+        if (confirm('해당 닉네임으로 변경하시겠습니까?')) {
+            axios.patch(`/user/${userId}/nickname`, { nickname: nickname })
+                .then(() => {
+                    location.reload();
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
+    })
+</script>
 {% endblock %}

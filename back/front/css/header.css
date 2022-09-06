@@ -1,7 +1,9 @@
 :root {
   --light-gray: #f4f4f4;
   --main-blue: #3b88c3;
-  --dark-gray: #606060;  
+  --dark-gray: #606060;
+  --main-red: #c33b88;
+  --main-green: #88c33b;  
 }
 a {
     text-decoration: none;

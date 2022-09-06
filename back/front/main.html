@@ -1,9 +1,6 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<!-- 팔로잉 취소, 프로필 수정-->
-<!-- 좋아요, 좋아요 취소 -->
-<!-- 팔로잉 팔로어 API -->
 <div class="timeline">
     {% if user %}
     <div class="container">
@@ -94,8 +91,10 @@
     document.querySelectorAll('.twit-follow').forEach(function (tag) {
         tag.addEventListener('click', function () {
             const myId = document.querySelector('#my-id');
+            console.log("myId", myId);
             if (myId) {
                 const userId = tag.parentNode.querySelector('.twit-user-id').value;
+                console.log("userId", userId);
                 if (userId !== myId.value) {
                     if (confirm('팔로잉하시겠습니까?')) {
                         axios.post(`/user/${userId}/follow`)

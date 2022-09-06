@@ -75,6 +75,34 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   vertical-align: top;
   margin: 10px 0;
 }
+.myInfo-change {
+  padding: 1px 5px;
+  background: var(--main-blue);
+  border: 1px solid var(--main-blue);
+  border-radius: 5px;
+  color: var(--light-gray);
+  font-size: 12px;
+  cursor: pointer;
+}
+.myInfo-change:hover {
+  background: var(--dark-gray);
+  border: 1px solid var(--dark-gray);
+  color: var(--light-gray);
+}
+.following-delete {
+  padding: 1px 5px;
+  background: var(--main-red);
+  border: 1px solid var(--main-red);
+  border-radius: 5px;
+  color: var(--light-gray);
+  font-size: 12px;
+  cursor: pointer;
+}
+.following-delete:hover {
+  background: var(--dark-gray);
+  border: 1px solid var(--dark-gray);
+  color: var(--light-gray);
+}
 #login-form {
   position: relative;
   top: 120px;
@@ -203,12 +231,17 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
 .twit-author { display: inline-block; font-weight: bold; margin-right: 10px; }
 .twit-follow {
   padding: 1px 5px;
-  background: #fff;
-  border: 1px solid var(--dark-gray);
+  background: var(--main-green);
+  border: 1px solid var(--main-green);
   border-radius: 5px;
-  color: var(--main-blue);
+  color: black;
   font-size: 12px;
   cursor: pointer;
+}
+.twit-follow:hover{
+  background: var(--dark-gray);
+  border: 1px solid var(--dark-gray);
+  color: var(--light-gray);
 }
 .twit-img { text-align: center; }
 .twit-img img { max-width: 75%; }

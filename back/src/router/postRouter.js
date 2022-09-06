@@ -62,7 +62,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
 });
 
 //게시물Id -> userId로 확인 사용됨
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", isLoggedIn, async (req, res, next) => {
   try {
     await Post.destroy({ where: { id: req.params.id, userId: req.user.id } });
     res.send("OK");
