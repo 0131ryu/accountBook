@@ -40,8 +40,16 @@ span {
     font-size: 2rem;
     font-weight: 700;
 }
-form > input {
+.english-easy, .english-middle, .english-advance {
    width: 38%;
+    font-size: 1.2rem;
+    /* margin: 10px 0 10px; */
+    padding-left: 0.5rem;
+    line-height: 1.8;
+    /* input이 있으면 line-height 항상 존재 */
+}
+.korean-easy, .korean-middle, .korean-advance {
+    width: 38%;
     font-size: 1.2rem;
     /* margin: 10px 0 10px; */
     padding-left: 0.5rem;
