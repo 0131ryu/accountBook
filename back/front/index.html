@@ -58,11 +58,13 @@
             <div class="matrix-item">
                 <div class="matrix-item-header">
                     <div class="matrix-title">🥉 Easy </div>
+                    {% if user and user.id %}
                     <input id="english" type="text" placeholder="영어 입력" name="english" class="english-easy">
                     <input id="korean" type="text" placeholder="한글 입력" name="korean" class="korean-easy">
                     <input id="checkboxs" type="checkbox" name="type" value="easy" checked>
                     <button class="matrix-input-btn-easy" id="matrix-input-btn" onClick=`${getAddWordEasy(event)}`
                         data-type="easy">등록하기</button>
+                    {% endif %}
                 </div>
 
                 <!-- matrix-item-header -->
@@ -105,11 +107,13 @@
             <div class="matrix-item" id="middle">
                 <div class="matrix-item-header">
                     <div class="matrix-title">🥈 Middle </div>
+                    {% if user and user.id %}
                     <input id="english" type="text" placeholder="영어 입력" name="english" class="english-middle">
                     <input id="korean" type="text" placeholder="한글 입력" name="korean" class="korean-middle">
                     <input id="checkboxs" type="checkbox" name="type" value="middle" checked>
                     <button class="matrix-input-btn-easy" id="matrix-input-btn" onClick=`${getAddWordMiddle(event)}`
                         data-type="middle">등록하기</button>
+                    {% endif %}
                 </div>
 
                 <!-- matrix-item-header -->
@@ -153,11 +157,13 @@
             <div class="matrix-item" id="advance">
                 <div class="matrix-item-header">
                     <div class="matrix-title">🥇 Advance </div>
+                    {% if user and user.id %}
                     <input id="english" type="text" placeholder="영어 입력" name="english" class="english-advance">
                     <input id="korean" type="text" placeholder="한글 입력" name="korean" class="korean-advance">
                     <input id="checkboxs" type="checkbox" name="type" value="advance" checked>
                     <button class="matrix-input-btn-easy" id="matrix-input-btn" onClick=`${getAddWordAdvance(event)}`
                         data-type="advance">등록하기</button>
+                    {% endif %}
                 </div>
                 <!-- matrix-item-header -->
                 <ul class="matrix-item-list">
@@ -198,6 +204,7 @@
             </div>
             <div class="deleted-items">
                 <div class="deleted-item-list">
+                    {% if user and user.id %}
                     <button class="deletedWord-btn" data-status="D" onClick=`${getStatusD(event)}`>삭제한 단어 확인하기</button>
                     <div class="deletedItems" name="deletedItems">
                         {% for word in deletedWord %}
@@ -215,6 +222,7 @@
                             </div>
                         </li>
                         {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -238,13 +246,8 @@
         const validKorean = /^[가-힣\s]+$/; //띄어쓰기 포함
         const validTypes = ["easy", "middle", "advance"];
 
-        if (!english || !korean) {
-            alert("영어, 한글을 각각 입력해주세요");
-            return false;
-        }
-
         if (!validEnglish.test(english) || !validKorean.test(korean)) {
-            alert("english에는 영어로만, korean은 한글만 입력해주세요");
+            alert("영어 입력에는 영어만, 한글 입력에는 한글만 입력해주세요");
             return false;
         }
 
@@ -270,8 +273,12 @@
         console.log("english", english, "korean", korean);
         const type = event.target.dataset.type;
 
-        validWords(english, korean, type);
-        getAddWord(english, korean, type);
+
+        if (!validWords(english, korean, type) || !english || !korean) {
+            alert("정확하게 값이 입력되었는지 다시 확인 바랍니다.");
+        } else {
+            getAddWord(english, korean, type);
+        }
     }
 
     function getAddWordMiddle(event) {
@@ -281,7 +288,11 @@
         const type = event.target.dataset.type;
 
         validWords(english, korean, type);
-        getAddWord(english, korean, type);
+        if (!english || !korean) {
+            alert("정확하게 값이 입력되었는지 다시 확인 바랍니다.");
+        } else {
+            getAddWord(english, korean, type);
+        }
     }
 
     function getAddWordAdvance(event) {
@@ -291,7 +302,11 @@
         const type = event.target.dataset.type;
 
         validWords(english, korean, type);
-        getAddWord(english, korean, type);
+        if (!english || !korean) {
+            alert("정확하게 값이 입력되었는지 다시 확인 바랍니다.");
+        } else {
+            getAddWord(english, korean, type);
+        }
     }
 
 

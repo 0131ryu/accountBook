@@ -2,18 +2,18 @@
 
 {% block content %}
 <div class="timeline">
-    <form id="join-form" action="/auth/join" method="post">
+    <form id="join-form" onsubmit="return checkAll();" action="/auth/join" method="post">
         <div class="input-group">
             <label for="join-email">이메일</label>
-            <input id="join-email" type="email" name="email">
+            <input id="join-email" type="email" name="email" class="email" placeholder="ex) test@naver.com">
         </div>
         <div class="input-group">
             <label for="join-nick">닉네임</label>
-            <input id="join-nick" type="text" name="nickname">
+            <input id="join-nick" type="text" name="nickname" class="nickname" placeholder="영어 또는 한글만 입력">
         </div>
         <div class="input-group">
             <label for="join-password">비밀번호</label>
-            <input id="join-password" type="password" name="password">
+            <input id="join-password" type="password" name="password" class="password" placeholder="영어와 숫자 4~12자 입력">
         </div>
         <button id="join-btn" type="submit" class="btn">회원가입</button>
     </form>
@@ -27,5 +27,33 @@
             alert('이미 존재하는 이메일입니다.');
         }
     };
+
+    function checkAll() {
+        const check_submit = confirm("회원가입 하시겠습니까?");
+
+        if (check_submit) {
+            const email = document.querySelector(".email").value;
+            const nickname = document.querySelector(".nickname").value;
+            const password = document.querySelector('.password').value;
+
+            const emailReg = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+            const nicknameReg = /([가-힣a-zA-Z]+$)/;
+            const passwordReg = /^[a-zA-z0-9]{4,12}$/;
+
+            if (!emailReg.test(email)) {
+                alert("이메일 관련 오류가 있습니다.");
+                return false;
+            }
+            if (!nicknameReg.test(nickname)) {
+                alert("닉네임은 영어 또는 한글만 입력하세요.");
+                return false;
+            }
+            if (!passwordReg.test(password)) {
+                alert("비밀번호는 영어와 숫자 4~12자 입력하세요.");
+                return false;
+            }
+        }
+        return check_submit;
+    }
 </script>
 {% endblock %}
