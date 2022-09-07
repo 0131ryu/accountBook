@@ -147,17 +147,50 @@ router.get("/login", isNotLoggedIn, (req, res) => {
 router.get("/main", async (req, res, next) => {
   //post 결과 보려면 이 부분 넣어야 함
   try {
-    const posts = await Post.findAll({
-      include: {
-        model: User,
-        attributes: ["id", "nickname"],
-      },
-      order: [["createdAt", "DESC"]],
-    });
-    res.render("main", {
-      title: "engWordSNS",
-      twits: posts,
-    });
+    if (req.user) {
+      const posts = await Post.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ["id", "nickname"],
+          },
+          {
+            model: User,
+            attributes: ["id", "nickname"],
+            as: "Liker",
+          },
+        ],
+        order: [["createdAt", "DESC"]],
+      });
+      console.log("posts[0].Liker", posts[0].Liker);
+      posts.forEach((post) => {
+        //post.User.id와 post.Liker.id가 같을 경우 true, 아니면 false
+        post.liked = !!post.Liker.find((v) => v.id === req.user?.id);
+      });
+      res.render("main", {
+        title: "engWordSNS",
+        twits: posts,
+      });
+    } else {
+      const posts = await Post.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ["id", "nickname"],
+          },
+          {
+            model: User,
+            attributes: ["id", "nickname"],
+            as: "Liker",
+          },
+        ],
+        order: [["createdAt", "DESC"]],
+      });
+      res.render("main", {
+        title: "engWordSNS",
+        twits: posts,
+      });
+    }
   } catch (error) {
     console.error(error);
     next(error);

@@ -61,7 +61,13 @@
             <div class="twit-content">{{twit.content}}</div>
             {% if twit.img %}
             <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
-
+            {% endif %}
+            <!-- 좋아요, 좋아요 취소 -->
+            {% if twit.liked %}
+            <button class="unlike" data-id="{{twit.id}}">좋아요취소</button>
+            {% else %}
+            <div>{{twit.id}}</div>
+            <button class="like" data-id="{{twit.id}}">좋아요</button>
             {% endif %}
         </div>
         {% endfor %}
@@ -130,7 +136,41 @@
             }
         });
     });
-
+    //좋아요 버튼
+    document.querySelectorAll(".like").forEach(function (tag) {
+        tag.addEventListener("click", function (event) {
+            const myId = document.querySelector("#my-id").value;
+            const userId = tag.parentNode.querySelector('.twit-user-id').value;
+            if (myId !== userId) {
+                const twitId = event.target.dataset.id;
+                console.log("twitId", twitId)
+                //게시물 번호, 자신의번호, 게시글 작성자 번호
+                axios.post(`/user/${twitId}/like`).then(() => {
+                    location.reload();
+                }).catch((err) => {
+                    console.log(err);
+                })
+            } else {
+                alert("자신이 작성한 게시글에는 좋아요를 누를 수 없습니다.");
+            }
+        })
+    })
+    document.querySelectorAll(".unlike").forEach(function (tag) {
+        tag.addEventListener("click", function (event) {
+            const myId = document.querySelector("#my-id").value;
+            const userId = tag.parentNode.querySelector('.twit-user-id').value;
+            if (myId !== userId) {
+                const twitId = event.target.dataset.id;
+                console.log("twitId", twitId)
+                //게시물 번호, 자신의번호, 게시글 작성자 번호
+                axios.post(`/user/${twitId}/unlike`).then(() => {
+                    location.reload();
+                }).catch((err) => {
+                    console.log(err);
+                })
+            }
+        })
+    })
     window.onload = () => {
         if (new URL(location.href).searchParams.get('loginError')) {
             alert(new URL(location.href).searchParams.get('loginError'));
