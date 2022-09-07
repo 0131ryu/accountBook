@@ -3,7 +3,7 @@
 {% block content %}
 <div class="timeline">
     {% if user %}
-    <div class="container">
+    <div class="container-profile">
         <div class="profile-wrap-login">
             <div class="profile-login">
                 {% if user and user.id %}
@@ -43,7 +43,7 @@
     </div>
     {% endif %}
     <div class="twits">
-        <form id="hashtag-form" action="/hashtag">
+        <form id="hashtag-form" class="hashtag-form" action="/hashtag">
             <input type="text" name="hashtag" placeholder="태그 검색">
             <button class="btn">검색</button>
         </form>

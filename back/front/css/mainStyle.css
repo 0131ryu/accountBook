@@ -49,13 +49,6 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   vertical-align: top;
   margin: 10px 0;
 }
-@media only all and (min-width: 800px) {
-  .profile-wrap { width: 290px; margin-bottom: 0; }
-  .profile { 
-    position: relative;
-    top: 40px;
-  }
-}
 .profile {
   width: 600px;
   height: 450px;
@@ -65,15 +58,26 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   border-radius: 4px;
   border: 3px solid var(--main-blue);
   background: none;
-  position: relative;
-  right: 150px;
-  top: 40px;
+  position: absolute;
+  top: 20%;
+  right: 60%;
 }
 .profile-wrap-login {
   width: auto;
   display: inline-block;
   vertical-align: top;
   margin: 10px 0;
+}
+.timeline-myInfo {
+  padding: 10px;
+  font-size: 1rem;
+  margin-top: 45px;
+  width: 100%;
+  display: inline-block;
+  border-radius: 4px;
+  vertical-align: top;
+  height: 600px;
+  overflow: scroll;
 }
 .myInfo-change {
   padding: 1px 5px;
@@ -202,9 +206,7 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   color: var(--light-gray);
   background: var(--dark-gray);
 }
-@media screen and (min-width: 800px) {
-  .profile-wrap { width: 290px; margin-bottom: 0; }
-}
+
 .profile-login {
   width: 500px;
   text-align: center;
@@ -283,6 +285,61 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
 .twit-img img { max-width: 75%; }
 .error-message { color: red; font-weight: bold; }
 #search-form { text-align: right; }
-#join-form { padding: 10px; text-align: center; }
+#join-form {
+  position: absolute;
+  top: 18%;
+  margin-right: 30px;
+  text-align: center; 
+}
 #hashtag-form { text-align: right; margin: 10px 0 10px }
 footer { text-align: center; }
+/* 모바일 레이아웃 설정 */
+@media only all and (max-width: 800px) {
+  .container-profile {
+    width: 450px;
+  }
+  .profile-login {
+    width: 400px;
+  }
+  .timeline {
+    position: relative;
+    left: 15%;
+    text-align: center;
+  }
+  .hashtag-form {
+    position: relative;
+    right: 65%;
+  }
+  .twit {
+    width: 35%;
+    height: 45%;
+  }
+  #twit-form {
+    width: 425px;
+  }
+  .profile  {
+    position: absolute;
+    left: 12%;
+  }
+  #join-form {
+    position: absolute;
+    top: 20%;
+    left: 12%;
+  }
+  .timeline-myInfo {
+    text-align: center;
+    width: 65%;
+    height: 600px;
+    overflow: scroll;
+  }
+}
+@media screen and (min-width: 800px) {
+  .profile { 
+    position: relative;
+    top: 40px;
+  }
+  .profile-wrap { 
+    width: 273px; 
+    margin-bottom: 0; 
+  }
+}
