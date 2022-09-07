@@ -31,5 +31,8 @@
         display: flex;
         justify-content: center;
     }
-
+    .jumbotron-item-sub {
+        position: absolute;
+        left: 28%;
+    }
 }

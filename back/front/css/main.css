@@ -249,25 +249,35 @@ label {
     color: var(--light-gray);
 }
 /* 모바일 레이아웃 설정 */
-@media only all and (max-width: 1200px) {
+@media only all and (max-width: 800px) {
     .matrix-container {
-        max-width: 1200px;
+        max-width: 800px;
+    }
+    .word-finding {
+        position: absolute;
+        bottom: 45%;
+        left: 13%;
+    }
+    .word-find-result {
+        position: absolute;
+        left: 10%;
+    }
+    .check_all {
+        width: 200px;
     }
     .matrix-item{
-        width: 65%;
+        width: 50%;
         position: relative;
-        left: 15rem;
-        top: 10rem;
+        left: 40%;
+        top: 5rem;
     }
-    .deleted-items {
-    width: 100%;
-    margin-top: 10%;
-    font-weight: 900;
+    .deleted-item-list {
+        position: absolute;
+        top: 210rem;
+        left: 15%;
     }
-    .word-counting {
-        position: relative;
-        top: 3rem;
-        right: 8rem;
+    .matrix-item-header {
+       text-align: center;
     }
 }
 @media only all and (max-width: 400px) {
