@@ -19,8 +19,7 @@
             <div class="word-finding">
                 {% if user and user.id %}
                 <input id="english" type="text" class="word-find-eng" placeholder="검색할 영어단어 입력" name="english">
-                <button class="word-find-eng-btn" id="matrix-input-btn" onClick=`${getSearchWord(event)}`
-                    data-id="{{user.id}}">검색</button>
+                <button class="word-find-eng-btn" id="matrix-input-btn" onClick="`${getSearchWord(event)}`" data-id="{{user.id}}">검색</button>
                 {% endif %}
                 <div class="word-find-result">[결과값]
                     영단어 : <span class="word-find-result-eng"></span>
@@ -37,7 +36,7 @@
                     <span id="word-counting-checked">0
                         {% endif %}
                     </span>
-            </p>
+            </span></p>
             <p>총 단어 수 :
                 {% if total %}
                 <span id="word-counting-all">{{total}}
@@ -45,14 +44,13 @@
                     <span id="word-counting-all">0
                         {% endif %}
                     </span>
-            </p>
+            </span></p>
 
         </div>
         <!-- {% if words %} -->
         <div class="matrix-container">
             <div class="check_all">
-                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox" data-id=0 /> <label
-                    for="checkAll">모든 체크박스
+                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox" data-id="0"> <label for="checkAll">모든 체크박스
                     체크</label>
             </div>
             <div class="matrix-item">
@@ -61,7 +59,7 @@
                     {% if user and user.id %}
                     <input id="english-easy" type="text" placeholder="영어 입력" name="english" class="english-easy">
                     <input id="korean-easy" type="text" placeholder="한글 입력" name="korean" class="korean-easy">
-                    <input id="type-easy" type="checkbox" name="type" value="easy" checked>
+                    <input id="type-easy" type="checkbox" name="type" value="easy" checked="">
                     <!-- <button class="matrix-input-btn-easy" id="matrix-easy" onClick=`${getAddWordEasy(event)}`
                         data-type="easy">등록하기</button> -->
                     <button class="matrix-input-btn-easy" id="matrix-easy" data-type="easy">등록하기</button>
@@ -77,14 +75,12 @@
                         <div class="done-text-container">
                             {% if word.status === "C" %}
                             <div class="check_item">
-                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox"
-                                    onClick=`${getStatusCheck(event)}` data-id="{{word.id}}" checked />
+                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox" onClick="`${getStatusCheck(event)}`" data-id="{{word.id}}" checked="">
                                 <label for="checkitem"></label>
                             </div>
                             {% else %}
                             <div class="check_item">
-                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox"
-                                    onClick=`${getStatusCheck(event)}` data-id="{{word.id}}" />
+                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox" onClick="`${getStatusCheck(event)}`" data-id="{{word.id}}">
                                 <label for="checkitem"></label>
                             </div>
                             {% endif %}
@@ -94,10 +90,8 @@
                             <p class="word-text-kor">{{word.korean}}</p>
                         </div>
                         <div class="update-delete-container">
-                            <i id="word-update" class="word-update fa-solid fa-pencil" data-id="{{word.id}}"
-                                onClick=`${getChangeWord(event)}`></i>
-                            <i class="word-status fa-solid fa-trash-can" data-id="{{word.id}}"
-                                onClick=`${getStatus(event)}` id="D"></i>
+                            <i id="word-update" class="word-update fa-solid fa-pencil" data-id="{{word.id}}" onClick="`${getChangeWord(event)}`"></i>
+                            <i class="word-status fa-solid fa-trash-can" data-id="{{word.id}}" onClick="`${getStatus(event)}`" id="D"></i>
                         </div>
                     </li>
                     {% endif %}
@@ -111,7 +105,7 @@
                     {% if user and user.id %}
                     <input id="english-middle" type="text" placeholder="영어 입력" name="english" class="english-middle">
                     <input id="korean-middle" type="text" placeholder="한글 입력" name="korean" class="korean-middle">
-                    <input id="type-middle" type="checkbox" name="type" value="middle" checked>
+                    <input id="type-middle" type="checkbox" name="type" value="middle" checked="">
                     <button class="matrix-input-btn-easy" id="matrix-middle" data-type="middle">등록하기</button>
                     {% endif %}
                 </div>
@@ -125,14 +119,12 @@
                         <div class="done-text-container">
                             {% if word.status === "C" %}
                             <div class="check_item">
-                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox"
-                                    onClick=`${getStatusCheck(event)}` data-id="{{word.id}}" checked />
+                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox" onClick="`${getStatusCheck(event)}`" data-id="{{word.id}}" checked="">
                                 <label for="checkitem"></label>
                             </div>
                             {% else %}
                             <div class="check_item">
-                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox"
-                                    onClick=`${getStatusCheck(event)}` data-id="{{word.id}}" />
+                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox" onClick="`${getStatusCheck(event)}`" data-id="{{word.id}}">
                                 <label for="checkitem"></label>
                             </div>
                             {% endif %}
@@ -142,10 +134,8 @@
                             <p class="word-text-kor">{{word.korean}}</p>
                         </div>
                         <div class="update-delete-container">
-                            <i id="word-update" class="word-update fa-solid fa-pencil" data-id="{{word.id}}"
-                                onClick=`${getChangeWord(event)}`></i>
-                            <i class="word-status fa-solid fa-trash-can" data-id="{{word.id}}"
-                                onClick=`${getStatus(event)}` id="D"></i>
+                            <i id="word-update" class="word-update fa-solid fa-pencil" data-id="{{word.id}}" onClick="`${getChangeWord(event)}`"></i>
+                            <i class="word-status fa-solid fa-trash-can" data-id="{{word.id}}" onClick="`${getStatus(event)}`" id="D"></i>
                         </div>
                     </li>
                     {% endif %}
@@ -160,7 +150,7 @@
                     {% if user and user.id %}
                     <input id="english-advance" type="text" placeholder="영어 입력" name="english" class="english-advance">
                     <input id="korean-advance" type="text" placeholder="한글 입력" name="korean" class="korean-advance">
-                    <input id="type-advance" type="checkbox" name="type" value="advance" checked>
+                    <input id="type-advance" type="checkbox" name="type" value="advance" checked="">
                     <button class="matrix-input-btn-easy" id="matrix-advance" data-type="advance">등록하기</button>
                     {% endif %}
                 </div>
@@ -173,14 +163,12 @@
                         <div class="done-text-container">
                             {% if word.status === "C" %}
                             <div class="check_item">
-                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox"
-                                    onClick=`${getStatusCheck(event)}` data-id="{{word.id}}" checked />
+                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox" onClick="`${getStatusCheck(event)}`" data-id="{{word.id}}" checked="">
                                 <label for="checkitem"></label>
                             </div>
                             {% else %}
                             <div class="check_item">
-                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox"
-                                    onClick=`${getStatusCheck(event)}` data-id="{{word.id}}" />
+                                <input type="checkbox" class="word-status" id="checkboxStatus" name="countCheckbox" onClick="`${getStatusCheck(event)}`" data-id="{{word.id}}">
                                 <label for="checkitem"></label>
                             </div>
                             {% endif %}
@@ -190,10 +178,8 @@
                             <p class="word-text-kor">{{word.korean}}</p>
                         </div>
                         <div class="update-delete-container">
-                            <i id="word-update" class="word-update fa-solid fa-pencil" data-id="{{word.id}}"
-                                onClick=`${getChangeWord(event)}`></i>
-                            <i class="word-status fa-solid fa-trash-can" data-id="{{word.id}}"
-                                onClick=`${getStatus(event)}` id="D"></i>
+                            <i id="word-update" class="word-update fa-solid fa-pencil" data-id="{{word.id}}" onClick="`${getChangeWord(event)}`"></i>
+                            <i class="word-status fa-solid fa-trash-can" data-id="{{word.id}}" onClick="`${getStatus(event)}`" id="D"></i>
                         </div>
                     </li>
                     {% endif %}
@@ -204,7 +190,7 @@
             <div class="deleted-items">
                 <div class="deleted-item-list">
                     {% if user and user.id %}
-                    <button class="deletedWord-btn" data-status="D" onClick=`${getStatusD(event)}`>삭제한 단어 확인하기</button>
+                    <button class="deletedWord-btn" data-status="D" onClick="`${getStatusD(event)}`">삭제한 단어 확인하기</button>
                     <div class="deletedItems" name="deletedItems">
                         {% for word in deletedWord %}
                         <li class="deletedWords-result" id="${word.wordIdx}">
@@ -214,10 +200,8 @@
                                 <p class="word-text-kor">{{word.korean}}</p>
                             </div>
                             <div class="update-delete-container">
-                                <i class="word-deleted-change fa fa-refresh" data-id="{{word.id}}"
-                                    data-status="{{word.status}}" onClick=`${getStatusA(event)}`></i>
-                                <i class="word-deleted-done fa-solid fa-trash-can" data-id="{{word.id}}"
-                                    onClick=`${getDelete(event)}`></i>
+                                <i class="word-deleted-change fa fa-refresh" data-id="{{word.id}}" data-status="{{word.status}}" onClick="`${getStatusA(event)}`"></i>
+                                <i class="word-deleted-done fa-solid fa-trash-can" data-id="{{word.id}}" onClick="`${getDelete(event)}`"></i>
                             </div>
                         </li>
                         {% endfor %}
@@ -231,14 +215,15 @@
 </main>
 {% endblock %}
 {% block script %}
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script type="module" src="js/index.js"></script>
-<script src="js/index2.js"></script>
-<script>
-    window.onload = () => {
-        if (new URL(location.href).searchParams.get('loginError')) {
-            alert(new URL(location.href).searchParams.get('loginError'));
-        }
-    };
-</script>
+<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+<!-- <script src="https://npmcdn.com/axios/dist/axios.min.js"></script> -->
+<!-- <script src="../app.js"></script> -->
+<script src="/back.80dfb952.js"></script>
+<script type="module" src="/js.00a46daa.js"></script>
+<script src="/index2.242c2f2d.js"></script>
+<script>window.onload = function () {
+  if (new URL(location.href).searchParams.get('loginError')) {
+    alert(new URL(location.href).searchParams.get('loginError'));
+  }
+};</script>
 {% endblock %}

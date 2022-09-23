@@ -56,7 +56,7 @@ span {
     line-height: 1.8;
     /* input이 있으면 line-height 항상 존재 */
 }
-#checkboxs {
+#type-easy, #type-middle, #type-advance {
     width: 1%;
     line-height: 1.8;
     visibility: hidden;
