@@ -307,3 +307,6 @@ label {
     left: 85%;
     top: 3%;
 }
+#checkboxs {
+    visibility: hidden;
+}
