@@ -17,22 +17,20 @@ const AppLayout = ({ children }) => {
   return (
     <div>
       <Menu items={items} mode="horizontal" />
-      <Row gutter={8}>
-        <Col xs={24} md={3}>
-          왼쪽 메뉴
-        </Col>
+      <Row>
+        <Col xs={24} md={3}></Col>
         <Col xs={24} md={18}>
           {children}
         </Col>
         <Col xs={24} md={3}>
-          <Button
+          {/* <Button
             type="link"
             href="https://ba-gotocode131.tistory.com/"
             target="_blank"
             rel="noopener noreferrer"
           >
             블로그
-          </Button>
+          </Button> */}
         </Col>
       </Row>
     </div>

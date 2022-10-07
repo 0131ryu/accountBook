@@ -7,12 +7,23 @@ const TopLayout = () => {
   return (
     <div>
       <Row gutter={8}>
-        <Col xs={18} md={12} style={{ margin: "30", textAlign: "center" }}>
-          <h2>매일매일 쌓아가는</h2>
+        <Col
+          xs={14}
+          sm={12}
+          md={12}
+          lg={15}
+          style={{
+            textAlign: "center",
+            position: "relative",
+            top: 35,
+            left: 30,
+          }}
+        >
+          <h2>매일매일 쌓아가는,</h2>
           <h3 style={{ fontWeight: "bold" }}>영단어 외우기</h3>
         </Col>
-        <Col xs={18} md={6}>
-          <Image src="/images/study.png" alt="ye" width="250" height="180" />
+        <Col xs={10} sm={12} md={12} lg={9}>
+          <Image src="/images/study.png" alt="img" width="360" height="180" />
         </Col>
       </Row>
     </div>

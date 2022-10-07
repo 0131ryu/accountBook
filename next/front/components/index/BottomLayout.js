@@ -29,25 +29,31 @@ const data = [
 const BottomLayout = () => {
   return (
     <div>
-      <Row justify="space-evenly">
-        <Col span={7}>
+      <Row justify="space-evenly" style={{ textAlign: "center" }}>
+        <Col span={10} xs={17} md={17} lg={7}>
           <List
             header={
               <div>
                 🥉 Easy
                 <div>
                   <Row span={3}>
-                    <Input
-                      placeholder="영어 입력"
-                      style={{ width: 85, height: 37, marginLeft: 10 }}
-                    />
-                    <Input
-                      placeholder="한글 입력"
-                      style={{ width: 85, height: 37, marginLeft: 10 }}
-                    />
-                    <Button style={{ width: 70, height: 37, marginLeft: 10 }}>
-                      등록
-                    </Button>
+                    <Col sm={8} md={8}>
+                      <Input
+                        placeholder="영어 입력"
+                        style={{ width: 85, height: 37, marginLeft: 10 }}
+                      />
+                    </Col>
+                    <Col sm={8} md={8}>
+                      <Input
+                        placeholder="한글 입력"
+                        style={{ width: 85, height: 37, marginLeft: 10 }}
+                      />
+                    </Col>
+                    <Col sm={8} md={8}>
+                      <Button style={{ width: 70, height: 37, marginLeft: 10 }}>
+                        등록
+                      </Button>
+                    </Col>
                   </Row>
                 </div>
               </div>
@@ -74,24 +80,30 @@ const BottomLayout = () => {
             )}
           />
         </Col>
-        <Col span={7}>
+        <Col span={10} xs={17} lg={7}>
           <List
             header={
               <div>
-                🥉 Easy
+                🥉 Middle
                 <div>
                   <Row span={3}>
-                    <Input
-                      placeholder="영어 입력"
-                      style={{ width: 85, height: 37, marginLeft: 10 }}
-                    />
-                    <Input
-                      placeholder="한글 입력"
-                      style={{ width: 85, height: 37, marginLeft: 10 }}
-                    />
-                    <Button style={{ width: 70, height: 37, marginLeft: 10 }}>
-                      등록
-                    </Button>
+                    <Col sm={8} md={8}>
+                      <Input
+                        placeholder="영어 입력"
+                        style={{ width: 85, height: 37, marginLeft: 10 }}
+                      />
+                    </Col>
+                    <Col sm={8} md={8}>
+                      <Input
+                        placeholder="한글 입력"
+                        style={{ width: 85, height: 37, marginLeft: 10 }}
+                      />
+                    </Col>
+                    <Col sm={8} md={8}>
+                      <Button style={{ width: 70, height: 37, marginLeft: 10 }}>
+                        등록
+                      </Button>
+                    </Col>
                   </Row>
                 </div>
               </div>
@@ -118,24 +130,30 @@ const BottomLayout = () => {
             )}
           />
         </Col>
-        <Col span={7}>
+        <Col span={10} xs={17} lg={7}>
           <List
             header={
               <div>
-                🥉 Easy
+                🥉 Advance
                 <div>
                   <Row span={3}>
-                    <Input
-                      placeholder="영어 입력"
-                      style={{ width: 85, height: 37, marginLeft: 10 }}
-                    />
-                    <Input
-                      placeholder="한글 입력"
-                      style={{ width: 85, height: 37, marginLeft: 10 }}
-                    />
-                    <Button style={{ width: 70, height: 37, marginLeft: 10 }}>
-                      등록
-                    </Button>
+                    <Col sm={8} md={8}>
+                      <Input
+                        placeholder="영어 입력"
+                        style={{ width: 85, height: 37, marginLeft: 10 }}
+                      />
+                    </Col>
+                    <Col sm={8} md={8}>
+                      <Input
+                        placeholder="한글 입력"
+                        style={{ width: 85, height: 37, marginLeft: 10 }}
+                      />
+                    </Col>
+                    <Col sm={8} md={8}>
+                      <Button style={{ width: 70, height: 37, marginLeft: 10 }}>
+                        등록
+                      </Button>
+                    </Col>
                   </Row>
                 </div>
               </div>
